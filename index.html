@@ -392,13 +392,20 @@
         
         /* Призрак при перетаскивании */
         #dragGhost {
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            width: 70px;
-            height: 70px;
-            filter: drop-shadow(3px 5px 5px rgba(0,0,0,0.4));
-            display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 10000;
+    width: 75px;
+    height: 75px;
+    filter: drop-shadow(4px 6px 10px rgba(0,0,0,0.7));
+    display: none;
+    transform: scale(1.2) translate(0, 0);
+    will-change: transform;
+    transition: none;
+}
+}
         }
         
         #dragGhost.visible { display: block; }
@@ -1643,41 +1650,35 @@ function startDrag(e, r, c) {
     const isMyPiece = (piece === piece.toUpperCase()) === playerColor;
     const isMyTurn = (turn === 'w') === playerColor;
     
-    // Для премува - можно брать свои фигуры не в свой ход
     if (!isMyPiece) return;
-    if (!isMyTurn && !isOnline) return; // Против ИИ нельзя премув
+    if (!isMyTurn && !isOnline) return;
     
     e.preventDefault();
+    e.stopPropagation();
     
     dragging = true;
     dragStartR = r;
     dragStartC = c;
     dragPiece = piece;
     
-    // Выбор и подсветка
     selected = { r, c };
-    legalMoves = isMyTurn ? getMoves(r, c) : getMoves(r, c, false); // Для премува без проверки легальности
-    
-    // Подсветить исходную клетку
-    const sq = document.querySelector(`.sq[data-r="${r}"][data-c="${c}"]`);
-    if (sq) sq.classList.add('dragging');
-    
-    // Показать призрак
-    const ghost = document.getElementById('dragGhost');
-    ghost.src = getPieceUrl(piece);
-    ghost.classList.add('visible');
+    legalMoves = isMyTurn ? getMoves(r, c) : getMoves(r, c, false);
     
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    ghost.style.left = (clientX - 35) + 'px';
-    ghost.style.top = (clientY - 35) + 'px';
+    
+    dragGhostEl = document.getElementById('dragGhost');
+    dragGhostEl.src = getPieceUrl(piece);
+    dragGhostEl.style.transform = `scale(1.2) translate(${clientX - 37}px, ${clientY - 37}px)`;
+    dragGhostEl.style.display = 'block';
+    
+    const sq = document.querySelector(`.sq[data-r="${r}"][data-c="${c}"]`);
+    if (sq) sq.classList.add('dragging');
     
     renderBoard();
     
-    document.addEventListener('mousemove', moveDrag);
-    document.addEventListener('mouseup', endDrag);
-    document.addEventListener('touchmove', moveDrag, { passive: false });
-    document.addEventListener('touchend', endDrag);
+    const sq2 = document.querySelector(`.sq[data-r="${r}"][data-c="${c}"]`);
+    if (sq2) sq2.classList.add('dragging');
 }
 
 function moveDrag(e) {
@@ -1732,6 +1733,7 @@ function endDrag(e) {
     legalMoves = [];
     renderBoard();
 }
+
 
 function handleSquareClick(r, c) {
     if (dragging || gameOver) return;
