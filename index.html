@@ -61,7 +61,7 @@
         }
         
         .color-btn.active, .time-btn.active { border-color: #81b64c; background: rgba(129,182,76,0.15); }
-        .color-btn img { width: 22px; height: 22px; }
+        .color-btn .piece-icon { font-size: 20px; }
         
         .custom-time {
             display: flex;
@@ -207,8 +207,7 @@
         
         @keyframes pulse { 50% { opacity: 0.7; } }
         
-        .captured { display: flex; flex-wrap: wrap; gap: 1px; margin-left: 8px; }
-        .captured img { width: 15px; height: 15px; }
+        .captured { display: flex; flex-wrap: wrap; gap: 1px; margin-left: 8px; font-size: 14px; }
         
         #board {
             display: grid;
@@ -228,6 +227,7 @@
             justify-content: center;
             cursor: pointer;
             position: relative;
+            font-size: min(10vw, 50px);
         }
         
         .sq.w { background: #ebecd0; }
@@ -257,11 +257,11 @@
             box-sizing: border-box;
         }
         
-        .sq img {
-            width: 88%;
-            height: 88%;
+        .sq .piece {
+            font-size: inherit;
+            line-height: 1;
             pointer-events: none;
-            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.25));
+            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3));
         }
         
         #status {
@@ -304,9 +304,8 @@
         .modal-title { color: #fff; font-size: 20px; margin-bottom: 15px; }
         .modal-msg { color: #bababa; margin: 10px 0 20px; font-size: 14px; }
         .promo-opts { display: flex; justify-content: center; gap: 10px; }
-        .promo-opt { width: 60px; height: 60px; background: #ebecd0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 6px; }
+        .promo-opt { width: 60px; height: 60px; background: #ebecd0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 40px; }
         .promo-opt:active { transform: scale(0.95); }
-        .promo-opt img { width: 100%; height: 100%; }
         .modal-icon { font-size: 50px; margin-bottom: 10px; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         
@@ -357,9 +356,7 @@
         }
         
         /* Analysis styles */
-        .analysis-container {
-            margin-top: 15px;
-        }
+        .analysis-container { margin-top: 15px; }
         
         .analysis-bar {
             height: 24px;
@@ -381,42 +378,13 @@
         .analysis-bar-label.white { left: 8px; color: #333; }
         .analysis-bar-label.black { right: 8px; color: #fff; }
         
-        .accuracy-box {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-        }
+        .accuracy-box { display: flex; justify-content: space-around; margin-bottom: 15px; }
+        .accuracy-item { text-align: center; }
+        .accuracy-value { font-size: 28px; font-weight: bold; color: #81b64c; }
+        .accuracy-label { font-size: 12px; color: #bababa; }
         
-        .accuracy-item {
-            text-align: center;
-        }
-        
-        .accuracy-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #81b64c;
-        }
-        
-        .accuracy-label {
-            font-size: 12px;
-            color: #bababa;
-        }
-        
-        .classification-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        
-        .class-stat {
-            background: #262421;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
+        .classification-stats { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 15px; }
+        .class-stat { background: #262421; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
         .class-brilliant { color: #1baca6; }
         .class-great { color: #5c8bb0; }
         .class-best { color: #81b64c; }
@@ -425,11 +393,7 @@
         .class-mistake { color: #e58f2a; }
         .class-blunder { color: #ca3431; }
         
-        .moves-analysis {
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-        }
+        .moves-analysis { max-height: 200px; overflow-y: auto; text-align: left; }
         
         .move-analysis-item {
             display: flex;
@@ -441,48 +405,14 @@
             font-size: 13px;
         }
         
-        .move-number {
-            color: #7c7a78;
-            width: 30px;
-        }
+        .move-number { color: #7c7a78; width: 30px; }
+        .move-notation { flex: 1; color: #fff; }
+        .move-eval { color: #bababa; margin-right: 8px; font-size: 11px; }
+        .move-class { font-weight: bold; min-width: 20px; text-align: center; }
         
-        .move-notation {
-            flex: 1;
-            color: #fff;
-        }
-        
-        .move-eval {
-            color: #bababa;
-            margin-right: 8px;
-            font-size: 11px;
-        }
-        
-        .move-class {
-            font-weight: bold;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        .analysis-progress {
-            text-align: center;
-            padding: 20px;
-            color: #bababa;
-        }
-        
-        .analysis-progress-bar {
-            height: 6px;
-            background: #3d3a37;
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .analysis-progress-fill {
-            height: 100%;
-            background: #81b64c;
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
+        .analysis-progress { text-align: center; padding: 20px; color: #bababa; }
+        .analysis-progress-bar { height: 6px; background: #3d3a37; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .analysis-progress-fill { height: 100%; background: #81b64c; border-radius: 3px; transition: width 0.3s; }
     </style>
 </head>
 <body>
@@ -537,11 +467,11 @@
                 <div class="setting-label"><span>Ваш цвет</span></div>
                 <div class="color-select" id="colorSelect">
                     <button class="color-btn active" data-color="white">
-                        <img src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png"> Белые
+                        <span class="piece-icon">♔</span> Белые
                     </button>
                     <button class="color-btn" data-color="random">🎲</button>
                     <button class="color-btn" data-color="black">
-                        <img src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png"> Чёрные
+                        <span class="piece-icon">♚</span> Чёрные
                     </button>
                 </div>
             </div>
@@ -696,19 +626,10 @@
 
 <script>
 // ========== КОНСТАНТЫ ==========
-const IMG = {
-    K:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png',
-    Q:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png',
-    R:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png',
-    B:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png',
-    N:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png',
-    P:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png',
-    k:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png',
-    q:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png',
-    r:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png',
-    b:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png',
-    n:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png',
-    p:'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png'
+// Unicode символы для фигур (работают везде)
+const PIECES = {
+    K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
+    k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟'
 };
 const VAL = {p:100,n:320,b:330,r:500,q:900,k:20000};
 
@@ -722,32 +643,28 @@ let lowTimeWarned = {w:false, b:false};
 let isOnline = false, gameCode = null, myColor = 'white', opponentNick = 'Соперник';
 let myNick = localStorage.getItem('chessNick') || '';
 let peer = null, conn = null, isHost = false;
-let gameHistory = []; // Для анализа - сохраняем FEN каждой позиции
+let gameHistory = [];
 let stockfish = null;
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM загружен');
     
-    // Загрузка никнейма
     if (myNick) {
         document.getElementById('nickInput').value = myNick;
         document.getElementById('nickSaved').textContent = '✓ Привет, ' + myNick + '!';
     }
     
-    // Слайдер ELO
     document.getElementById('eloSlider').addEventListener('input', function() {
         settings.elo = parseInt(this.value);
         document.getElementById('eloValue').textContent = settings.elo + ' ELO';
     });
     
-    // Сохранение никнейма
     document.getElementById('btnSaveNick').addEventListener('click', saveNick);
     document.getElementById('nickInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') saveNick();
     });
     
-    // Выбор времени
     document.getElementById('timeSelect').addEventListener('click', function(e) {
         const btn = e.target.closest('.time-btn');
         if (!btn) return;
@@ -762,7 +679,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Выбор цвета
     document.getElementById('colorSelect').addEventListener('click', function(e) {
         const btn = e.target.closest('.color-btn');
         if (!btn) return;
@@ -771,7 +687,6 @@ document.addEventListener('DOMContentLoaded', function() {
         settings.color = btn.dataset.color;
     });
     
-    // Кнопки меню
     document.getElementById('btnPlayAI').addEventListener('click', startVsAI);
     document.getElementById('btnCreateGame').addEventListener('click', createGame);
     document.getElementById('btnJoinGame').addEventListener('click', joinGame);
@@ -785,7 +700,6 @@ document.addEventListener('DOMContentLoaded', function() {
         this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     });
     
-    // Кнопки игры
     document.getElementById('btnBackMenu').addEventListener('click', backToMenu);
     document.getElementById('btnUndo').addEventListener('click', undoMove);
     document.getElementById('btnDraw').addEventListener('click', offerDraw);
@@ -794,7 +708,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnAcceptDraw').addEventListener('click', acceptDraw);
     document.getElementById('btnDeclineDraw').addEventListener('click', declineDraw);
     
-    // Кнопки модалок
     document.getElementById('btnRematch').addEventListener('click', rematch);
     document.getElementById('btnEndMenu').addEventListener('click', backToMenu);
     document.getElementById('btnAnalyzeEnd').addEventListener('click', function() {
@@ -806,16 +719,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('analysisModal').classList.remove('show');
     });
     
-    // Звук
     document.getElementById('sndBtn').addEventListener('click', toggleSound);
-    
-    // Премув индикатор
     document.getElementById('premoveIndicator').addEventListener('click', clearPremove);
     
-    // Проверка URL
     checkUrlForGame();
-    
-    // Инициализация Stockfish
     initStockfish();
     
     console.log('Все обработчики установлены');
@@ -980,22 +887,24 @@ function joinGame() {
 function initPeer(hostId, hosting) {
     console.log('initPeer', hostId, hosting);
     
-    // Очищаем старый peer
     if (peer) {
         peer.destroy();
         peer = null;
     }
     
-    const peerId = hosting ? 'chess-' + hostId : 'chess-' + genCode() + '-guest';
+    const peerId = hosting ? 'chess-' + hostId : 'chess-guest-' + genCode();
     
     peer = new Peer(peerId, {
-        debug: 2,
+        debug: 1,
         config: {
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
                 { urls: 'stun:global.stun.twilio.com:3478' },
                 { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
-                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' }
+                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+                { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
             ]
         }
     });
@@ -1004,35 +913,41 @@ function initPeer(hostId, hosting) {
         console.log('Peer открыт:', id);
         
         if (!hosting) {
-            // Присоединяемся к хосту
             console.log('Подключаюсь к:', 'chess-' + gameCode);
-            conn = peer.connect('chess-' + gameCode, { reliable: true });
             
-            conn.on('open', function() {
-                console.log('Соединение установлено!');
-                document.getElementById('connStatus').textContent = '';
-                document.getElementById('btnJoinGame').disabled = false;
-                // Отправляем свои данные
-                conn.send({ type: 'join', nick: myNick });
-            });
+            setTimeout(function() {
+                conn = peer.connect('chess-' + gameCode, { reliable: true });
+                
+                conn.on('open', function() {
+                    console.log('Соединение установлено!');
+                    document.getElementById('connStatus').textContent = 'Подключено!';
+                    document.getElementById('btnJoinGame').disabled = false;
+                    conn.send({ type: 'join', nick: myNick });
+                });
+                
+                conn.on('data', handleData);
+                
+                conn.on('close', function() {
+                    console.log('Соединение закрыто');
+                    if (isOnline && !over) {
+                        document.getElementById('status').textContent = 'Соперник отключился';
+                    }
+                });
+                
+                conn.on('error', function(err) {
+                    console.error('Ошибка соединения:', err);
+                    document.getElementById('connStatus').textContent = 'Ошибка подключения';
+                    document.getElementById('btnJoinGame').disabled = false;
+                });
+            }, 500);
             
-            conn.on('data', handleData);
-            
-            conn.on('error', function(err) {
-                console.error('Ошибка соединения:', err);
-                document.getElementById('connStatus').textContent = 'Ошибка подключения';
-                document.getElementById('btnJoinGame').disabled = false;
-            });
-            
-            // Таймаут
             setTimeout(function() {
                 if (!conn || !conn.open) {
-                    document.getElementById('connStatus').textContent = 'Игра не найдена';
+                    document.getElementById('connStatus').textContent = 'Игра не найдена. Проверьте код.';
                     document.getElementById('btnJoinGame').disabled = false;
-                    if (peer) peer.destroy();
-                    peer = null;
+                    if (peer) { peer.destroy(); peer = null; }
                 }
-            }, 10000);
+            }, 15000);
         }
     });
     
@@ -1045,22 +960,36 @@ function initPeer(hostId, hosting) {
         });
         
         conn.on('data', handleData);
+        
+        conn.on('close', function() {
+            console.log('Гость отключился');
+            if (isOnline && !over) {
+                document.getElementById('status').textContent = 'Соперник отключился';
+            }
+        });
     });
     
     peer.on('error', function(err) {
         console.error('Ошибка Peer:', err);
+        
         if (err.type === 'unavailable-id') {
-            // ID занят, генерируем новый
             if (isHost) {
                 gameCode = genCode();
                 document.getElementById('gameCodeDisplay').textContent = gameCode;
                 document.getElementById('shareLink').value = location.href.split('?')[0] + '?g=' + gameCode;
-                setTimeout(function() { initPeer(gameCode, true); }, 500);
+                setTimeout(function() { initPeer(gameCode, true); }, 1000);
             }
         } else if (err.type === 'peer-unavailable') {
-            document.getElementById('connStatus').textContent = 'Игра не найдена';
+            document.getElementById('connStatus').textContent = 'Игра не найдена. Убедитесь что хост онлайн.';
+            document.getElementById('btnJoinGame').disabled = false;
+        } else if (err.type === 'network' || err.type === 'server-error') {
+            document.getElementById('connStatus').textContent = 'Ошибка сети. Попробуйте позже.';
             document.getElementById('btnJoinGame').disabled = false;
         }
+    });
+    
+    peer.on('disconnected', function() {
+        console.log('Peer отключен');
     });
 }
 
@@ -1069,7 +998,6 @@ function handleData(data) {
     
     if (data.type === 'join') {
         opponentNick = data.nick || 'Соперник';
-        // Отправляем настройки игры
         conn.send({
             type: 'start',
             nick: myNick,
@@ -1127,6 +1055,7 @@ function startOnlineGame() {
     
     document.getElementById('waitingRoom').classList.add('hidden');
     document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('connStatus').textContent = '';
     
     initGame();
     
@@ -1195,7 +1124,6 @@ function initGame() {
     const ts = getTimeSettings();
     whiteTime = ts.time; blackTime = ts.time; increment = ts.inc;
     
-    // Сохраняем начальную позицию для анализа
     gameHistory = [getFEN()];
     
     document.getElementById('drawOffer').classList.remove('show');
@@ -1266,7 +1194,6 @@ function clearPremove() {
     sel = null;
     moves = [];
     document.getElementById('premoveIndicator').classList.remove('show');
-    draw();
 }
 
 function setPremove(fromR, fromC, toR, toC) {
@@ -1533,7 +1460,6 @@ function doMove(mv, promo) {
     
     lastMv = mv; turn = turn === 'w' ? 'b' : 'w';
     
-    // Сохраняем FEN для анализа
     gameHistory.push(getFEN());
     
     return { captured: !!captured, cst: mv.cst, pro: mv.pro };
@@ -1589,10 +1515,10 @@ function draw() {
         }
         
         if (brd[r][c]) {
-            const img = document.createElement('img');
-            img.src = IMG[brd[r][c]];
-            img.draggable = false;
-            sq.appendChild(img);
+            const piece = document.createElement('span');
+            piece.className = 'piece';
+            piece.textContent = PIECES[brd[r][c]];
+            sq.appendChild(piece);
         }
         
         sq.addEventListener('click', function() { onClick(parseInt(this.dataset.r), parseInt(this.dataset.c)); });
@@ -1687,9 +1613,7 @@ function showPromo(mv) {
     pcs.forEach(function(p) {
         const div = document.createElement('div');
         div.className = 'promo-opt';
-        const img = document.createElement('img');
-        img.src = IMG[p];
-        div.appendChild(img);
+        div.textContent = PIECES[p];
         div.addEventListener('click', function() {
             modal.classList.remove('show');
             execMove(mv, p.toLowerCase());
@@ -1734,7 +1658,7 @@ function updUI() {
 
 function updCaptured() {
     const ord = p => ({q:0,r:1,b:2,n:3,p:4})[p.toLowerCase()] || 5;
-    const render = a => a.slice().sort((x,y) => ord(x)-ord(y)).map(p => '<img src="'+IMG[p]+'">').join('');
+    const render = a => a.slice().sort((x,y) => ord(x)-ord(y)).map(p => PIECES[p]).join('');
     document.getElementById(flipped ? 'topCaptured' : 'bottomCaptured').innerHTML = render(capB);
     document.getElementById(flipped ? 'bottomCaptured' : 'topCaptured').innerHTML = render(capW);
 }
@@ -1873,15 +1797,26 @@ function initStockfish() {
     try {
         stockfish = new Worker('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');
         stockfish.postMessage('uci');
-        console.log('Stockfish инициализирован');
+        stockfish.onmessage = function(e) {
+            if (e.data === 'uciok') {
+                console.log('Stockfish готов');
+                stockfish.postMessage('isready');
+            }
+        };
     } catch (e) {
         console.error('Ошибка инициализации Stockfish:', e);
+        stockfish = null;
     }
 }
 
 function startAnalysis() {
     if (notation.length === 0) {
-        alert('Нет ходов для анализа!');
+        alert('Сначала сделайте хотя бы один ход!');
+        return;
+    }
+    
+    if (!stockfish) {
+        alert('Stockfish не загружен. Попробуйте обновить страницу.');
         return;
     }
     
@@ -1904,32 +1839,25 @@ async function analyzeGame() {
     const evaluations = [];
     const classifications = [];
     
-    // Анализируем каждую позицию
-    for (let i = 0; i < gameHistory.length - 1; i++) {
+    for (let i = 0; i < totalMoves; i++) {
         const fen = gameHistory[i];
         const nextFen = gameHistory[i + 1];
         
-        // Обновляем прогресс
         document.getElementById('analysisProgressText').textContent = `${i + 1} / ${totalMoves}`;
         document.getElementById('analysisProgressBar').style.width = ((i + 1) / totalMoves * 100) + '%';
         
-        // Получаем оценку позиции до хода
         const evalBefore = await getStockfishEval(fen, 12);
-        // Получаем оценку после хода
         const evalAfter = await getStockfishEval(nextFen, 12);
         
         evaluations.push({ before: evalBefore, after: evalAfter });
         
-        // Классифицируем ход
         const isWhiteMove = i % 2 === 0;
         const classification = classifyMove(evalBefore, evalAfter, isWhiteMove);
         classifications.push(classification);
         
-        // Небольшая задержка между анализами
         await new Promise(r => setTimeout(r, 50));
     }
     
-    // Показываем результаты
     showAnalysisResults(evaluations, classifications);
 }
 
@@ -1941,38 +1869,34 @@ function getStockfishEval(fen, depth) {
         }
         
         let resolved = false;
+        let bestScore = 0;
         
         const handler = function(e) {
             const line = e.data;
             
-            if (line.includes('score cp') && !resolved) {
-                const match = line.match(/score cp (-?\d+)/);
-                if (match) {
-                    const cp = parseInt(match[1]);
-                    // Нормализуем для черных
-                    const normalizedCp = fen.includes(' b ') ? -cp : cp;
+            if (typeof line === 'string') {
+                if (line.includes('score cp')) {
+                    const match = line.match(/score cp (-?\d+)/);
+                    if (match) {
+                        bestScore = parseInt(match[1]);
+                        if (fen.includes(' b ')) bestScore = -bestScore;
+                    }
+                }
+                
+                if (line.includes('score mate')) {
+                    const match = line.match(/score mate (-?\d+)/);
+                    if (match) {
+                        const mateIn = parseInt(match[1]);
+                        bestScore = mateIn > 0 ? 10000 - mateIn * 10 : -10000 - mateIn * 10;
+                        if (fen.includes(' b ')) bestScore = -bestScore;
+                    }
+                }
+                
+                if (line.startsWith('bestmove') && !resolved) {
                     resolved = true;
                     stockfish.removeEventListener('message', handler);
-                    resolve(normalizedCp);
+                    resolve(bestScore);
                 }
-            }
-            
-            if (line.includes('score mate') && !resolved) {
-                const match = line.match(/score mate (-?\d+)/);
-                if (match) {
-                    const mateIn = parseInt(match[1]);
-                    const cp = mateIn > 0 ? 10000 - mateIn * 10 : -10000 - mateIn * 10;
-                    const normalizedCp = fen.includes(' b ') ? -cp : cp;
-                    resolved = true;
-                    stockfish.removeEventListener('message', handler);
-                    resolve(normalizedCp);
-                }
-            }
-            
-            if (line.includes('bestmove') && !resolved) {
-                resolved = true;
-                stockfish.removeEventListener('message', handler);
-                resolve(0);
             }
         };
         
@@ -1980,22 +1904,19 @@ function getStockfishEval(fen, depth) {
         stockfish.postMessage('position fen ' + fen);
         stockfish.postMessage('go depth ' + depth);
         
-        // Таймаут
         setTimeout(() => {
             if (!resolved) {
                 resolved = true;
                 stockfish.removeEventListener('message', handler);
-                resolve(0);
+                resolve(bestScore);
             }
-        }, 3000);
+        }, 5000);
     });
 }
 
 function classifyMove(evalBefore, evalAfter, isWhiteMove) {
-    // Разница в оценке (с точки зрения игрока который ходил)
     const diff = isWhiteMove ? (evalAfter - evalBefore) : (evalBefore - evalAfter);
     
-    // Классификация как на chess.com
     if (diff >= 50) {
         return { class: 'brilliant', symbol: '!!', color: '#1baca6' };
     } else if (diff >= 20) {
@@ -2003,7 +1924,7 @@ function classifyMove(evalBefore, evalAfter, isWhiteMove) {
     } else if (diff >= -10) {
         return { class: 'best', symbol: '✓', color: '#81b64c' };
     } else if (diff >= -25) {
-        return { class: 'good', symbol: '', color: '#81b64c' };
+        return { class: 'good', symbol: '', color: '#96bc4b' };
     } else if (diff >= -50) {
         return { class: 'inaccuracy', symbol: '?!', color: '#f7c631' };
     } else if (diff >= -150) {
@@ -2014,7 +1935,6 @@ function classifyMove(evalBefore, evalAfter, isWhiteMove) {
 }
 
 function showAnalysisResults(evaluations, classifications) {
-    // Подсчет статистики
     const stats = {
         white: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 },
         black: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 }
@@ -2025,7 +1945,6 @@ function showAnalysisResults(evaluations, classifications) {
         stats[side][c.class]++;
     });
     
-    // Расчет точности (упрощенная формула)
     const calcAccuracy = (s) => {
         const total = s.brilliant + s.great + s.best + s.good + s.inaccuracy + s.mistake + s.blunder;
         if (total === 0) return 0;
@@ -2036,7 +1955,6 @@ function showAnalysisResults(evaluations, classifications) {
     const whiteAccuracy = calcAccuracy(stats.white);
     const blackAccuracy = calcAccuracy(stats.black);
     
-    // Финальная оценка
     const finalEval = evaluations.length > 0 ? evaluations[evaluations.length - 1].after : 0;
     const whitePercent = Math.max(5, Math.min(95, 50 + finalEval / 20));
     
