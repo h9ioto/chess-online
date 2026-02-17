@@ -13,6 +13,9 @@
             padding: 10px;
             padding-bottom: 60px;
             min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
         
         .container { max-width: 500px; margin: 0 auto; }
@@ -26,130 +29,68 @@
         .setting-label { color: #bababa; font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between; }
         .setting-value { color: #81b64c; font-weight: 600; }
         
-        input[type="range"] {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #3d3a37;
-            outline: none;
-            -webkit-appearance: none;
-        }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: #3d3a37; outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #81b64c; cursor: pointer; }
         
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #81b64c;
-            cursor: pointer;
-        }
+        .theme-select, .color-select, .time-select { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
         
-        .color-select, .time-select { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
-        
-        .color-btn, .time-btn {
-            padding: 10px 12px;
+        .theme-btn, .color-btn, .time-btn {
+            padding: 8px 12px;
             border: 2px solid #3d3a37;
             border-radius: 8px;
             background: #262421;
             color: #fff;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
+            transition: all 0.2s;
         }
+        .theme-btn.active, .color-btn.active, .time-btn.active { border-color: #81b64c; background: rgba(129,182,76,0.15); }
+        .theme-btn img, .color-btn img { width: 24px; height: 24px; }
         
-        .color-btn.active, .time-btn.active { border-color: #81b64c; background: rgba(129,182,76,0.15); }
-        .color-btn .piece-icon { font-size: 20px; }
-        
-        .custom-time {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-            padding: 10px;
-            background: #262421;
-            border-radius: 8px;
+        .board-preview {
+            width: 36px; height: 36px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            border-radius: 4px; overflow: hidden;
         }
+        .board-preview div { width: 100%; height: 100%; }
         
+        .custom-time { display: flex; gap: 10px; align-items: center; justify-content: center; margin-top: 10px; padding: 10px; background: #262421; border-radius: 8px; }
         .custom-time.hidden { display: none; }
         .custom-time label { color: #bababa; font-size: 12px; }
+        .custom-time input { width: 50px; padding: 8px; border: none; border-radius: 6px; background: #3d3a37; color: #fff; font-size: 14px; text-align: center; }
         
-        .custom-time input {
-            width: 50px;
-            padding: 8px;
-            border: none;
-            border-radius: 6px;
-            background: #3d3a37;
-            color: #fff;
-            font-size: 14px;
-            text-align: center;
-        }
+        .toggle-setting { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+        .toggle-setting span { color: #bababa; font-size: 13px; }
+        .toggle { width: 44px; height: 24px; background: #3d3a37; border-radius: 12px; position: relative; cursor: pointer; transition: background 0.3s; }
+        .toggle.active { background: #81b64c; }
+        .toggle::after { content: ''; position: absolute; width: 20px; height: 20px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; }
+        .toggle.active::after { transform: translateX(20px); }
         
         .menu-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform 0.1s;
-        }
-        
+        .btn { padding: 14px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.1s; }
         .btn:active { transform: scale(0.97); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn.green { background: #81b64c; color: #fff; }
         .btn.blue { background: #4a90d9; color: #fff; }
         .btn.orange { background: #d97f4a; color: #fff; }
         .btn.gray { background: #3d3a37; color: #bababa; }
         .btn.red { background: #c0392b; color: #fff; }
         .btn.yellow { background: #f39c12; color: #fff; }
+        .btn.purple { background: #9b59b6; color: #fff; }
         .btn.small { padding: 10px 12px; font-size: 12px; }
         
         .online-section { background: #1f1d1b; border-radius: 8px; padding: 15px; margin-top: 15px; }
         .online-title { color: #4a90d9; font-size: 14px; margin-bottom: 10px; }
-        
         .game-link { display: flex; gap: 8px; }
-        .game-link input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background: #3d3a37;
-            color: #fff;
-            font-size: 14px;
-        }
-        
-        .nick-input {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .nick-input input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background: #3d3a37;
-            color: #fff;
-            font-size: 14px;
-        }
-        
-        .nick-saved {
-            color: #81b64c;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 5px;
-        }
+        .game-link input { flex: 1; padding: 12px; border: none; border-radius: 6px; background: #3d3a37; color: #fff; font-size: 14px; }
+        .connection-status { text-align: center; font-size: 12px; margin-top: 8px; min-height: 18px; }
+        .connection-status.error { color: #e74c3c; }
+        .connection-status.success { color: #81b64c; }
+        .connection-status.waiting { color: #f39c12; }
         
         .waiting { text-align: center; padding: 30px; color: #bababa; }
         .waiting-spinner { font-size: 50px; animation: spin 2s linear infinite; }
@@ -160,259 +101,109 @@
         .menu-screen { display: block; }
         .menu-screen.hidden { display: none; }
         
-        .player-box {
-            display: flex;
-            align-items: center;
-            padding: 10px 12px;
-            background: #1a1816;
-            border-radius: 8px;
-            margin: 8px 0;
-        }
-        
+        .player-box { display: flex; align-items: center; padding: 10px 12px; background: #1a1816; border-radius: 8px; margin: 8px 0; }
         .player-box.active { background: #2d2a27; box-shadow: inset 0 0 0 2px #81b64c; }
-        
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            background: #4a4745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
+        .avatar { width: 36px; height: 36px; border-radius: 6px; background: #4a4745; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 12px; flex-shrink: 0; }
         .player-info { flex: 1; min-width: 0; }
         .player-name { color: #fff; font-size: 14px; font-weight: 600; }
         .player-rating { color: #7c7a78; font-size: 12px; }
-        
-        .timer {
-            background: #2d2a27;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            font-family: monospace;
-            min-width: 65px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-        
+        .timer { background: #2d2a27; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 16px; font-weight: bold; font-family: monospace; min-width: 65px; text-align: center; flex-shrink: 0; }
         .timer.low { background: #c0392b; animation: pulse 0.5s infinite; }
         .timer.inactive { background: #1a1816; color: #555; }
         .timer.hidden { display: none; }
-        
         @keyframes pulse { 50% { opacity: 0.7; } }
+        .captured { display: flex; flex-wrap: wrap; gap: 1px; margin-left: 8px; }
+        .captured img { width: 15px; height: 15px; }
         
-        .captured { display: flex; flex-wrap: wrap; gap: 1px; margin-left: 8px; font-size: 14px; }
+        #board { display: grid; grid-template-columns: repeat(8, 1fr); aspect-ratio: 1; border-radius: 4px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.5); max-width: 480px; margin: 0 auto; position: relative; }
         
-        #board {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            aspect-ratio: 1;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            max-width: 480px;
-            margin: 0 auto;
-        }
-        
-        .sq {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            font-size: min(10vw, 50px);
-        }
-        
-        .sq.w { background: #ebecd0; }
-        .sq.b { background: #739552; }
+        .sq { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
         .sq.sel { background: #f6f669 !important; }
         .sq.lm { background: #f5f682 !important; }
-        .sq.ch { background: #eb6a5d !important; }
-        .sq.premove-from { background: #e74c3c !important; box-shadow: inset 0 0 0 4px #c0392b; }
-        .sq.premove-to { background: #e74c3c !important; box-shadow: inset 0 0 0 4px #a93226; }
+        .sq.ch { background: #eb6a5d !important; animation: check-pulse 0.8s ease-in-out infinite; }
+        .sq.premove-from, .sq.premove-to { background: #e74c3c !important; box-shadow: inset 0 0 0 4px #c0392b; }
+        .sq.drag-over { box-shadow: inset 0 0 0 4px #81b64c; }
+        .sq.dot::after { content: ''; width: 30%; height: 30%; background: rgba(0,0,0,0.15); border-radius: 50%; position: absolute; pointer-events: none; }
+        .sq.cap::after { content: ''; width: 100%; height: 100%; border: 5px solid rgba(0,0,0,0.15); border-radius: 50%; position: absolute; box-sizing: border-box; pointer-events: none; }
+        .sq img { width: 88%; height: 88%; pointer-events: none; filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.25)); }
         
-        .sq.dot::after {
-            content: '';
-            width: 30%;
-            height: 30%;
-            background: rgba(0,0,0,0.15);
-            border-radius: 50%;
-            position: absolute;
-        }
+        @keyframes check-pulse { 0%, 100% { box-shadow: inset 0 0 0 4px #eb6a5d; } 50% { box-shadow: inset 0 0 20px 4px #ff0000; } }
         
-        .sq.cap::after {
-            content: '';
-            width: 100%;
-            height: 100%;
-            border: 5px solid rgba(0,0,0,0.15);
-            border-radius: 50%;
-            position: absolute;
-            box-sizing: border-box;
-        }
+        /* Перетаскивание */
+        .dragging-piece { position: fixed; pointer-events: none; z-index: 2000; transform: translate(-50%, -50%) scale(1.15); filter: drop-shadow(4px 8px 12px rgba(0,0,0,0.5)); }
+        .dragging-piece img { width: 100%; height: 100%; }
+        .sq.dragging-from { opacity: 0.4; }
         
-        .sq .piece {
-            font-size: inherit;
-            line-height: 1;
-            pointer-events: none;
-            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3));
-        }
+        /* Анимация перемещения */
+        .piece-animate { position: absolute; pointer-events: none; z-index: 1000; }
+        .piece-animate img { width: 100%; height: 100%; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4)); }
         
-        #status {
-            text-align: center;
-            padding: 12px;
-            background: #1a1816;
-            border-radius: 8px;
-            margin: 10px 0;
-            color: #bababa;
-            font-size: 15px;
-        }
+        /* Анимация взятия */
+        @keyframes capture-explode { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } 100% { transform: scale(0); opacity: 0; } }
+        @keyframes capture-ring { 0% { transform: scale(0.5); opacity: 1; border-width: 4px; } 100% { transform: scale(2); opacity: 0; border-width: 1px; } }
+        .capture-effect { position: absolute; inset: 0; pointer-events: none; z-index: 500; display: flex; align-items: center; justify-content: center; }
+        .capture-effect img { animation: capture-explode 0.35s ease-out forwards; }
+        .capture-ring { position: absolute; width: 50%; height: 50%; border: 4px solid #ff6b6b; border-radius: 50%; animation: capture-ring 0.4s ease-out forwards; }
         
+        /* Анимация мата */
+        @keyframes king-fall { 0% { transform: rotate(0deg) scale(1); } 30% { transform: rotate(-15deg) scale(1.1); } 60% { transform: rotate(20deg) scale(0.9); } 100% { transform: rotate(90deg) scale(0.8) translateY(20%); opacity: 0.6; } }
+        .king-fallen img { animation: king-fall 0.8s ease-in forwards !important; transform-origin: center bottom; }
+        
+        #status { text-align: center; padding: 12px; background: #1a1816; border-radius: 8px; margin: 10px 0; color: #bababa; font-size: 15px; }
         .game-btns { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
-        
-        .history {
-            background: #1a1816;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 10px;
-            max-height: 80px;
-            overflow-y: auto;
-        }
-        
+        .history { background: #1a1816; border-radius: 8px; padding: 12px; margin-top: 10px; max-height: 80px; overflow-y: auto; }
         .history-title { color: #7c7a78; font-size: 12px; margin-bottom: 8px; }
-        
-        #movesList {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3px 8px;
-            color: #bababa;
-            font-size: 13px;
-            font-family: monospace;
-        }
-        
+        #movesList { display: flex; flex-wrap: wrap; gap: 3px 8px; color: #bababa; font-size: 13px; font-family: monospace; }
         .mp { color: #7c7a78; }
         
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 2000; }
         .modal.show { display: flex; }
-        .modal-box { background: #302e2b; border-radius: 12px; padding: 25px; text-align: center; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: #302e2b; border-radius: 12px; padding: 25px; text-align: center; max-width: 340px; width: 90%; max-height: 90vh; overflow-y: auto; }
         .modal-title { color: #fff; font-size: 20px; margin-bottom: 15px; }
         .modal-msg { color: #bababa; margin: 10px 0 20px; font-size: 14px; }
         .promo-opts { display: flex; justify-content: center; gap: 10px; }
-        .promo-opt { width: 60px; height: 60px; background: #ebecd0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 40px; }
+        .promo-opt { width: 60px; height: 60px; background: #ebecd0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 6px; }
         .promo-opt:active { transform: scale(0.95); }
-        .modal-icon { font-size: 50px; margin-bottom: 10px; }
+        .promo-opt img { width: 100%; height: 100%; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         
         .snd-btn { position: fixed; top: 10px; right: 10px; background: #3d3a37; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 100; }
-        
         .online-badge { display: none; align-items: center; gap: 6px; background: #2d4a2d; color: #81b64c; padding: 4px 10px; border-radius: 12px; font-size: 12px; margin-bottom: 10px; }
         .online-badge.show { display: inline-flex; }
         .online-badge .dot { width: 6px; height: 6px; background: #81b64c; border-radius: 50%; }
-        
         .copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #81b64c; color: #fff; padding: 12px 24px; border-radius: 25px; font-size: 14px; font-weight: 600; opacity: 0; transition: opacity 0.3s; z-index: 3000; pointer-events: none; }
         .copy-toast.show { opacity: 1; }
-        
-        .premove-indicator {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #e74c3c;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            display: none;
-            z-index: 100;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
+        .premove-indicator { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #e74c3c; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; display: none; z-index: 100; cursor: pointer; }
         .premove-indicator.show { display: block; }
-
-        .draw-offer {
-            background: #f39c12;
-            color: #000;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            text-align: center;
-            display: none;
-        }
+        .draw-offer { background: #f39c12; color: #000; padding: 10px; border-radius: 8px; margin: 10px 0; text-align: center; display: none; }
         .draw-offer.show { display: block; }
         .draw-offer-btns { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         
-        .conn-status {
-            font-size: 11px;
-            color: #f39c12;
-            text-align: center;
-            margin-top: 5px;
-        }
-        
-        /* Analysis styles */
-        .analysis-container { margin-top: 15px; }
-        
-        .analysis-bar {
-            height: 24px;
-            background: linear-gradient(to right, #fff var(--white-percent, 50%), #333 var(--white-percent, 50%));
-            border-radius: 4px;
-            position: relative;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .analysis-bar-label {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .analysis-bar-label.white { left: 8px; color: #333; }
-        .analysis-bar-label.black { right: 8px; color: #fff; }
-        
-        .accuracy-box { display: flex; justify-content: space-around; margin-bottom: 15px; }
-        .accuracy-item { text-align: center; }
-        .accuracy-value { font-size: 28px; font-weight: bold; color: #81b64c; }
-        .accuracy-label { font-size: 12px; color: #bababa; }
-        
-        .classification-stats { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 15px; }
-        .class-stat { background: #262421; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
-        .class-brilliant { color: #1baca6; }
-        .class-great { color: #5c8bb0; }
-        .class-best { color: #81b64c; }
-        .class-good { color: #81b64c; }
-        .class-inaccuracy { color: #f7c631; }
-        .class-mistake { color: #e58f2a; }
-        .class-blunder { color: #ca3431; }
-        
-        .moves-analysis { max-height: 200px; overflow-y: auto; text-align: left; }
-        
-        .move-analysis-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 8px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            background: #262421;
-            font-size: 13px;
-        }
-        
-        .move-number { color: #7c7a78; width: 30px; }
-        .move-notation { flex: 1; color: #fff; }
-        .move-eval { color: #bababa; margin-right: 8px; font-size: 11px; }
-        .move-class { font-weight: bold; min-width: 20px; text-align: center; }
-        
+        /* Анализ */
+        .analysis-panel { background: #1a1816; border-radius: 12px; padding: 15px; margin-top: 15px; display: none; }
+        .analysis-panel.show { display: block; }
+        .analysis-bar { height: 24px; background: #333; border-radius: 4px; overflow: hidden; display: flex; margin-bottom: 15px; }
+        .analysis-bar-white { background: #f0f0f0; height: 100%; transition: width 0.3s; display: flex; align-items: center; justify-content: flex-start; padding-left: 5px; font-size: 11px; color: #333; font-weight: bold; }
+        .analysis-bar-black { background: #333; height: 100%; flex: 1; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; font-size: 11px; color: #fff; font-weight: bold; }
+        .analysis-moves { max-height: 200px; overflow-y: auto; }
+        .analysis-move { display: flex; align-items: center; padding: 6px 8px; border-radius: 4px; margin-bottom: 4px; cursor: pointer; }
+        .analysis-move:hover { background: #2d2a27; }
+        .analysis-move.selected { background: #3d5a3d; }
+        .analysis-move-num { color: #7c7a78; width: 30px; font-size: 12px; }
+        .analysis-move-san { color: #fff; flex: 1; font-family: monospace; }
+        .analysis-move-eval { font-size: 11px; padding: 2px 6px; border-radius: 3px; margin-left: 8px; }
+        .eval-brilliant { background: #1baca6; color: #fff; }
+        .eval-great { background: #5c8bb0; color: #fff; }
+        .eval-best { background: #81b64c; color: #fff; }
+        .eval-good { background: #96bc4b; color: #fff; }
+        .eval-inaccuracy { background: #f7c631; color: #000; }
+        .eval-mistake { background: #e68a00; color: #fff; }
+        .eval-blunder { background: #ca3431; color: #fff; }
+        .analysis-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .analysis-stat { background: #262421; padding: 10px; border-radius: 8px; text-align: center; }
+        .analysis-stat-value { font-size: 24px; font-weight: bold; color: #fff; }
+        .analysis-stat-label { font-size: 11px; color: #7c7a78; margin-top: 4px; }
         .analysis-progress { text-align: center; padding: 20px; color: #bababa; }
-        .analysis-progress-bar { height: 6px; background: #3d3a37; border-radius: 3px; margin-top: 10px; overflow: hidden; }
-        .analysis-progress-fill { height: 100%; background: #81b64c; border-radius: 3px; transition: width 0.3s; }
     </style>
 </head>
 <body>
@@ -425,20 +216,10 @@
     
     <div class="menu-screen" id="menuScreen">
         <div class="menu" id="mainMenu">
-            <div class="menu-title">👤 Ваш профиль</div>
-            <div class="nick-input">
-                <input type="text" id="nickInput" placeholder="Введите никнейм..." maxlength="15">
-                <button class="btn green small" id="btnSaveNick">💾</button>
-            </div>
-            <div class="nick-saved" id="nickSaved"></div>
-            
-            <div class="menu-title" style="margin-top:20px;">⚙️ Настройки</div>
+            <div class="menu-title">⚙️ Настройки игры</div>
             
             <div class="setting">
-                <div class="setting-label">
-                    <span>Уровень ИИ</span>
-                    <span class="setting-value" id="eloValue">1400 ELO</span>
-                </div>
+                <div class="setting-label"><span>Уровень ИИ</span><span class="setting-value" id="eloValue">1400 ELO</span></div>
                 <input type="range" id="eloSlider" min="400" max="2800" value="1400" step="200">
             </div>
             
@@ -449,31 +230,63 @@
                     <button class="time-btn" data-time="3|0">3+0</button>
                     <button class="time-btn" data-time="3|2">3+2</button>
                     <button class="time-btn" data-time="5|0">5+0</button>
-                    <button class="time-btn" data-time="5|5">5+5</button>
                     <button class="time-btn active" data-time="10|0">10+0</button>
                     <button class="time-btn" data-time="15|10">15+10</button>
                     <button class="time-btn" data-time="0|0">∞</button>
                     <button class="time-btn" data-time="custom">⚙️</button>
                 </div>
                 <div class="custom-time hidden" id="customTime">
-                    <label>Мин:</label>
-                    <input type="number" id="customMins" value="10" min="1" max="180">
-                    <label>+Сек:</label>
-                    <input type="number" id="customSecs" value="0" min="0" max="60">
+                    <label>Мин:</label><input type="number" id="customMins" value="10" min="1" max="180">
+                    <label>+Сек:</label><input type="number" id="customSecs" value="0" min="0" max="60">
                 </div>
             </div>
             
             <div class="setting">
                 <div class="setting-label"><span>Ваш цвет</span></div>
                 <div class="color-select" id="colorSelect">
-                    <button class="color-btn active" data-color="white">
-                        <span class="piece-icon">♔</span> Белые
-                    </button>
+                    <button class="color-btn active" data-color="white"><img src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png"> Белые</button>
                     <button class="color-btn" data-color="random">🎲</button>
-                    <button class="color-btn" data-color="black">
-                        <span class="piece-icon">♚</span> Чёрные
+                    <button class="color-btn" data-color="black"><img src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png"> Чёрные</button>
+                </div>
+            </div>
+            
+            <div class="setting">
+                <div class="setting-label"><span>Стиль фигур</span></div>
+                <div class="theme-select" id="pieceSelect">
+                    <button class="theme-btn active" data-pieces="neo"><img src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png"> Neo</button>
+                    <button class="theme-btn" data-pieces="classic"><img src="https://images.chesscomfiles.com/chess-themes/pieces/classic/150/wn.png"> Classic</button>
+                    <button class="theme-btn" data-pieces="wood"><img src="https://images.chesscomfiles.com/chess-themes/pieces/wood/150/wn.png"> Wood</button>
+                    <button class="theme-btn" data-pieces="glass"><img src="https://images.chesscomfiles.com/chess-themes/pieces/glass/150/wn.png"> Glass</button>
+                    <button class="theme-btn" data-pieces="gothic"><img src="https://images.chesscomfiles.com/chess-themes/pieces/gothic/150/wn.png"> Gothic</button>
+                </div>
+            </div>
+            
+            <div class="setting">
+                <div class="setting-label"><span>Цвет доски</span></div>
+                <div class="theme-select" id="boardSelect">
+                    <button class="theme-btn active" data-board="green">
+                        <div class="board-preview"><div style="background:#ebecd0"></div><div style="background:#739552"></div><div style="background:#739552"></div><div style="background:#ebecd0"></div></div>
+                    </button>
+                    <button class="theme-btn" data-board="brown">
+                        <div class="board-preview"><div style="background:#f0d9b5"></div><div style="background:#b58863"></div><div style="background:#b58863"></div><div style="background:#f0d9b5"></div></div>
+                    </button>
+                    <button class="theme-btn" data-board="blue">
+                        <div class="board-preview"><div style="background:#dee3e6"></div><div style="background:#8ca2ad"></div><div style="background:#8ca2ad"></div><div style="background:#dee3e6"></div></div>
+                    </button>
+                    <button class="theme-btn" data-board="purple">
+                        <div class="board-preview"><div style="background:#e8dff0"></div><div style="background:#9f7aba"></div><div style="background:#9f7aba"></div><div style="background:#e8dff0"></div></div>
+                    </button>
+                    <button class="theme-btn" data-board="dark">
+                        <div class="board-preview"><div style="background:#a9a9a9"></div><div style="background:#4a4a4a"></div><div style="background:#4a4a4a"></div><div style="background:#a9a9a9"></div></div>
                     </button>
                 </div>
+            </div>
+            
+            <div class="setting">
+                <div class="setting-label"><span>Анимации</span></div>
+                <div class="toggle-setting"><span>Анимация ходов</span><div class="toggle active" id="toggleMoveAnim"></div></div>
+                <div class="toggle-setting"><span>Анимация взятия</span><div class="toggle active" id="toggleCaptureAnim"></div></div>
+                <div class="toggle-setting"><span>Анимация мата</span><div class="toggle active" id="toggleMateAnim"></div></div>
             </div>
             
             <div class="menu-btns">
@@ -486,10 +299,10 @@
                     <button class="btn blue" id="btnCreateGame">➕ Создать игру</button>
                 </div>
                 <div class="game-link" style="margin-top:12px;">
-                    <input type="text" id="joinCode" placeholder="Код игры (5 символов)..." maxlength="5">
+                    <input type="text" id="joinCode" placeholder="Введите код игры...">
                     <button class="btn orange" id="btnJoinGame">→</button>
                 </div>
-                <div class="conn-status" id="connStatus"></div>
+                <div class="connection-status" id="connectionStatus"></div>
             </div>
         </div>
         
@@ -497,11 +310,10 @@
             <div class="waiting">
                 <div class="waiting-spinner">♟</div>
                 <p style="margin-top:15px;font-size:16px;">Ожидание соперника...</p>
-                <p style="margin-top:10px;color:#81b64c;font-size:24px;font-weight:bold;letter-spacing:3px;" id="gameCodeDisplay"></p>
-                <p style="margin-top:5px;color:#7c7a78;font-size:12px;">Отправьте этот код другу</p>
+                <p style="margin-top:10px;color:#81b64c;font-size:20px;font-weight:bold;" id="gameCodeDisplay"></p>
             </div>
             <div class="game-link" style="margin-top:20px;">
-                <input type="text" id="shareLink" readonly style="font-size:11px;">
+                <input type="text" id="shareLink" readonly style="font-size:12px;">
                 <button class="btn gray" id="btnCopyLink">📋</button>
             </div>
             <button class="btn gray" style="margin-top:12px;width:100%;" id="btnCancelWait">✕ Отмена</button>
@@ -509,10 +321,7 @@
     </div>
     
     <div class="game-screen" id="gameScreen">
-        <div id="onlineBadge" class="online-badge">
-            <span class="dot"></span>
-            <span id="opponentNickBadge">Онлайн</span>
-        </div>
+        <div id="onlineBadge" class="online-badge"><span class="dot"></span><span>Онлайн</span></div>
         
         <div class="player-box" id="topPlayer">
             <div class="avatar" id="topAvatar">🤖</div>
@@ -551,12 +360,23 @@
             <button class="btn gray small" id="btnUndo">↩️</button>
             <button class="btn yellow small" id="btnDraw">🤝</button>
             <button class="btn red small" id="btnResign">🏳️</button>
-            <button class="btn blue small" id="btnAnalyze">📊</button>
+            <button class="btn purple small" id="btnAnalysis">📊</button>
         </div>
         
         <div class="history">
             <div class="history-title">История ходов</div>
             <div id="movesList"></div>
+        </div>
+        
+        <div class="analysis-panel" id="analysisPanel">
+            <div class="menu-title">📊 Анализ партии</div>
+            <div class="analysis-bar">
+                <div class="analysis-bar-white" id="analysisBarWhite" style="width:50%"></div>
+                <div class="analysis-bar-black" id="analysisBarBlack"></div>
+            </div>
+            <div class="analysis-progress" id="analysisProgress">Нажмите для анализа</div>
+            <div class="analysis-moves" id="analysisMoves"></div>
+            <div class="analysis-stats" id="analysisStats"></div>
         </div>
     </div>
 </div>
@@ -570,12 +390,12 @@
 
 <div class="modal" id="endModal">
     <div class="modal-box">
-        <div class="modal-icon" id="endIcon">🏆</div>
+        <div class="modal-icon" id="endIcon" style="font-size:50px;margin-bottom:10px;">🏆</div>
         <div class="modal-title" id="endTitle">Победа!</div>
         <div class="modal-msg" id="endMsg"></div>
         <div class="modal-btns">
-            <button class="btn blue" id="btnAnalyzeEnd">📊 Анализ</button>
             <button class="btn green" id="btnRematch">🔄 Реванш</button>
+            <button class="btn purple" id="btnAnalyzeEnd">📊 Анализ</button>
             <button class="btn gray" id="btnEndMenu">🏠 Меню</button>
         </div>
     </div>
@@ -592,24 +412,6 @@
     </div>
 </div>
 
-<div class="modal" id="analysisModal">
-    <div class="modal-box" style="max-width:450px;">
-        <div class="modal-title">📊 Анализ партии</div>
-        <div id="analysisContent">
-            <div class="analysis-progress">
-                <div>Анализ...</div>
-                <div id="analysisProgressText">0 / 0</div>
-                <div class="analysis-progress-bar">
-                    <div class="analysis-progress-fill" id="analysisProgressBar" style="width:0%"></div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-btns" style="margin-top:15px;">
-            <button class="btn gray" id="btnCloseAnalysis">Закрыть</button>
-        </div>
-    </div>
-</div>
-
 <div class="copy-toast" id="copyToast">✓ Скопировано!</div>
 
 <audio id="sndMove" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3"></audio>
@@ -619,125 +421,191 @@
 <audio id="sndPromo" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/promote.mp3"></audio>
 <audio id="sndEnd" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/game-end.mp3"></audio>
 <audio id="sndPremove" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/premove.mp3"></audio>
-<audio id="sndIllegal" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/illegal.mp3"></audio>
-<audio id="sndLowTime" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/tenseconds.mp3"></audio>
 
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-
 <script>
-// ========== КОНСТАНТЫ ==========
-// Unicode символы для фигур (работают везде)
-const PIECES = {
-    K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
-    k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟'
+// ========== КОНСТАНТЫ И ТЕМЫ ==========
+const BOARD_THEMES = {
+    green: { light: '#ebecd0', dark: '#739552' },
+    brown: { light: '#f0d9b5', dark: '#b58863' },
+    blue: { light: '#dee3e6', dark: '#8ca2ad' },
+    purple: { light: '#e8dff0', dark: '#9f7aba' },
+    dark: { light: '#a9a9a9', dark: '#4a4a4a' }
 };
-const VAL = {p:100,n:320,b:330,r:500,q:900,k:20000};
+
+const PIECE_THEMES = ['neo', 'classic', 'wood', 'glass', 'gothic'];
+
+function getImg(piece) {
+    const theme = settings.pieceTheme || 'neo';
+    const color = piece === piece.toUpperCase() ? 'w' : 'b';
+    const type = piece.toLowerCase();
+    return `https://images.chesscomfiles.com/chess-themes/pieces/${theme}/150/${color}${type}.png`;
+}
+
+const VAL = {p:100, n:320, b:330, r:500, q:900, k:20000};
 
 // ========== СОСТОЯНИЕ ==========
-let settings = {elo:1400, color:'white', time:'10|0'};
+let settings = {
+    elo: 1400, color: 'white', time: '10|0',
+    pieceTheme: 'neo', boardTheme: 'green',
+    animMove: true, animCapture: true, animMate: true
+};
+
 let soundOn = true;
 let brd, turn, sel, moves, lastMv, over, aiGo, hist, notation, capW, capB, ep, castle;
 let playerColor = true, flipped = false, premove = null;
 let whiteTime = 600, blackTime = 600, increment = 0, timerInterval = null;
-let lowTimeWarned = {w:false, b:false};
-let isOnline = false, gameCode = null, myColor = 'white', opponentNick = 'Соперник';
-let myNick = localStorage.getItem('chessNick') || '';
-let peer = null, conn = null, isHost = false;
-let gameHistory = [];
-let stockfish = null;
+let lowTimeWarned = {w: false, b: false};
+let isOnline = false, gameCode = null, peer = null, conn = null, myColor = 'white';
+let isConnecting = false;
+
+// Drag and drop
+let dragging = null, dragPiece = null, dragStartSq = null;
+
+// Stockfish
+let stockfish = null, analysisResults = [], isAnalyzing = false, fenHistory = [];
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM загружен');
-    
-    if (myNick) {
-        document.getElementById('nickInput').value = myNick;
-        document.getElementById('nickSaved').textContent = '✓ Привет, ' + myNick + '!';
+    loadSettings();
+    setupEventListeners();
+    checkUrlForGame();
+});
+
+function loadSettings() {
+    const saved = localStorage.getItem('chessSettings');
+    if (saved) {
+        try { Object.assign(settings, JSON.parse(saved)); } catch(e) {}
     }
     
+    document.getElementById('eloSlider').value = settings.elo;
+    document.getElementById('eloValue').textContent = settings.elo + ' ELO';
+    
+    document.querySelectorAll('.time-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.time === settings.time);
+    });
+    document.querySelectorAll('[data-color]').forEach(b => {
+        b.classList.toggle('active', b.dataset.color === settings.color);
+    });
+    document.querySelectorAll('[data-pieces]').forEach(b => {
+        b.classList.toggle('active', b.dataset.pieces === settings.pieceTheme);
+    });
+    document.querySelectorAll('[data-board]').forEach(b => {
+        b.classList.toggle('active', b.dataset.board === settings.boardTheme);
+    });
+    
+    document.getElementById('toggleMoveAnim').classList.toggle('active', settings.animMove);
+    document.getElementById('toggleCaptureAnim').classList.toggle('active', settings.animCapture);
+    document.getElementById('toggleMateAnim').classList.toggle('active', settings.animMate);
+}
+
+function saveSettings() {
+    localStorage.setItem('chessSettings', JSON.stringify(settings));
+}
+
+function setupEventListeners() {
+    // Слайдер ELO
     document.getElementById('eloSlider').addEventListener('input', function() {
         settings.elo = parseInt(this.value);
         document.getElementById('eloValue').textContent = settings.elo + ' ELO';
+        saveSettings();
     });
     
-    document.getElementById('btnSaveNick').addEventListener('click', saveNick);
-    document.getElementById('nickInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') saveNick();
-    });
-    
+    // Время
     document.getElementById('timeSelect').addEventListener('click', function(e) {
         const btn = e.target.closest('.time-btn');
         if (!btn) return;
         document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const time = btn.dataset.time;
-        if (time === 'custom') {
+        if (btn.dataset.time === 'custom') {
             document.getElementById('customTime').classList.remove('hidden');
         } else {
             document.getElementById('customTime').classList.add('hidden');
-            settings.time = time;
+            settings.time = btn.dataset.time;
+            saveSettings();
         }
     });
     
+    // Цвет
     document.getElementById('colorSelect').addEventListener('click', function(e) {
         const btn = e.target.closest('.color-btn');
         if (!btn) return;
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         settings.color = btn.dataset.color;
+        saveSettings();
     });
     
+    // Тема фигур
+    document.getElementById('pieceSelect').addEventListener('click', function(e) {
+        const btn = e.target.closest('.theme-btn');
+        if (!btn || !btn.dataset.pieces) return;
+        document.querySelectorAll('[data-pieces]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        settings.pieceTheme = btn.dataset.pieces;
+        saveSettings();
+    });
+    
+    // Тема доски
+    document.getElementById('boardSelect').addEventListener('click', function(e) {
+        const btn = e.target.closest('.theme-btn');
+        if (!btn || !btn.dataset.board) return;
+        document.querySelectorAll('[data-board]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        settings.boardTheme = btn.dataset.board;
+        saveSettings();
+    });
+    
+    // Анимации
+    ['toggleMoveAnim', 'toggleCaptureAnim', 'toggleMateAnim'].forEach(id => {
+        document.getElementById(id).addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (id === 'toggleMoveAnim') settings.animMove = this.classList.contains('active');
+            if (id === 'toggleCaptureAnim') settings.animCapture = this.classList.contains('active');
+            if (id === 'toggleMateAnim') settings.animMate = this.classList.contains('active');
+            saveSettings();
+        });
+    });
+    
+    // Кнопки меню
     document.getElementById('btnPlayAI').addEventListener('click', startVsAI);
-    document.getElementById('btnCreateGame').addEventListener('click', createGame);
-    document.getElementById('btnJoinGame').addEventListener('click', joinGame);
+    document.getElementById('btnCreateGame').addEventListener('click', createOnlineGame);
+    document.getElementById('btnJoinGame').addEventListener('click', joinOnlineGame);
     document.getElementById('btnCopyLink').addEventListener('click', copyLink);
     document.getElementById('btnCancelWait').addEventListener('click', cancelWaiting);
+    document.getElementById('joinCode').addEventListener('keypress', e => { if (e.key === 'Enter') joinOnlineGame(); });
     
-    document.getElementById('joinCode').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') joinGame();
-    });
-    document.getElementById('joinCode').addEventListener('input', function() {
-        this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    });
-    
+    // Кнопки игры
     document.getElementById('btnBackMenu').addEventListener('click', backToMenu);
     document.getElementById('btnUndo').addEventListener('click', undoMove);
     document.getElementById('btnDraw').addEventListener('click', offerDraw);
     document.getElementById('btnResign').addEventListener('click', resign);
-    document.getElementById('btnAnalyze').addEventListener('click', startAnalysis);
+    document.getElementById('btnAnalysis').addEventListener('click', startAnalysis);
     document.getElementById('btnAcceptDraw').addEventListener('click', acceptDraw);
     document.getElementById('btnDeclineDraw').addEventListener('click', declineDraw);
     
+    // Модалки
     document.getElementById('btnRematch').addEventListener('click', rematch);
-    document.getElementById('btnEndMenu').addEventListener('click', backToMenu);
     document.getElementById('btnAnalyzeEnd').addEventListener('click', function() {
         document.getElementById('endModal').classList.remove('show');
         startAnalysis();
     });
+    document.getElementById('btnEndMenu').addEventListener('click', backToMenu);
     document.getElementById('confirmNo').addEventListener('click', closeConfirm);
-    document.getElementById('btnCloseAnalysis').addEventListener('click', function() {
-        document.getElementById('analysisModal').classList.remove('show');
-    });
     
+    // Звук
     document.getElementById('sndBtn').addEventListener('click', toggleSound);
+    
+    // Премув
     document.getElementById('premoveIndicator').addEventListener('click', clearPremove);
     
-    checkUrlForGame();
-    initStockfish();
-    
-    console.log('Все обработчики установлены');
-});
-
-// ========== НИКНЕЙМ ==========
-function saveNick() {
-    const nick = document.getElementById('nickInput').value.trim();
-    if (!nick) {
-        alert('Введите никнейм!');
-        return;
-    }
-    myNick = nick;
-    localStorage.setItem('chessNick', nick);
-    document.getElementById('nickSaved').textContent = '✓ Сохранено! Привет, ' + nick + '!';
+    // Drag события на доске
+    document.getElementById('board').addEventListener('mousedown', onDragStart);
+    document.getElementById('board').addEventListener('touchstart', onDragStart, {passive: false});
+    document.addEventListener('mousemove', onDragMove);
+    document.addEventListener('touchmove', onDragMove, {passive: false});
+    document.addEventListener('mouseup', onDragEnd);
+    document.addEventListener('touchend', onDragEnd);
 }
 
 // ========== ЗВУКИ ==========
@@ -779,327 +647,247 @@ function startTimer() {
         if (over || aiGo) return;
         if (turn === 'w') {
             whiteTime -= 0.1;
-            if (whiteTime <= 10 && !lowTimeWarned.w) { playSound('sndLowTime'); lowTimeWarned.w = true; }
+            if (whiteTime <= 10 && !lowTimeWarned.w) { playSound('sndMove'); lowTimeWarned.w = true; }
             if (whiteTime <= 0) { whiteTime = 0; timeOut('white'); }
         } else {
             blackTime -= 0.1;
-            if (blackTime <= 10 && !lowTimeWarned.b) { playSound('sndLowTime'); lowTimeWarned.b = true; }
+            if (blackTime <= 10 && !lowTimeWarned.b) { playSound('sndMove'); lowTimeWarned.b = true; }
             if (blackTime <= 0) { blackTime = 0; timeOut('black'); }
         }
         updateTimerDisplay();
     }, 100);
 }
 
-function stopTimer() {
-    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-}
+function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
 
-function addIncrement(isWhite) {
-    if (isWhite) whiteTime += increment;
-    else blackTime += increment;
-}
+function addIncrement(isWhite) { if (isWhite) whiteTime += increment; else blackTime += increment; }
 
 function updateTimerDisplay() {
     const ts = getTimeSettings();
     const topTimer = document.getElementById('topTimer');
     const bottomTimer = document.getElementById('bottomTimer');
     
-    if (ts.time === 0) {
-        topTimer.classList.add('hidden');
-        bottomTimer.classList.add('hidden');
-        return;
-    }
+    if (ts.time === 0) { topTimer.classList.add('hidden'); bottomTimer.classList.add('hidden'); return; }
     
-    topTimer.classList.remove('hidden');
-    bottomTimer.classList.remove('hidden');
-    
+    topTimer.classList.remove('hidden'); bottomTimer.classList.remove('hidden');
     const topIsBlack = playerColor;
-    const topTime = topIsBlack ? blackTime : whiteTime;
-    const bottomTime = topIsBlack ? whiteTime : blackTime;
-    
-    topTimer.textContent = formatTime(topTime);
-    bottomTimer.textContent = formatTime(bottomTime);
+    topTimer.textContent = formatTime(topIsBlack ? blackTime : whiteTime);
+    bottomTimer.textContent = formatTime(topIsBlack ? whiteTime : blackTime);
     
     const isWhiteTurn = turn === 'w';
     const topActive = topIsBlack ? !isWhiteTurn : isWhiteTurn;
-    
     topTimer.classList.toggle('inactive', !topActive || over);
     bottomTimer.classList.toggle('inactive', topActive || over);
-    topTimer.classList.toggle('low', topTime <= 30 && topActive && !over);
-    bottomTimer.classList.toggle('low', bottomTime <= 30 && !topActive && !over);
+    topTimer.classList.toggle('low', (topIsBlack ? blackTime : whiteTime) <= 30 && topActive && !over);
+    bottomTimer.classList.toggle('low', (topIsBlack ? whiteTime : blackTime) <= 30 && !topActive && !over);
 }
 
 function timeOut(color) {
-    over = true;
-    stopTimer();
+    over = true; stopTimer();
     const playerLost = (color === 'white') === playerColor;
     showEnd(playerLost ? 'lose' : 'win', 'Время истекло');
 }
 
-// ========== МУЛЬТИПЛЕЕР (PeerJS) ==========
-function genCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
-    return code;
-}
+// ========== ОНЛАЙН ==========
+function genCode() { return Math.random().toString(36).substr(2, 5).toUpperCase(); }
 
-function createGame() {
-    if (!myNick) {
-        alert('Сначала введите никнейм!');
-        document.getElementById('nickInput').focus();
-        return;
-    }
-    
+function createOnlineGame() {
     gameCode = genCode();
-    isHost = true;
     myColor = settings.color === 'random' ? (Math.random() < 0.5 ? 'white' : 'black') : settings.color;
     
     document.getElementById('gameCodeDisplay').textContent = gameCode;
-    document.getElementById('shareLink').value = location.href.split('?')[0] + '?g=' + gameCode;
+    document.getElementById('shareLink').value = window.location.href.split('?')[0] + '?g=' + gameCode;
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('waitingRoom').classList.remove('hidden');
     
-    initPeer(gameCode, true);
+    setupPeer(true);
 }
 
-function joinGame() {
+function joinOnlineGame() {
+    if (isConnecting) return;
     const code = document.getElementById('joinCode').value.trim().toUpperCase();
-    if (!code || code.length < 5) {
-        alert('Введите код из 5 символов!');
-        return;
-    }
-    
-    if (!myNick) {
-        alert('Сначала введите никнейм!');
-        document.getElementById('nickInput').focus();
-        return;
-    }
+    if (!code) { showStatus('Введите код игры', 'error'); return; }
     
     gameCode = code;
-    isHost = false;
-    document.getElementById('connStatus').textContent = 'Подключение...';
-    document.getElementById('btnJoinGame').disabled = true;
+    myColor = 'pending';
+    isConnecting = true;
+    showStatus('Подключение...', 'waiting');
     
-    initPeer(null, false);
+    setupPeer(false);
 }
 
-function initPeer(hostId, hosting) {
-    console.log('initPeer', hostId, hosting);
+function setupPeer(isHost) {
+    if (peer) { peer.destroy(); peer = null; }
     
-    if (peer) {
-        peer.destroy();
-        peer = null;
-    }
-    
-    const peerId = hosting ? 'chess-' + hostId : 'chess-guest-' + genCode();
+    const peerId = isHost ? 'chess-' + gameCode : 'chess-guest-' + Math.random().toString(36).substr(2, 8);
     
     peer = new Peer(peerId, {
-        debug: 1,
         config: {
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun2.l.google.com:19302' },
                 { urls: 'stun:global.stun.twilio.com:3478' },
                 { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
-                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
-                { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' }
             ]
         }
     });
     
     peer.on('open', function(id) {
         console.log('Peer открыт:', id);
-        
-        if (!hosting) {
-            console.log('Подключаюсь к:', 'chess-' + gameCode);
-            
-            setTimeout(function() {
-                conn = peer.connect('chess-' + gameCode, { reliable: true });
-                
-                conn.on('open', function() {
-                    console.log('Соединение установлено!');
-                    document.getElementById('connStatus').textContent = 'Подключено!';
-                    document.getElementById('btnJoinGame').disabled = false;
-                    conn.send({ type: 'join', nick: myNick });
-                });
-                
-                conn.on('data', handleData);
-                
-                conn.on('close', function() {
-                    console.log('Соединение закрыто');
-                    if (isOnline && !over) {
-                        document.getElementById('status').textContent = 'Соперник отключился';
-                    }
-                });
-                
-                conn.on('error', function(err) {
-                    console.error('Ошибка соединения:', err);
-                    document.getElementById('connStatus').textContent = 'Ошибка подключения';
-                    document.getElementById('btnJoinGame').disabled = false;
-                });
-            }, 500);
-            
-            setTimeout(function() {
-                if (!conn || !conn.open) {
-                    document.getElementById('connStatus').textContent = 'Игра не найдена. Проверьте код.';
-                    document.getElementById('btnJoinGame').disabled = false;
-                    if (peer) { peer.destroy(); peer = null; }
-                }
-            }, 15000);
+        if (isHost) {
+            // Хост ждёт подключения
+        } else {
+            // Гость подключается к хосту
+            connectToHost();
         }
     });
     
     peer.on('connection', function(connection) {
-        console.log('Входящее соединение!');
+        console.log('Входящее соединение');
         conn = connection;
-        
-        conn.on('open', function() {
-            console.log('Гость подключился');
-        });
-        
-        conn.on('data', handleData);
-        
-        conn.on('close', function() {
-            console.log('Гость отключился');
-            if (isOnline && !over) {
-                document.getElementById('status').textContent = 'Соперник отключился';
-            }
-        });
+        setupConnection(true);
     });
     
     peer.on('error', function(err) {
-        console.error('Ошибка Peer:', err);
-        
-        if (err.type === 'unavailable-id') {
-            if (isHost) {
-                gameCode = genCode();
-                document.getElementById('gameCodeDisplay').textContent = gameCode;
-                document.getElementById('shareLink').value = location.href.split('?')[0] + '?g=' + gameCode;
-                setTimeout(function() { initPeer(gameCode, true); }, 1000);
-            }
-        } else if (err.type === 'peer-unavailable') {
-            document.getElementById('connStatus').textContent = 'Игра не найдена. Убедитесь что хост онлайн.';
-            document.getElementById('btnJoinGame').disabled = false;
+        console.error('Peer error:', err);
+        if (err.type === 'peer-unavailable') {
+            showStatus('Игра не найдена', 'error');
         } else if (err.type === 'network' || err.type === 'server-error') {
-            document.getElementById('connStatus').textContent = 'Ошибка сети. Попробуйте позже.';
-            document.getElementById('btnJoinGame').disabled = false;
+            showStatus('Ошибка сети', 'error');
         }
-    });
-    
-    peer.on('disconnected', function() {
-        console.log('Peer отключен');
+        isConnecting = false;
     });
 }
 
-function handleData(data) {
-    console.log('Получены данные:', data);
+function connectToHost() {
+    const hostId = 'chess-' + gameCode;
+    console.log('Подключаюсь к:', hostId);
     
-    if (data.type === 'join') {
-        opponentNick = data.nick || 'Соперник';
-        conn.send({
-            type: 'start',
-            nick: myNick,
-            hostColor: myColor,
-            time: settings.time
-        });
-        startOnlineGame();
+    conn = peer.connect(hostId, { reliable: true });
+    
+    const timeout = setTimeout(function() {
+        if (isConnecting) {
+            showStatus('Игра не найдена или хост оффлайн', 'error');
+            isConnecting = false;
+            if (conn) conn.close();
+        }
+    }, 12000);
+    
+    conn.on('open', function() {
+        console.log('Соединение открыто');
+        clearTimeout(timeout);
+        setupConnection(false);
+    });
+    
+    conn.on('error', function(err) {
+        console.error('Connection error:', err);
+        clearTimeout(timeout);
+        showStatus('Ошибка подключения', 'error');
+        isConnecting = false;
+    });
+}
+
+function setupConnection(isHost) {
+    conn.on('data', function(data) {
+        console.log('Получены данные:', data);
+        handleOnlineMessage(data, isHost);
+    });
+    
+    conn.on('close', function() {
+        console.log('Соединение закрыто');
+        if (isOnline && !over) {
+            document.getElementById('status').textContent = 'Соперник отключился';
+        }
+    });
+    
+    if (isHost) {
+        // Хост отправляет настройки гостю
+        myColor = settings.color === 'random' ? (Math.random() < 0.5 ? 'white' : 'black') : settings.color;
+        conn.send({ type: 'init', hostColor: myColor, time: settings.time });
     }
-    
-    if (data.type === 'start') {
-        opponentNick = data.nick || 'Соперник';
+}
+
+function handleOnlineMessage(data, isHost) {
+    if (data.type === 'init' && !isHost) {
+        // Гость получил настройки от хоста
         myColor = data.hostColor === 'white' ? 'black' : 'white';
         settings.time = data.time;
-        startOnlineGame();
+        conn.send({ type: 'ready' });
+        startOnline();
     }
     
-    if (data.type === 'move') {
-        const mv = data.mv;
-        doMove(mv, mv.promo || 'q');
-        playMoveSound(mv);
+    if (data.type === 'ready' && isHost) {
+        // Хост получил подтверждение от гостя
+        startOnline();
+    }
+    
+    if (data.type === 'move' && data.mv) {
+        doMove(data.mv, data.promo || 'q');
+        playMoveSound(data.mv);
         addIncrement(turn === 'b');
         aiGo = false;
         updUI(); draw(); checkEnd();
         if (premove && !over) setTimeout(executePremove, 100);
     }
     
-    if (data.type === 'resign') {
-        over = true; stopTimer();
-        showEnd('win', opponentNick + ' сдался');
-    }
-    
-    if (data.type === 'draw-offer') {
-        document.getElementById('drawOffer').classList.add('show');
-        playSound('sndMove');
-    }
-    
-    if (data.type === 'draw-accept') {
-        over = true; stopTimer();
-        showEnd('draw', 'Ничья по соглашению');
-        document.getElementById('drawOffer').classList.remove('show');
-    }
-    
-    if (data.type === 'draw-decline') {
-        document.getElementById('status').textContent = 'Ничья отклонена';
-        document.getElementById('drawOffer').classList.remove('show');
-        setTimeout(function() { if (!over) updUI(); }, 2000);
-    }
+    if (data.type === 'resign') { over = true; stopTimer(); showEnd('win', 'Соперник сдался'); }
+    if (data.type === 'draw-offer') { document.getElementById('drawOffer').classList.add('show'); playSound('sndMove'); }
+    if (data.type === 'draw-accept') { over = true; stopTimer(); showEnd('draw', 'Ничья'); document.getElementById('drawOffer').classList.remove('show'); }
+    if (data.type === 'draw-decline') { document.getElementById('status').textContent = 'Ничья отклонена'; document.getElementById('drawOffer').classList.remove('show'); setTimeout(function() { if (!over) updUI(); }, 2000); }
 }
 
-function startOnlineGame() {
-    console.log('Старт онлайн игры, мой цвет:', myColor);
+function startOnline() {
     isOnline = true;
+    isConnecting = false;
     playerColor = myColor === 'white';
     flipped = !playerColor;
     
     document.getElementById('waitingRoom').classList.add('hidden');
     document.getElementById('mainMenu').classList.add('hidden');
-    document.getElementById('connStatus').textContent = '';
-    
     initGame();
     
-    document.getElementById('topName').textContent = opponentNick;
+    document.getElementById('topName').textContent = 'Соперник';
     document.getElementById('topAvatar').textContent = '👤';
     document.getElementById('topRating').textContent = myColor === 'white' ? 'Чёрные' : 'Белые';
-    document.getElementById('bottomName').textContent = myNick || 'Вы';
     document.getElementById('bottomRating').textContent = myColor === 'white' ? 'Белые' : 'Чёрные';
     document.getElementById('onlineBadge').classList.add('show');
-    document.getElementById('opponentNickBadge').textContent = opponentNick;
     
     showGame();
     startTimer();
+    showStatus('Соединено!', 'success');
+}
+
+function showStatus(msg, type) {
+    const el = document.getElementById('connectionStatus');
+    el.textContent = msg;
+    el.className = 'connection-status ' + (type || '');
 }
 
 function cancelWaiting() {
     document.getElementById('waitingRoom').classList.add('hidden');
     document.getElementById('mainMenu').classList.remove('hidden');
     if (peer) { peer.destroy(); peer = null; }
-    conn = null;
+    if (conn) { conn.close(); conn = null; }
     gameCode = null;
+    isConnecting = false;
 }
 
 function copyLink() {
     const link = document.getElementById('shareLink').value;
-    navigator.clipboard.writeText(link).catch(function() {
+    navigator.clipboard.writeText(link).catch(() => {
         document.getElementById('shareLink').select();
         document.execCommand('copy');
     });
     document.getElementById('copyToast').classList.add('show');
-    setTimeout(function() { document.getElementById('copyToast').classList.remove('show'); }, 2000);
+    setTimeout(() => document.getElementById('copyToast').classList.remove('show'), 2000);
 }
 
 function checkUrlForGame() {
     const params = new URLSearchParams(window.location.search);
     const g = params.get('g');
     if (g) {
-        document.getElementById('joinCode').value = g.toUpperCase();
-    }
-}
-
-function sendData(data) {
-    if (conn && conn.open) {
-        conn.send(data);
+        document.getElementById('joinCode').value = g;
+        setTimeout(joinOnlineGame, 500);
     }
 }
 
@@ -1118,22 +906,22 @@ function initGame() {
     turn = 'w'; sel = null; moves = []; lastMv = null; over = false; aiGo = false;
     hist = []; notation = []; capW = []; capB = []; ep = null;
     castle = { K: 1, Q: 1, k: 1, q: 1 };
+    fenHistory = [getFEN()];
     clearPremove();
     lowTimeWarned = {w: false, b: false};
     
     const ts = getTimeSettings();
     whiteTime = ts.time; blackTime = ts.time; increment = ts.inc;
     
-    gameHistory = [getFEN()];
-    
     document.getElementById('drawOffer').classList.remove('show');
     document.getElementById('endModal').classList.remove('show');
     document.getElementById('promoModal').classList.remove('show');
+    document.getElementById('analysisPanel').classList.remove('show');
+    analysisResults = [];
     updateTimerDisplay();
 }
 
 function startVsAI() {
-    console.log('Запуск игры с ИИ');
     isOnline = false;
     playerColor = settings.color === 'random' ? Math.random() < 0.5 : settings.color === 'white';
     flipped = !playerColor;
@@ -1143,18 +931,13 @@ function startVsAI() {
     document.getElementById('topName').textContent = 'Бот';
     document.getElementById('topAvatar').textContent = '🤖';
     document.getElementById('topRating').textContent = settings.elo + ' ELO';
-    document.getElementById('bottomName').textContent = myNick || 'Вы';
     document.getElementById('bottomRating').textContent = playerColor ? 'Белые' : 'Чёрные';
     document.getElementById('onlineBadge').classList.remove('show');
     
     showGame();
     startTimer();
     
-    if (!playerColor) {
-        aiGo = true;
-        updUI();
-        setTimeout(aiMove, 400);
-    }
+    if (!playerColor) { aiGo = true; updUI(); setTimeout(aiMove, 400); }
 }
 
 function showGame() {
@@ -1168,32 +951,129 @@ function backToMenu() {
     document.getElementById('menuScreen').classList.remove('hidden');
     document.getElementById('gameScreen').classList.remove('active');
     document.getElementById('endModal').classList.remove('show');
-    document.getElementById('analysisModal').classList.remove('show');
     document.getElementById('mainMenu').classList.remove('hidden');
     document.getElementById('waitingRoom').classList.add('hidden');
     if (peer) { peer.destroy(); peer = null; }
-    conn = null;
+    if (conn) { conn.close(); conn = null; }
     isOnline = false;
     clearPremove();
 }
 
 function rematch() {
     document.getElementById('endModal').classList.remove('show');
-    if (isOnline) {
-        initGame();
-        updUI(); draw();
-        startTimer();
-    } else {
-        startVsAI();
+    if (isOnline) { initGame(); updUI(); draw(); startTimer(); }
+    else startVsAI();
+}
+
+// ========== DRAG AND DROP ==========
+function onDragStart(e) {
+    if (over) return;
+    
+    const touch = e.touches ? e.touches[0] : e;
+    const sq = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (!sq || !sq.classList.contains('sq')) return;
+    
+    const r = parseInt(sq.dataset.r);
+    const c = parseInt(sq.dataset.c);
+    const piece = brd[r][c];
+    
+    if (!piece) return;
+    
+    const isMyTurn = (turn === 'w') === playerColor;
+    const isMyPiece = isW(piece) === playerColor;
+    
+    // Можно тянуть свои фигуры (для премува или обычного хода)
+    if (!isMyPiece) return;
+    
+    e.preventDefault();
+    
+    dragging = { r, c };
+    dragStartSq = sq;
+    sel = { r, c };
+    moves = isMyTurn ? getMoves(r, c) : getMoves(r, c, false);
+    
+    // Создаём перетаскиваемую фигуру
+    const boardRect = document.getElementById('board').getBoundingClientRect();
+    const sqSize = boardRect.width / 8;
+    
+    dragPiece = document.createElement('div');
+    dragPiece.className = 'dragging-piece';
+    dragPiece.style.width = sqSize + 'px';
+    dragPiece.style.height = sqSize + 'px';
+    dragPiece.innerHTML = `<img src="${getImg(piece)}">`;
+    dragPiece.style.left = touch.clientX + 'px';
+    dragPiece.style.top = touch.clientY + 'px';
+    document.body.appendChild(dragPiece);
+    
+    sq.classList.add('dragging-from');
+    draw();
+}
+
+function onDragMove(e) {
+    if (!dragging || !dragPiece) return;
+    e.preventDefault();
+    
+    const touch = e.touches ? e.touches[0] : e;
+    dragPiece.style.left = touch.clientX + 'px';
+    dragPiece.style.top = touch.clientY + 'px';
+    
+    // Подсветка клетки под курсором
+    document.querySelectorAll('.sq.drag-over').forEach(s => s.classList.remove('drag-over'));
+    const sq = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (sq && sq.classList.contains('sq')) {
+        const tr = parseInt(sq.dataset.r);
+        const tc = parseInt(sq.dataset.c);
+        const isValidMove = moves.some(m => m.tr === tr && m.tc === tc);
+        if (isValidMove) sq.classList.add('drag-over');
     }
+}
+
+function onDragEnd(e) {
+    if (!dragging) return;
+    
+    document.querySelectorAll('.sq.dragging-from').forEach(s => s.classList.remove('dragging-from'));
+    document.querySelectorAll('.sq.drag-over').forEach(s => s.classList.remove('drag-over'));
+    
+    if (dragPiece) {
+        dragPiece.remove();
+        dragPiece = null;
+    }
+    
+    const touch = e.changedTouches ? e.changedTouches[0] : e;
+    const sq = document.elementFromPoint(touch.clientX, touch.clientY);
+    
+    if (sq && sq.classList.contains('sq')) {
+        const tr = parseInt(sq.dataset.r);
+        const tc = parseInt(sq.dataset.c);
+        
+        const isMyTurn = (turn === 'w') === playerColor;
+        
+        if (isMyTurn) {
+            // Обычный ход
+            const mv = moves.find(m => m.tr === tr && m.tc === tc);
+            if (mv) {
+                if (mv.pro) showPromo(mv);
+                else execMove(mv);
+            }
+        } else {
+            // Премув
+            if (dragging.r !== tr || dragging.c !== tc) {
+                setPremove(dragging.r, dragging.c, tr, tc);
+            }
+        }
+    }
+    
+    dragging = null;
+    sel = null;
+    moves = [];
+    draw();
 }
 
 // ========== ПРЕМУВ ==========
 function clearPremove() {
     premove = null;
-    sel = null;
-    moves = [];
     document.getElementById('premoveIndicator').classList.remove('show');
+    draw();
 }
 
 function setPremove(fromR, fromC, toR, toC) {
@@ -1210,74 +1090,13 @@ function executePremove() {
     clearPremove();
     
     const piece = brd[pm.from.r][pm.from.c];
-    if (!piece || isW(piece) !== playerColor) {
-        playSound('sndIllegal');
-        draw();
-        return;
-    }
+    if (!piece || isW(piece) !== playerColor) { draw(); return; }
     
     const legalMoves = getMoves(pm.from.r, pm.from.c);
     const validMove = legalMoves.find(m => m.tr === pm.to.r && m.tc === pm.to.c);
     
-    if (validMove) {
-        execMove(validMove, validMove.pro ? 'q' : undefined);
-    } else {
-        playSound('sndIllegal');
-        draw();
-    }
-}
-
-// ========== СДАТЬСЯ / НИЧЬЯ ==========
-function resign() {
-    if (over) return;
-    showConfirm('Сдаться?', 'Вы уверены?', function() {
-        over = true; stopTimer();
-        if (isOnline) sendData({ type: 'resign' });
-        showEnd('lose', 'Вы сдались');
-    });
-}
-
-function offerDraw() {
-    if (over) return;
-    if (isOnline) {
-        sendData({ type: 'draw-offer' });
-        document.getElementById('status').textContent = 'Ничья предложена...';
-    } else {
-        const ev = evaluate();
-        const aiAdvantage = playerColor ? ev < -100 : ev > 100;
-        if (aiAdvantage) {
-            document.getElementById('status').textContent = 'ИИ отклонил ничью';
-            setTimeout(function() { if (!over) updUI(); }, 2000);
-        } else {
-            over = true; stopTimer();
-            showEnd('draw', 'Ничья по соглашению');
-        }
-    }
-}
-
-function acceptDraw() {
-    document.getElementById('drawOffer').classList.remove('show');
-    over = true; stopTimer();
-    sendData({ type: 'draw-accept' });
-    showEnd('draw', 'Ничья по соглашению');
-}
-
-function declineDraw() {
-    document.getElementById('drawOffer').classList.remove('show');
-    sendData({ type: 'draw-decline' });
-    document.getElementById('status').textContent = 'Ничья отклонена';
-    setTimeout(function() { if (!over) updUI(); }, 2000);
-}
-
-function showConfirm(title, msg, onYes) {
-    document.getElementById('confirmTitle').textContent = title;
-    document.getElementById('confirmMsg').textContent = msg;
-    document.getElementById('confirmYes').onclick = function() { closeConfirm(); onYes(); };
-    document.getElementById('confirmModal').classList.add('show');
-}
-
-function closeConfirm() {
-    document.getElementById('confirmModal').classList.remove('show');
+    if (validMove) execMove(validMove, validMove.pro ? 'q' : undefined);
+    else draw();
 }
 
 // ========== ЛОГИКА ==========
@@ -1349,7 +1168,7 @@ function getMoves(r, c, legal) {
         }
     }
     
-    if (legal) m = m.filter(mv => isLegal(mv, w));
+    if (legal) m = m.filter(function(mv) { return isLegal(mv, w); });
     return m;
 }
 
@@ -1366,7 +1185,7 @@ function isLegal(mv, w) {
 
 function findKing(w) {
     const k = w ? 'K' : 'k';
-    for (let r=0; r<8; r++) for (let c=0; c<8; c++) if (brd[r][c]===k) return {r,c};
+    for (let r=0; r<8; r++) for (let c=0; c<8; c++) if (brd[r][c]===k) return {r:r,c:c};
     return null;
 }
 
@@ -1390,37 +1209,10 @@ function allMoves(w) {
     return a;
 }
 
-function getFEN() {
-    let fen = '';
-    for (let r = 0; r < 8; r++) {
-        let empty = 0;
-        for (let c = 0; c < 8; c++) {
-            if (brd[r][c]) {
-                if (empty > 0) { fen += empty; empty = 0; }
-                fen += brd[r][c];
-            } else {
-                empty++;
-            }
-        }
-        if (empty > 0) fen += empty;
-        if (r < 7) fen += '/';
-    }
-    fen += ' ' + turn;
-    let castleStr = '';
-    if (castle.K) castleStr += 'K';
-    if (castle.Q) castleStr += 'Q';
-    if (castle.k) castleStr += 'k';
-    if (castle.q) castleStr += 'q';
-    fen += ' ' + (castleStr || '-');
-    fen += ' ' + (ep ? 'abcdefgh'[ep.c] + (8 - ep.r) : '-');
-    fen += ' 0 1';
-    return fen;
-}
-
 function doMove(mv, promo) {
     if (!promo) promo = 'q';
     const pc = brd[mv.fr][mv.fc], w = isW(pc), cap = brd[mv.tr][mv.tc];
-    hist.push({ mv:{fr:mv.fr,fc:mv.fc,tr:mv.tr,tc:mv.tc,cst:mv.cst,pro:mv.pro,isEp:mv.isEp,dbl:mv.dbl}, pc, cap, ep:ep?{r:ep.r,c:ep.c}:null, castle:{...castle}, epCap:null, capW:capW.slice(), capB:capB.slice() });
+    hist.push({ mv:{fr:mv.fr,fc:mv.fc,tr:mv.tr,tc:mv.tc,cst:mv.cst,pro:mv.pro,isEp:mv.isEp,dbl:mv.dbl}, pc:pc, cap:cap, ep:ep?{r:ep.r,c:ep.c}:null, castle:{K:castle.K,Q:castle.Q,k:castle.k,q:castle.q}, epCap:null, capW:capW.slice(), capB:capB.slice() });
     
     let captured = cap;
     if (mv.isEp) { const er = w ? mv.tr+1 : mv.tr-1; captured = brd[er][mv.tc]; hist[hist.length-1].epCap = captured; brd[er][mv.tc] = ''; }
@@ -1459,17 +1251,39 @@ function doMove(mv, promo) {
     notation.push(n);
     
     lastMv = mv; turn = turn === 'w' ? 'b' : 'w';
-    
-    gameHistory.push(getFEN());
+    fenHistory.push(getFEN());
     
     return { captured: !!captured, cst: mv.cst, pro: mv.pro };
+}
+
+function getFEN() {
+    let fen = '';
+    for (let r = 0; r < 8; r++) {
+        let empty = 0;
+        for (let c = 0; c < 8; c++) {
+            if (brd[r][c]) {
+                if (empty > 0) { fen += empty; empty = 0; }
+                fen += brd[r][c];
+            } else empty++;
+        }
+        if (empty > 0) fen += empty;
+        if (r < 7) fen += '/';
+    }
+    fen += ' ' + turn;
+    let c = '';
+    if (castle.K) c += 'K'; if (castle.Q) c += 'Q';
+    if (castle.k) c += 'k'; if (castle.q) c += 'q';
+    fen += ' ' + (c || '-');
+    fen += ' ' + (ep ? 'abcdefgh'[ep.c] + (8-ep.r) : '-');
+    fen += ' 0 1';
+    return fen;
 }
 
 function undoMove() {
     if (isOnline || hist.length < 2 || over || aiGo) return;
     clearPremove();
     for (let i = 0; i < 2 && hist.length; i++) {
-        const h = hist.pop(); notation.pop(); gameHistory.pop();
+        const h = hist.pop(); notation.pop(); fenHistory.pop();
         brd[h.mv.fr][h.mv.fc] = h.pc; brd[h.mv.tr][h.mv.tc] = h.cap;
         if (h.epCap) brd[isW(h.pc) ? h.mv.tr+1 : h.mv.tr-1][h.mv.tc] = h.epCap;
         if (h.mv.cst) {
@@ -1488,13 +1302,15 @@ function draw() {
     const board = document.getElementById('board');
     board.innerHTML = '';
     const kPos = findKing(turn === 'w'), check = inCheck(turn === 'w');
+    const theme = BOARD_THEMES[settings.boardTheme] || BOARD_THEMES.green;
     
     for (let i = 0; i < 64; i++) {
         let r = Math.floor(i / 8), c = i % 8;
         if (flipped) { r = 7 - r; c = 7 - c; }
         
         const sq = document.createElement('div');
-        sq.className = 'sq ' + ((r + c) % 2 ? 'b' : 'w');
+        sq.className = 'sq';
+        sq.style.background = (r + c) % 2 ? theme.dark : theme.light;
         sq.dataset.r = r;
         sq.dataset.c = c;
         
@@ -1515,10 +1331,10 @@ function draw() {
         }
         
         if (brd[r][c]) {
-            const piece = document.createElement('span');
-            piece.className = 'piece';
-            piece.textContent = PIECES[brd[r][c]];
-            sq.appendChild(piece);
+            const img = document.createElement('img');
+            img.src = getImg(brd[r][c]);
+            img.draggable = false;
+            sq.appendChild(img);
         }
         
         sq.addEventListener('click', function() { onClick(parseInt(this.dataset.r), parseInt(this.dataset.c)); });
@@ -1528,27 +1344,21 @@ function draw() {
 }
 
 function onClick(r, c) {
+    if (dragging) return; // Если перетаскиваем - игнорируем клик
+    
     const isMyTurn = (turn === 'w') === playerColor;
     const pc = brd[r][c];
     
-    if (premove) {
-        clearPremove();
-        draw();
-        return;
-    }
+    if (premove) { clearPremove(); return; }
     
     if (!isMyTurn && !over) {
         if (sel) {
-            if (sel.r === r && sel.c === c) {
-                sel = null; moves = []; draw();
-                return;
-            }
+            if (sel.r === r && sel.c === c) { sel = null; moves = []; draw(); return; }
             setPremove(sel.r, sel.c, r, c);
             return;
         }
-        
         if (pc && isW(pc) === playerColor) {
-            sel = { r, c };
+            sel = { r: r, c: c };
             moves = getMoves(r, c, false);
             draw();
         }
@@ -1570,7 +1380,7 @@ function onClick(r, c) {
     }
     
     if (pc && isW(pc) === (turn === 'w')) {
-        sel = { r, c }; moves = getMoves(r, c);
+        sel = { r: r, c: c }; moves = getMoves(r, c);
     } else {
         sel = null; moves = [];
     }
@@ -1580,12 +1390,19 @@ function onClick(r, c) {
 function execMove(mv, promo) {
     if (!promo) promo = 'q';
     const wasWhite = turn === 'w';
+    const hadCapture = !!brd[mv.tr][mv.tc] || mv.isEp;
+    
+    // Анимация взятия
+    if (hadCapture && settings.animCapture) {
+        showCaptureEffect(mv.tr, mv.tc);
+    }
+    
     const res = doMove(mv, promo);
     sel = null; moves = [];
     playMoveSound(mv, res);
     addIncrement(wasWhite);
     
-    if (isOnline) sendData({ type: 'move', mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl, promo } });
+    if (isOnline && conn) conn.send({ type: 'move', mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl }, promo: promo });
     
     updUI(); draw();
     if (checkEnd()) return;
@@ -1594,6 +1411,28 @@ function execMove(mv, promo) {
         aiGo = true; updUI();
         setTimeout(aiMove, 200);
     }
+}
+
+function showCaptureEffect(r, c) {
+    const board = document.getElementById('board');
+    const sqSize = board.offsetWidth / 8;
+    const displayR = flipped ? 7 - r : r;
+    const displayC = flipped ? 7 - c : c;
+    
+    const effect = document.createElement('div');
+    effect.className = 'capture-effect';
+    effect.style.left = (displayC * sqSize) + 'px';
+    effect.style.top = (displayR * sqSize) + 'px';
+    effect.style.width = sqSize + 'px';
+    effect.style.height = sqSize + 'px';
+    
+    // Кольцо
+    const ring = document.createElement('div');
+    ring.className = 'capture-ring';
+    effect.appendChild(ring);
+    
+    board.appendChild(effect);
+    setTimeout(() => effect.remove(), 500);
 }
 
 function playMoveSound(mv, res) {
@@ -1613,7 +1452,9 @@ function showPromo(mv) {
     pcs.forEach(function(p) {
         const div = document.createElement('div');
         div.className = 'promo-opt';
-        div.textContent = PIECES[p];
+        const img = document.createElement('img');
+        img.src = getImg(p);
+        div.appendChild(img);
         div.addEventListener('click', function() {
             modal.classList.remove('show');
             execMove(mv, p.toLowerCase());
@@ -1624,11 +1465,27 @@ function showPromo(mv) {
 }
 
 function checkEnd() {
-    if (allMoves(turn === 'w').length === 0) {
+    const isWhiteTurn = turn === 'w';
+    if (allMoves(isWhiteTurn).length === 0) {
         over = true; stopTimer();
-        const check = inCheck(turn === 'w');
-        const win = check && (turn === 'w') !== playerColor;
-        showEnd(check ? (win ? 'win' : 'lose') : 'draw', check ? 'Мат' : 'Пат');
+        const check = inCheck(isWhiteTurn);
+        const win = check && isWhiteTurn !== playerColor;
+        
+        // Анимация падения короля при мате
+        if (check && settings.animMate) {
+            const kingPos = findKing(isWhiteTurn);
+            if (kingPos) {
+                setTimeout(() => {
+                    const displayR = flipped ? 7 - kingPos.r : kingPos.r;
+                    const displayC = flipped ? 7 - kingPos.c : kingPos.c;
+                    const idx = displayR * 8 + displayC;
+                    const sq = document.getElementById('board').children[idx];
+                    if (sq) sq.classList.add('king-fallen');
+                }, 100);
+            }
+        }
+        
+        setTimeout(() => showEnd(check ? (win ? 'win' : 'lose') : 'draw', check ? 'Мат' : 'Пат'), 800);
         return true;
     }
     return false;
@@ -1651,14 +1508,14 @@ function updUI() {
     
     let status = 'Ваш ход';
     if (over) status = 'Игра окончена';
-    else if (isOnline) status = isMyTurn ? 'Ваш ход' : 'Ход ' + opponentNick + '...';
+    else if (isOnline) status = isMyTurn ? 'Ваш ход' : 'Ход соперника...';
     else if (aiGo) status = 'ИИ думает...';
     document.getElementById('status').textContent = status;
 }
 
 function updCaptured() {
     const ord = p => ({q:0,r:1,b:2,n:3,p:4})[p.toLowerCase()] || 5;
-    const render = a => a.slice().sort((x,y) => ord(x)-ord(y)).map(p => PIECES[p]).join('');
+    const render = a => a.slice().sort((x,y) => ord(x)-ord(y)).map(p => `<img src="${getImg(p)}">`).join('');
     document.getElementById(flipped ? 'topCaptured' : 'bottomCaptured').innerHTML = render(capB);
     document.getElementById(flipped ? 'bottomCaptured' : 'topCaptured').innerHTML = render(capW);
 }
@@ -1666,9 +1523,261 @@ function updCaptured() {
 function updMoves() {
     let h = '';
     for (let i = 0; i < notation.length; i += 2) {
-        h += '<span><span class="mp">' + (i/2+1) + '.</span>' + notation[i] + (notation[i+1] ? ' '+notation[i+1] : '') + ' </span>';
+        h += `<span><span class="mp">${i/2+1}.</span>${notation[i]}${notation[i+1] ? ' '+notation[i+1] : ''} </span>`;
     }
     document.getElementById('movesList').innerHTML = h;
+}
+
+// ========== СДАТЬСЯ / НИЧЬЯ ==========
+function resign() {
+    if (over) return;
+    showConfirm('Сдаться?', 'Вы уверены?', function() {
+        over = true; stopTimer();
+        if (isOnline && conn) conn.send({ type: 'resign' });
+        showEnd('lose', 'Вы сдались');
+    });
+}
+
+function offerDraw() {
+    if (over) return;
+    if (isOnline && conn) {
+        conn.send({ type: 'draw-offer' });
+        document.getElementById('status').textContent = 'Ничья предложена...';
+    } else {
+        const ev = evaluate();
+        const aiAdvantage = playerColor ? ev < -100 : ev > 100;
+        if (aiAdvantage) {
+            document.getElementById('status').textContent = 'ИИ отклонил ничью';
+            setTimeout(function() { if (!over) updUI(); }, 2000);
+        } else {
+            over = true; stopTimer();
+            showEnd('draw', 'Ничья по соглашению');
+        }
+    }
+}
+
+function acceptDraw() {
+    document.getElementById('drawOffer').classList.remove('show');
+    over = true; stopTimer();
+    if (isOnline && conn) conn.send({ type: 'draw-accept' });
+    showEnd('draw', 'Ничья по соглашению');
+}
+
+function declineDraw() {
+    document.getElementById('drawOffer').classList.remove('show');
+    if (isOnline && conn) conn.send({ type: 'draw-decline' });
+    document.getElementById('status').textContent = 'Ничья отклонена';
+    setTimeout(function() { if (!over) updUI(); }, 2000);
+}
+
+function showConfirm(title, msg, onYes) {
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmYes').onclick = function() { closeConfirm(); onYes(); };
+    document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeConfirm() { document.getElementById('confirmModal').classList.remove('show'); }
+
+// ========== АНАЛИЗ (Stockfish) ==========
+function startAnalysis() {
+    if (notation.length === 0) {
+        alert('Нет ходов для анализа');
+        return;
+    }
+    
+    if (isAnalyzing) return;
+    
+    document.getElementById('analysisPanel').classList.add('show');
+    document.getElementById('analysisProgress').textContent = 'Загрузка Stockfish...';
+    document.getElementById('analysisMoves').innerHTML = '';
+    document.getElementById('analysisStats').innerHTML = '';
+    
+    isAnalyzing = true;
+    analysisResults = [];
+    
+    // Загружаем Stockfish
+    if (!stockfish) {
+        stockfish = new Worker('https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js');
+        stockfish.onmessage = handleStockfishMessage;
+    }
+    
+    stockfish.postMessage('uci');
+    stockfish.postMessage('isready');
+}
+
+let currentAnalysisIndex = 0;
+let analysisEvals = [];
+let bestMoves = [];
+
+function handleStockfishMessage(e) {
+    const line = e.data;
+    
+    if (line === 'readyok') {
+        currentAnalysisIndex = 0;
+        analysisEvals = [];
+        bestMoves = [];
+        analyzeNextPosition();
+    }
+    
+    if (line.startsWith('info depth') && line.includes(' cp ')) {
+        const cpMatch = line.match(/cp (-?\d+)/);
+        const pvMatch = line.match(/pv ([a-h][1-8][a-h][1-8])/);
+        if (cpMatch) {
+            const cp = parseInt(cpMatch[1]);
+            const isWhiteMove = currentAnalysisIndex % 2 === 1;
+            analysisEvals[currentAnalysisIndex] = isWhiteMove ? cp : -cp;
+        }
+        if (pvMatch) {
+            bestMoves[currentAnalysisIndex] = pvMatch[1];
+        }
+    }
+    
+    if (line.startsWith('info depth') && line.includes(' mate ')) {
+        const mateMatch = line.match(/mate (-?\d+)/);
+        if (mateMatch) {
+            const mate = parseInt(mateMatch[1]);
+            const isWhiteMove = currentAnalysisIndex % 2 === 1;
+            analysisEvals[currentAnalysisIndex] = (isWhiteMove ? 1 : -1) * (mate > 0 ? 10000 : -10000);
+        }
+    }
+    
+    if (line.startsWith('bestmove')) {
+        currentAnalysisIndex++;
+        if (currentAnalysisIndex < fenHistory.length) {
+            document.getElementById('analysisProgress').textContent = `Анализ: ${currentAnalysisIndex} / ${fenHistory.length - 1}`;
+            analyzeNextPosition();
+        } else {
+            finishAnalysis();
+        }
+    }
+}
+
+function analyzeNextPosition() {
+    if (currentAnalysisIndex >= fenHistory.length) {
+        finishAnalysis();
+        return;
+    }
+    
+    const fen = fenHistory[currentAnalysisIndex];
+    stockfish.postMessage('position fen ' + fen);
+    stockfish.postMessage('go depth 12');
+}
+
+function finishAnalysis() {
+    isAnalyzing = false;
+    document.getElementById('analysisProgress').textContent = '';
+    
+    // Классифицируем ходы
+    const classifications = [];
+    let whiteAccuracy = 0, blackAccuracy = 0;
+    let whiteMoves = 0, blackMoves = 0;
+    const stats = { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 };
+    
+    for (let i = 1; i < fenHistory.length; i++) {
+        const evalBefore = analysisEvals[i - 1] || 0;
+        const evalAfter = analysisEvals[i] || 0;
+        const isWhiteMove = i % 2 === 1;
+        
+        // Потеря от хода (с точки зрения игрока)
+        const loss = isWhiteMove ? (evalBefore - evalAfter) : (evalAfter - evalBefore);
+        
+        let classification;
+        if (loss < -30) {
+            // Ход улучшил позицию больше ожидаемого - бриллиантовый
+            classification = 'brilliant';
+        } else if (loss < -10) {
+            classification = 'great';
+        } else if (loss <= 0) {
+            classification = 'best';
+        } else if (loss <= 25) {
+            classification = 'good';
+        } else if (loss <= 50) {
+            classification = 'inaccuracy';
+        } else if (loss <= 150) {
+            classification = 'mistake';
+        } else {
+            classification = 'blunder';
+        }
+        
+        stats[classification]++;
+        classifications.push({
+            moveNum: Math.ceil(i / 2),
+            san: notation[i - 1],
+            eval: evalAfter,
+            classification,
+            isWhite: isWhiteMove
+        });
+        
+        // Точность
+        const accuracy = Math.max(0, 100 - Math.abs(loss) * 0.5);
+        if (isWhiteMove) {
+            whiteAccuracy += accuracy;
+            whiteMoves++;
+        } else {
+            blackAccuracy += accuracy;
+            blackMoves++;
+        }
+    }
+    
+    // Отображаем ходы
+    const movesHtml = classifications.map((c, idx) => {
+        const evalText = Math.abs(c.eval) >= 10000 ? (c.eval > 0 ? 'M+' : 'M-') : (c.eval / 100).toFixed(1);
+        const symbols = { brilliant: '!!', great: '!', best: '✓', good: '', inaccuracy: '?!', mistake: '?', blunder: '??' };
+        return `
+            <div class="analysis-move" data-idx="${idx}">
+                <span class="analysis-move-num">${c.moveNum}${c.isWhite ? '.' : '...'}</span>
+                <span class="analysis-move-san">${c.san}</span>
+                <span class="analysis-move-eval eval-${c.classification}">${symbols[c.classification] || ''} ${evalText}</span>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('analysisMoves').innerHTML = movesHtml;
+    
+    // Статистика
+    const wAcc = whiteMoves > 0 ? Math.round(whiteAccuracy / whiteMoves) : 0;
+    const bAcc = blackMoves > 0 ? Math.round(blackAccuracy / blackMoves) : 0;
+    
+    document.getElementById('analysisStats').innerHTML = `
+        <div class="analysis-stat">
+            <div class="analysis-stat-value">${wAcc}%</div>
+            <div class="analysis-stat-label">Точность белых</div>
+        </div>
+        <div class="analysis-stat">
+            <div class="analysis-stat-value">${bAcc}%</div>
+            <div class="analysis-stat-label">Точность чёрных</div>
+        </div>
+    `;
+    
+    // Обновляем бар оценки
+    updateAnalysisBar(analysisEvals[fenHistory.length - 1] || 0);
+    
+    // Клики на ходы
+    document.querySelectorAll('.analysis-move').forEach(el => {
+        el.addEventListener('click', function() {
+            const idx = parseInt(this.dataset.idx);
+            document.querySelectorAll('.analysis-move').forEach(e => e.classList.remove('selected'));
+            this.classList.add('selected');
+            updateAnalysisBar(classifications[idx].eval);
+        });
+    });
+}
+
+function updateAnalysisBar(cp) {
+    const percent = 50 + Math.max(-50, Math.min(50, cp / 10));
+    const whiteBar = document.getElementById('analysisBarWhite');
+    const blackBar = document.getElementById('analysisBarBlack');
+    whiteBar.style.width = percent + '%';
+    
+    const evalText = Math.abs(cp) >= 10000 ? (cp > 0 ? 'M+' : 'M-') : (cp >= 0 ? '+' : '') + (cp / 100).toFixed(1);
+    if (cp >= 0) {
+        whiteBar.textContent = evalText;
+        blackBar.textContent = '';
+    } else {
+        whiteBar.textContent = '';
+        blackBar.textContent = evalText;
+    }
 }
 
 // ========== ИИ ==========
@@ -1676,8 +1785,11 @@ function aiMove() {
     if (over) return;
     const best = findBest();
     if (best) {
+        const hadCapture = !!brd[best.tr][best.tc] || best.isEp;
+        if (hadCapture && settings.animCapture) showCaptureEffect(best.tr, best.tc);
+        
         doMove(best, 'q');
-        playMoveSound(best, { captured: !!(brd[best.tr] && brd[best.tr][best.tc]), cst: best.cst });
+        playMoveSound(best, { captured: hadCapture, cst: best.cst });
         addIncrement(turn === 'b');
     }
     aiGo = false; updUI(); draw();
@@ -1722,9 +1834,8 @@ function minimax(d, a, b, isMax) {
     
     if (isMax) {
         let max = -Infinity;
-        for (let i = 0; i < mvs.length; i++) {
-            const st = save();
-            doMove(mvs[i], 'q');
+        for (let mv of mvs) {
+            const st = save(); doMove(mv, 'q');
             const sc = minimax(d - 1, a, b, false);
             restore(st);
             if (sc > max) max = sc;
@@ -1734,9 +1845,8 @@ function minimax(d, a, b, isMax) {
         return max;
     } else {
         let min = Infinity;
-        for (let i = 0; i < mvs.length; i++) {
-            const st = save();
-            doMove(mvs[i], 'q');
+        for (let mv of mvs) {
+            const st = save(); doMove(mv, 'q');
             const sc = minimax(d - 1, a, b, true);
             restore(st);
             if (sc < min) min = sc;
@@ -1771,241 +1881,24 @@ function evaluate() {
 function save() {
     return {
         brd: brd.map(r => r.slice()),
-        turn, ep: ep ? {...ep} : null,
+        turn, ep: ep ? {r:ep.r, c:ep.c} : null,
         castle: {...castle},
         capW: capW.slice(), capB: capB.slice(),
         notation: notation.slice(),
         histLen: hist.length,
-        gameHistory: gameHistory.slice()
+        fenHistory: fenHistory.slice()
     };
 }
 
 function restore(s) {
     brd = s.brd.map(r => r.slice());
     turn = s.turn;
-    ep = s.ep ? {...s.ep} : null;
+    ep = s.ep ? {r:s.ep.r, c:s.ep.c} : null;
     castle = {...s.castle};
-    capW = s.capW.slice();
-    capB = s.capB.slice();
+    capW = s.capW.slice(); capB = s.capB.slice();
     notation = s.notation.slice();
-    gameHistory = s.gameHistory.slice();
+    fenHistory = s.fenHistory.slice();
     while (hist.length > s.histLen) hist.pop();
-}
-
-// ========== STOCKFISH АНАЛИЗ ==========
-function initStockfish() {
-    try {
-        stockfish = new Worker('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');
-        stockfish.postMessage('uci');
-        stockfish.onmessage = function(e) {
-            if (e.data === 'uciok') {
-                console.log('Stockfish готов');
-                stockfish.postMessage('isready');
-            }
-        };
-    } catch (e) {
-        console.error('Ошибка инициализации Stockfish:', e);
-        stockfish = null;
-    }
-}
-
-function startAnalysis() {
-    if (notation.length === 0) {
-        alert('Сначала сделайте хотя бы один ход!');
-        return;
-    }
-    
-    if (!stockfish) {
-        alert('Stockfish не загружен. Попробуйте обновить страницу.');
-        return;
-    }
-    
-    document.getElementById('analysisModal').classList.add('show');
-    document.getElementById('analysisContent').innerHTML = `
-        <div class="analysis-progress">
-            <div>Анализ партии...</div>
-            <div id="analysisProgressText">0 / ${notation.length}</div>
-            <div class="analysis-progress-bar">
-                <div class="analysis-progress-fill" id="analysisProgressBar" style="width:0%"></div>
-            </div>
-        </div>
-    `;
-    
-    analyzeGame();
-}
-
-async function analyzeGame() {
-    const totalMoves = notation.length;
-    const evaluations = [];
-    const classifications = [];
-    
-    for (let i = 0; i < totalMoves; i++) {
-        const fen = gameHistory[i];
-        const nextFen = gameHistory[i + 1];
-        
-        document.getElementById('analysisProgressText').textContent = `${i + 1} / ${totalMoves}`;
-        document.getElementById('analysisProgressBar').style.width = ((i + 1) / totalMoves * 100) + '%';
-        
-        const evalBefore = await getStockfishEval(fen, 12);
-        const evalAfter = await getStockfishEval(nextFen, 12);
-        
-        evaluations.push({ before: evalBefore, after: evalAfter });
-        
-        const isWhiteMove = i % 2 === 0;
-        const classification = classifyMove(evalBefore, evalAfter, isWhiteMove);
-        classifications.push(classification);
-        
-        await new Promise(r => setTimeout(r, 50));
-    }
-    
-    showAnalysisResults(evaluations, classifications);
-}
-
-function getStockfishEval(fen, depth) {
-    return new Promise((resolve) => {
-        if (!stockfish) {
-            resolve(0);
-            return;
-        }
-        
-        let resolved = false;
-        let bestScore = 0;
-        
-        const handler = function(e) {
-            const line = e.data;
-            
-            if (typeof line === 'string') {
-                if (line.includes('score cp')) {
-                    const match = line.match(/score cp (-?\d+)/);
-                    if (match) {
-                        bestScore = parseInt(match[1]);
-                        if (fen.includes(' b ')) bestScore = -bestScore;
-                    }
-                }
-                
-                if (line.includes('score mate')) {
-                    const match = line.match(/score mate (-?\d+)/);
-                    if (match) {
-                        const mateIn = parseInt(match[1]);
-                        bestScore = mateIn > 0 ? 10000 - mateIn * 10 : -10000 - mateIn * 10;
-                        if (fen.includes(' b ')) bestScore = -bestScore;
-                    }
-                }
-                
-                if (line.startsWith('bestmove') && !resolved) {
-                    resolved = true;
-                    stockfish.removeEventListener('message', handler);
-                    resolve(bestScore);
-                }
-            }
-        };
-        
-        stockfish.addEventListener('message', handler);
-        stockfish.postMessage('position fen ' + fen);
-        stockfish.postMessage('go depth ' + depth);
-        
-        setTimeout(() => {
-            if (!resolved) {
-                resolved = true;
-                stockfish.removeEventListener('message', handler);
-                resolve(bestScore);
-            }
-        }, 5000);
-    });
-}
-
-function classifyMove(evalBefore, evalAfter, isWhiteMove) {
-    const diff = isWhiteMove ? (evalAfter - evalBefore) : (evalBefore - evalAfter);
-    
-    if (diff >= 50) {
-        return { class: 'brilliant', symbol: '!!', color: '#1baca6' };
-    } else if (diff >= 20) {
-        return { class: 'great', symbol: '!', color: '#5c8bb0' };
-    } else if (diff >= -10) {
-        return { class: 'best', symbol: '✓', color: '#81b64c' };
-    } else if (diff >= -25) {
-        return { class: 'good', symbol: '', color: '#96bc4b' };
-    } else if (diff >= -50) {
-        return { class: 'inaccuracy', symbol: '?!', color: '#f7c631' };
-    } else if (diff >= -150) {
-        return { class: 'mistake', symbol: '?', color: '#e58f2a' };
-    } else {
-        return { class: 'blunder', symbol: '??', color: '#ca3431' };
-    }
-}
-
-function showAnalysisResults(evaluations, classifications) {
-    const stats = {
-        white: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 },
-        black: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 }
-    };
-    
-    classifications.forEach((c, i) => {
-        const side = i % 2 === 0 ? 'white' : 'black';
-        stats[side][c.class]++;
-    });
-    
-    const calcAccuracy = (s) => {
-        const total = s.brilliant + s.great + s.best + s.good + s.inaccuracy + s.mistake + s.blunder;
-        if (total === 0) return 0;
-        const score = s.brilliant * 100 + s.great * 95 + s.best * 90 + s.good * 80 + s.inaccuracy * 60 + s.mistake * 30 + s.blunder * 0;
-        return Math.round(score / total);
-    };
-    
-    const whiteAccuracy = calcAccuracy(stats.white);
-    const blackAccuracy = calcAccuracy(stats.black);
-    
-    const finalEval = evaluations.length > 0 ? evaluations[evaluations.length - 1].after : 0;
-    const whitePercent = Math.max(5, Math.min(95, 50 + finalEval / 20));
-    
-    let html = `
-        <div class="analysis-bar" style="--white-percent: ${whitePercent}%">
-            <span class="analysis-bar-label white">${finalEval > 0 ? '+' : ''}${(finalEval/100).toFixed(1)}</span>
-            <span class="analysis-bar-label black"></span>
-        </div>
-        
-        <div class="accuracy-box">
-            <div class="accuracy-item">
-                <div class="accuracy-value">${whiteAccuracy}%</div>
-                <div class="accuracy-label">⬜ Белые</div>
-            </div>
-            <div class="accuracy-item">
-                <div class="accuracy-value">${blackAccuracy}%</div>
-                <div class="accuracy-label">⬛ Чёрные</div>
-            </div>
-        </div>
-        
-        <div class="classification-stats">
-            ${stats.white.brilliant + stats.black.brilliant > 0 ? `<span class="class-stat class-brilliant">!! ${stats.white.brilliant + stats.black.brilliant}</span>` : ''}
-            ${stats.white.great + stats.black.great > 0 ? `<span class="class-stat class-great">! ${stats.white.great + stats.black.great}</span>` : ''}
-            ${stats.white.best + stats.black.best > 0 ? `<span class="class-stat class-best">✓ ${stats.white.best + stats.black.best}</span>` : ''}
-            ${stats.white.inaccuracy + stats.black.inaccuracy > 0 ? `<span class="class-stat class-inaccuracy">?! ${stats.white.inaccuracy + stats.black.inaccuracy}</span>` : ''}
-            ${stats.white.mistake + stats.black.mistake > 0 ? `<span class="class-stat class-mistake">? ${stats.white.mistake + stats.black.mistake}</span>` : ''}
-            ${stats.white.blunder + stats.black.blunder > 0 ? `<span class="class-stat class-blunder">?? ${stats.white.blunder + stats.black.blunder}</span>` : ''}
-        </div>
-        
-        <div class="moves-analysis">
-    `;
-    
-    for (let i = 0; i < notation.length; i++) {
-        const c = classifications[i];
-        const moveNum = Math.floor(i / 2) + 1;
-        const isWhite = i % 2 === 0;
-        const evalVal = evaluations[i] ? evaluations[i].after : 0;
-        
-        html += `
-            <div class="move-analysis-item">
-                <span class="move-number">${isWhite ? moveNum + '.' : ''}</span>
-                <span class="move-notation">${isWhite ? '⬜' : '⬛'} ${notation[i]}</span>
-                <span class="move-eval">${evalVal > 0 ? '+' : ''}${(evalVal/100).toFixed(1)}</span>
-                <span class="move-class" style="color:${c.color}">${c.symbol}</span>
-            </div>
-        `;
-    }
-    
-    html += '</div>';
-    
-    document.getElementById('analysisContent').innerHTML = html;
 }
 </script>
 </body>
