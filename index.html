@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Шахматы</title>
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -114,6 +113,7 @@
         .btn.gray { background: #3d3a37; color: #bababa; }
         .btn.red { background: #c0392b; color: #fff; }
         .btn.yellow { background: #f39c12; color: #fff; }
+        .btn.purple { background: #9b59b6; color: #fff; }
         .btn.small { padding: 10px 12px; font-size: 12px; }
         
         .online-section { background: #1f1d1b; border-radius: 8px; padding: 15px; margin-top: 15px; }
@@ -129,6 +129,17 @@
             color: #fff;
             font-size: 14px;
         }
+        
+        .connection-status {
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: #f39c12;
+            display: none;
+        }
+        .connection-status.show { display: block; }
+        .connection-status.error { color: #e74c3c; }
+        .connection-status.success { color: #81b64c; }
         
         .waiting { text-align: center; padding: 30px; color: #bababa; }
         .waiting-spinner { font-size: 50px; animation: spin 2s linear infinite; }
@@ -243,6 +254,27 @@
             filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.25));
         }
         
+        /* Оценки ходов */
+        .sq .move-eval {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 1px 3px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        .sq .move-eval.brilliant { background: #1bada6; color: #fff; }
+        .sq .move-eval.great { background: #5c8bb0; color: #fff; }
+        .sq .move-eval.best { background: #96bc4b; color: #fff; }
+        .sq .move-eval.good { background: #96bc4b; color: #fff; }
+        .sq .move-eval.book { background: #a88764; color: #fff; }
+        .sq .move-eval.inaccuracy { background: #f7c631; color: #000; }
+        .sq .move-eval.mistake { background: #ffa459; color: #000; }
+        .sq .move-eval.blunder { background: #fa412d; color: #fff; }
+        .sq .move-eval.miss { background: #fa412d; color: #fff; }
+        
         #status {
             text-align: center;
             padding: 12px;
@@ -260,7 +292,7 @@
             border-radius: 8px;
             padding: 12px;
             margin-top: 10px;
-            max-height: 80px;
+            max-height: 100px;
             overflow-y: auto;
         }
         
@@ -275,11 +307,21 @@
             font-family: monospace;
         }
         
+        .move-item { cursor: pointer; padding: 2px 4px; border-radius: 3px; }
+        .move-item:hover { background: #3d3a37; }
+        .move-item.current { background: #4a90d9; color: #fff; }
+        .move-item.brilliant { color: #1bada6; }
+        .move-item.great { color: #5c8bb0; }
+        .move-item.best { color: #96bc4b; }
+        .move-item.inaccuracy { color: #f7c631; }
+        .move-item.mistake { color: #ffa459; }
+        .move-item.blunder { color: #fa412d; }
+        
         .mp { color: #7c7a78; }
         
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 2000; }
         .modal.show { display: flex; }
-        .modal-box { background: #302e2b; border-radius: 12px; padding: 25px; text-align: center; max-width: 320px; width: 90%; }
+        .modal-box { background: #302e2b; border-radius: 12px; padding: 25px; text-align: center; max-width: 350px; width: 90%; max-height: 90vh; overflow-y: auto; }
         .modal-title { color: #fff; font-size: 20px; margin-bottom: 15px; }
         .modal-msg { color: #bababa; margin: 10px 0 20px; font-size: 14px; }
         .promo-opts { display: flex; justify-content: center; gap: 10px; }
@@ -312,7 +354,7 @@
             display: none;
             z-index: 100;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .premove-indicator.show { display: block; }
 
@@ -328,16 +370,107 @@
         .draw-offer.show { display: block; }
         .draw-offer-btns { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         
-        .connection-status {
-            text-align: center;
-            padding: 8px;
-            border-radius: 6px;
+        /* Анализ */
+        .analysis-panel {
+            background: #1a1816;
+            border-radius: 8px;
+            padding: 15px;
             margin-top: 10px;
-            font-size: 12px;
         }
-        .connection-status.connecting { background: #f39c12; color: #000; }
-        .connection-status.connected { background: #27ae60; color: #fff; }
-        .connection-status.error { background: #e74c3c; color: #fff; }
+        .analysis-title { color: #9b59b6; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .analysis-bar {
+            height: 24px;
+            background: #333;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .analysis-bar .white-side {
+            background: #eee;
+            transition: width 0.3s;
+        }
+        .analysis-bar .black-side {
+            background: #333;
+            flex: 1;
+        }
+        .analysis-eval {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .analysis-best {
+            color: #bababa;
+            font-size: 12px;
+            text-align: center;
+        }
+        .analysis-nav {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .analysis-loading {
+            text-align: center;
+            color: #bababa;
+            padding: 20px;
+        }
+        .analysis-loading .spinner {
+            font-size: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        .accuracy-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            padding: 10px;
+            background: #262421;
+            border-radius: 8px;
+        }
+        .accuracy-item {
+            text-align: center;
+        }
+        .accuracy-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .accuracy-label {
+            font-size: 11px;
+            color: #7c7a78;
+        }
+        .accuracy-white .accuracy-value { color: #eee; }
+        .accuracy-black .accuracy-value { color: #81b64c; }
+        
+        .move-classification {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .class-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #bababa;
+        }
+        .class-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .class-dot.brilliant { background: #1bada6; }
+        .class-dot.great { background: #5c8bb0; }
+        .class-dot.best { background: #96bc4b; }
+        .class-dot.good { background: #96bc4b; }
+        .class-dot.inaccuracy { background: #f7c631; }
+        .class-dot.mistake { background: #ffa459; }
+        .class-dot.blunder { background: #fa412d; }
     </style>
 </head>
 <body>
@@ -399,7 +532,7 @@
             </div>
             
             <div class="online-section">
-                <div class="online-title">🌐 Играть с другом (P2P)</div>
+                <div class="online-title">🌐 Играть с другом</div>
                 <div class="menu-btns" style="margin-top:10px;">
                     <button class="btn blue" id="btnCreateGame">➕ Создать игру</button>
                 </div>
@@ -407,7 +540,7 @@
                     <input type="text" id="joinCode" placeholder="Введите код игры...">
                     <button class="btn orange" id="btnJoinGame">→</button>
                 </div>
-                <div id="connectionStatus" class="connection-status" style="display:none;"></div>
+                <div class="connection-status" id="connectionStatus"></div>
             </div>
         </div>
         
@@ -416,7 +549,7 @@
                 <div class="waiting-spinner">♟</div>
                 <p style="margin-top:15px;font-size:16px;">Ожидание соперника...</p>
                 <p style="margin-top:10px;color:#81b64c;font-size:24px;font-weight:bold;letter-spacing:3px;" id="gameCodeDisplay"></p>
-                <p style="margin-top:5px;color:#7c7a78;font-size:12px;">Отправьте этот код другу</p>
+                <p style="margin-top:5px;color:#7c7a78;font-size:12px;">Сообщите этот код другу</p>
             </div>
             <div class="game-link" style="margin-top:20px;">
                 <input type="text" id="shareLink" readonly style="font-size:12px;">
@@ -424,12 +557,66 @@
             </div>
             <button class="btn gray" style="margin-top:12px;width:100%;" id="btnCancelWait">✕ Отмена</button>
         </div>
+        
+        <!-- Экран анализа -->
+        <div class="menu hidden" id="analysisScreen">
+            <div class="menu-title">📊 Анализ партии</div>
+            
+            <div class="analysis-loading" id="analysisLoading">
+                <div class="spinner">⚙️</div>
+                <p style="margin-top:10px;">Анализ с помощью Stockfish...</p>
+                <p style="font-size:12px;color:#7c7a78;" id="analysisProgress">Ход 0 из 0</p>
+            </div>
+            
+            <div id="analysisContent" style="display:none;">
+                <div class="accuracy-display">
+                    <div class="accuracy-item accuracy-white">
+                        <div class="accuracy-value" id="whiteAccuracy">0%</div>
+                        <div class="accuracy-label">Белые</div>
+                    </div>
+                    <div class="accuracy-item accuracy-black">
+                        <div class="accuracy-value" id="blackAccuracy">0%</div>
+                        <div class="accuracy-label">Чёрные</div>
+                    </div>
+                </div>
+                
+                <div class="move-classification" id="moveClassification"></div>
+                
+                <div class="analysis-bar">
+                    <div class="white-side" id="analysisBar" style="width:50%"></div>
+                    <div class="black-side"></div>
+                </div>
+                
+                <div class="analysis-eval" id="analysisEval">0.0</div>
+                <div class="analysis-best" id="analysisBest">Лучший ход: -</div>
+                
+                <div class="analysis-nav">
+                    <button class="btn gray small" id="btnAnalysisFirst">⏮</button>
+                    <button class="btn gray small" id="btnAnalysisPrev">◀</button>
+                    <button class="btn gray small" id="btnAnalysisNext">▶</button>
+                    <button class="btn gray small" id="btnAnalysisLast">⏭</button>
+                </div>
+                
+                <div id="analysisBoardContainer" style="margin-top:15px;">
+                    <div id="analysisBoard"></div>
+                </div>
+                
+                <div class="history" style="margin-top:10px;">
+                    <div class="history-title">Ходы с оценками</div>
+                    <div id="analysisMoveslist"></div>
+                </div>
+            </div>
+            
+            <div class="menu-btns" style="margin-top:15px;">
+                <button class="btn gray" id="btnAnalysisBack">🏠 В меню</button>
+            </div>
+        </div>
     </div>
     
     <div class="game-screen" id="gameScreen">
         <div id="onlineBadge" class="online-badge">
             <span class="dot"></span>
-            <span>Онлайн P2P</span>
+            <span>Онлайн</span>
         </div>
         
         <div class="player-box" id="topPlayer">
@@ -491,6 +678,7 @@
         <div class="modal-title" id="endTitle">Победа!</div>
         <div class="modal-msg" id="endMsg"></div>
         <div class="modal-btns">
+            <button class="btn purple" id="btnAnalyze">📊 Анализ</button>
             <button class="btn green" id="btnRematch">🔄 Реванш</button>
             <button class="btn gray" id="btnEndMenu">🏠 Меню</button>
         </div>
@@ -520,6 +708,13 @@
 <audio id="sndIllegal" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/illegal.mp3"></audio>
 <audio id="sndLowTime" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/tenseconds.mp3"></audio>
 
+<!-- Gun.js для мультиплеера -->
+<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+
+<!-- Stockfish для анализа -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js"></script>
+
 <script>
 // ========== КОНСТАНТЫ ==========
 const IMG = {
@@ -546,16 +741,23 @@ let playerColor = true, flipped = false, premove = null;
 let whiteTime = 600, blackTime = 600, increment = 0, timerInterval = null;
 let lowTimeWarned = {w:false, b:false};
 
-// P2P мультиплеер
-let isOnline = false;
-let peer = null;
-let conn = null;
-let myColor = 'white';
-let gameCode = null;
-let isHost = false;
+// Онлайн через Gun.js
+let isOnline = false, gameCode = null, myColor = 'white';
+let gun = null, gameRef = null, myId = null, lastMsgId = null;
+
+// Анализ
+let stockfish = null;
+let analysisData = [];
+let analysisIndex = 0;
+let gameHistory = []; // Сохранённые позиции для анализа
+let isAnalyzing = false;
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация Gun.js
+    gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun']);
+    myId = 'user_' + Math.random().toString(36).substr(2, 9);
+    
     // Слайдер ELO
     document.getElementById('eloSlider').addEventListener('input', function() {
         settings.elo = parseInt(this.value);
@@ -588,8 +790,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Кнопки
     document.getElementById('btnPlayAI').addEventListener('click', startVsAI);
-    document.getElementById('btnCreateGame').addEventListener('click', createGame);
-    document.getElementById('btnJoinGame').addEventListener('click', joinGame);
+    document.getElementById('btnCreateGame').addEventListener('click', createOnlineGame);
+    document.getElementById('btnJoinGame').addEventListener('click', joinOnlineGame);
     document.getElementById('btnCopyLink').addEventListener('click', copyLink);
     document.getElementById('btnCancelWait').addEventListener('click', cancelWaiting);
     document.getElementById('btnBackMenu').addEventListener('click', backToMenu);
@@ -600,12 +802,21 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnDeclineDraw').addEventListener('click', declineDraw);
     document.getElementById('btnRematch').addEventListener('click', rematch);
     document.getElementById('btnEndMenu').addEventListener('click', backToMenu);
+    document.getElementById('btnAnalyze').addEventListener('click', startAnalysis);
     document.getElementById('confirmNo').addEventListener('click', closeConfirm);
     document.getElementById('sndBtn').addEventListener('click', toggleSound);
     document.getElementById('premoveIndicator').addEventListener('click', clearPremove);
     
+    // Анализ навигация
+    document.getElementById('btnAnalysisFirst').addEventListener('click', () => goToAnalysisMove(0));
+    document.getElementById('btnAnalysisPrev').addEventListener('click', () => goToAnalysisMove(analysisIndex - 1));
+    document.getElementById('btnAnalysisNext').addEventListener('click', () => goToAnalysisMove(analysisIndex + 1));
+    document.getElementById('btnAnalysisLast').addEventListener('click', () => goToAnalysisMove(gameHistory.length - 1));
+    document.getElementById('btnAnalysisBack').addEventListener('click', backToMenu);
+    
+    // Enter для присоединения
     document.getElementById('joinCode').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') joinGame();
+        if (e.key === 'Enter') joinOnlineGame();
     });
     
     // Проверка URL
@@ -616,7 +827,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function playSound(id) {
     if (!soundOn) return;
     const audio = document.getElementById(id);
-    if (audio) { audio.currentTime = 0; audio.play().catch(()=>{}); }
+    if (audio) { audio.currentTime = 0; audio.play().catch(() => {}); }
 }
 
 function toggleSound() {
@@ -708,56 +919,13 @@ function timeOut(color) {
     showEnd(playerLost ? 'lose' : 'win', 'Время истекло');
 }
 
-// ========== P2P МУЛЬТИПЛЕЕР ==========
-// Конфиг с TURN серверами для обхода NAT
-const PEER_CONFIG = {
-    debug: 1,
-    config: {
-        iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' },
-            { 
-                urls: 'turn:openrelay.metered.ca:80',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-            },
-            { 
-                urls: 'turn:openrelay.metered.ca:443',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-            },
-            { 
-                urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-            }
-        ]
-    }
-};
-
-function genCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-    return code;
+// ========== ОНЛАЙН через Gun.js ==========
+function genCode() { 
+    return Math.random().toString(36).substr(2, 6).toUpperCase(); 
 }
 
-function showConnectionStatus(msg, type) {
-    const el = document.getElementById('connectionStatus');
-    el.textContent = msg;
-    el.className = 'connection-status ' + type;
-    el.style.display = 'block';
-}
-
-function hideConnectionStatus() {
-    document.getElementById('connectionStatus').style.display = 'none';
-}
-
-function createGame() {
+function createOnlineGame() {
     gameCode = genCode();
-    isHost = true;
     myColor = settings.color === 'random' ? (Math.random() < 0.5 ? 'white' : 'black') : settings.color;
     
     document.getElementById('gameCodeDisplay').textContent = gameCode;
@@ -765,231 +933,120 @@ function createGame() {
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('waitingRoom').classList.remove('hidden');
     
-    // Создаём Peer с ID = код игры и TURN серверами
-    const config = Object.assign({}, PEER_CONFIG);
-    peer = new Peer('CHESS' + gameCode, config);
+    // Создаём комнату в Gun
+    gameRef = gun.get('chess_' + gameCode);
     
-    peer.on('open', function(id) {
-        console.log('Хост Peer открыт:', id);
+    // Публикуем информацию о комнате
+    gameRef.get('host').put({
+        id: myId,
+        color: myColor,
+        time: settings.time,
+        created: Date.now()
     });
     
-    peer.on('connection', function(connection) {
-        console.log('Входящее соединение!');
-        conn = connection;
-        setupConnection();
-        
-        // Отправляем гостю информацию об игре
-        conn.on('open', function() {
-            setTimeout(function() {
-                conn.send({
-                    type: 'gameInfo',
-                    hostColor: myColor,
-                    time: settings.time
-                });
-            }, 300);
-        });
-    });
-    
-    peer.on('error', function(err) {
-        console.error('Peer ошибка:', err);
-        if (err.type === 'unavailable-id') {
-            // ID занят, генерируем новый
-            gameCode = genCode();
-            document.getElementById('gameCodeDisplay').textContent = gameCode;
-            document.getElementById('shareLink').value = window.location.href.split('?')[0] + '?g=' + gameCode;
-            createGame();
+    // Слушаем подключение гостя
+    gameRef.get('guest').on(function(data) {
+        if (data && data.id && data.id !== myId) {
+            console.log('Гость подключился:', data);
+            startOnline();
         }
     });
     
-    peer.on('disconnected', function() {
-        console.log('Peer отключен, переподключение...');
-        if (!peer.destroyed) peer.reconnect();
-    });
+    // Слушаем ходы
+    setupMoveListener();
 }
 
-let joinAttempts = 0;
-const MAX_JOIN_ATTEMPTS = 3;
-
-function joinGame() {
+function joinOnlineGame() {
     const code = document.getElementById('joinCode').value.trim().toUpperCase();
-    if (!code) {
-        alert('Введите код игры');
-        return;
+    if (!code) { 
+        showConnectionStatus('Введите код игры', 'error');
+        return; 
     }
     
     gameCode = code;
-    isHost = false;
-    joinAttempts = 0;
-    
-    showConnectionStatus('Подключение...', 'connecting');
+    showConnectionStatus('Подключение...', '');
     document.getElementById('btnJoinGame').disabled = true;
     
-    tryConnect();
-}
-
-function tryConnect() {
-    if (peer) {
-        peer.destroy();
-        peer = null;
-    }
+    // Подключаемся к комнате
+    gameRef = gun.get('chess_' + gameCode);
     
-    // Создаём свой Peer с TURN серверами
-    const config = Object.assign({}, PEER_CONFIG);
-    peer = new Peer(config);
-    
-    peer.on('open', function(id) {
-        console.log('Гость Peer открыт:', id);
-        console.log('Подключаюсь к: CHESS' + gameCode);
-        
-        // Подключаемся к хосту
-        conn = peer.connect('CHESS' + gameCode, {
-            reliable: true,
-            serialization: 'json'
-        });
-        
-        // Таймаут на подключение
-        const timeout = setTimeout(function() {
-            if (!conn || !conn.open) {
-                joinAttempts++;
-                if (joinAttempts < MAX_JOIN_ATTEMPTS) {
-                    showConnectionStatus('Попытка ' + (joinAttempts + 1) + '/' + MAX_JOIN_ATTEMPTS + '...', 'connecting');
-                    tryConnect();
-                } else {
-                    showConnectionStatus('Не удалось подключиться. Проверьте код.', 'error');
-                    document.getElementById('btnJoinGame').disabled = false;
-                    if (peer) peer.destroy();
-                }
-            }
-        }, 8000);
-        
-        conn.on('open', function() {
-            clearTimeout(timeout);
-            console.log('Соединение установлено!');
-            showConnectionStatus('Подключено!', 'connected');
-            setupConnection();
-        });
-        
-        conn.on('error', function(err) {
-            clearTimeout(timeout);
-            console.error('Ошибка соединения:', err);
-            joinAttempts++;
-            if (joinAttempts < MAX_JOIN_ATTEMPTS) {
-                showConnectionStatus('Ошибка. Попытка ' + (joinAttempts + 1) + '...', 'connecting');
-                setTimeout(tryConnect, 1000);
-            } else {
-                showConnectionStatus('Ошибка подключения', 'error');
-                document.getElementById('btnJoinGame').disabled = false;
-            }
-        });
-    });
-    
-    peer.on('error', function(err) {
-        console.error('Peer ошибка:', err);
-        if (err.type === 'peer-unavailable') {
-            joinAttempts++;
-            if (joinAttempts < MAX_JOIN_ATTEMPTS) {
-                showConnectionStatus('Игра не найдена. Попытка ' + (joinAttempts + 1) + '...', 'connecting');
-                setTimeout(tryConnect, 2000);
-            } else {
-                showConnectionStatus('Игра не найдена. Убедитесь что хост онлайн.', 'error');
-                document.getElementById('btnJoinGame').disabled = false;
-            }
-        } else if (err.type === 'network' || err.type === 'server-error') {
-            showConnectionStatus('Ошибка сети. Попробуйте ещё раз.', 'error');
+    // Проверяем существование комнаты
+    gameRef.get('host').once(function(data) {
+        if (!data || !data.id) {
+            showConnectionStatus('Игра не найдена', 'error');
             document.getElementById('btnJoinGame').disabled = false;
-        } else {
-            showConnectionStatus('Ошибка: ' + err.type, 'error');
-            document.getElementById('btnJoinGame').disabled = false;
+            return;
         }
-    });
-    
-    peer.on('disconnected', function() {
-        console.log('Peer отключен');
-        if (!peer.destroyed && !over) {
-            peer.reconnect();
-        }
+        
+        // Комната существует
+        console.log('Нашли хоста:', data);
+        myColor = data.color === 'white' ? 'black' : 'white';
+        settings.time = data.time || '10|0';
+        
+        // Регистрируемся как гость
+        gameRef.get('guest').put({
+            id: myId,
+            color: myColor,
+            joined: Date.now()
+        });
+        
+        // Слушаем ходы
+        setupMoveListener();
+        
+        // Запускаем игру
+        startOnline();
     });
 }
 
-function setupConnection() {
-    conn.on('data', function(data) {
-        console.log('Получены данные:', data);
-        handlePeerMessage(data);
-    });
-    
-    conn.on('close', function() {
-        console.log('Соединение закрыто');
-        if (isOnline && !over) {
-            document.getElementById('status').textContent = 'Соперник отключился';
-            over = true;
-            stopTimer();
-        }
+function setupMoveListener() {
+    gameRef.get('moves').map().on(function(data, key) {
+        if (!data || !isOnline || data.sender === myId) return;
+        if (lastMsgId === key) return;
+        lastMsgId = key;
+        
+        console.log('Получен ход:', data);
+        handleOnlineMessage(data);
     });
 }
 
-function handlePeerMessage(data) {
-    switch(data.type) {
-        case 'gameInfo':
-            // Гость получил информацию от хоста
-            myColor = data.hostColor === 'white' ? 'black' : 'white';
-            settings.time = data.time;
-            startOnlineGame();
-            // Подтверждаем хосту
-            conn.send({ type: 'ready' });
-            break;
-            
-        case 'ready':
-            // Хост получил подтверждение от гостя
-            startOnlineGame();
-            break;
-            
-        case 'move':
-            // Получили ход соперника
-            doMove(data.mv, data.promo || 'q');
-            playMoveSound(data.mv);
-            addIncrement(turn === 'b');
-            aiGo = false;
-            updUI(); draw(); checkEnd();
-            if (premove && !over) setTimeout(executePremove, 100);
-            break;
-            
-        case 'resign':
-            over = true; stopTimer();
-            showEnd('win', 'Соперник сдался');
-            break;
-            
-        case 'draw-offer':
-            document.getElementById('drawOffer').classList.add('show');
-            playSound('sndMove');
-            break;
-            
-        case 'draw-accept':
-            over = true; stopTimer();
-            showEnd('draw', 'Ничья по соглашению');
-            document.getElementById('drawOffer').classList.remove('show');
-            break;
-            
-        case 'draw-decline':
-            document.getElementById('status').textContent = 'Ничья отклонена';
-            document.getElementById('drawOffer').classList.remove('show');
-            setTimeout(function() { if (!over) updUI(); }, 2000);
-            break;
-            
-        case 'rematch':
-            initGame();
-            updUI(); draw();
-            startTimer();
-            break;
+function sendOnlineMessage(data) {
+    if (!gameRef) return;
+    const msgId = Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    data.sender = myId;
+    data.timestamp = Date.now();
+    gameRef.get('moves').get(msgId).put(data);
+}
+
+function handleOnlineMessage(d) {
+    if (d.type === 'move' && d.mv) {
+        doMove(d.mv, d.mv.promo || 'q');
+        playMoveSound(d.mv);
+        addIncrement(turn === 'b');
+        aiGo = false;
+        updUI(); draw(); checkEnd();
+        if (premove && !over) setTimeout(executePremove, 100);
+    }
+    if (d.type === 'resign') {
+        over = true; stopTimer();
+        showEnd('win', 'Соперник сдался');
+    }
+    if (d.type === 'draw-offer') {
+        document.getElementById('drawOffer').classList.add('show');
+        playSound('sndMove');
+    }
+    if (d.type === 'draw-accept') {
+        over = true; stopTimer();
+        showEnd('draw', 'Ничья по соглашению');
+        document.getElementById('drawOffer').classList.remove('show');
+    }
+    if (d.type === 'draw-decline') {
+        document.getElementById('status').textContent = 'Ничья отклонена';
+        document.getElementById('drawOffer').classList.remove('show');
+        setTimeout(function() { if (!over) updUI(); }, 2000);
     }
 }
 
-function sendToOpponent(data) {
-    if (conn && conn.open) {
-        conn.send(data);
-    }
-}
-
-function startOnlineGame() {
+function startOnline() {
     isOnline = true;
     playerColor = myColor === 'white';
     flipped = !playerColor;
@@ -1014,9 +1071,18 @@ function startOnlineGame() {
 function cancelWaiting() {
     document.getElementById('waitingRoom').classList.add('hidden');
     document.getElementById('mainMenu').classList.remove('hidden');
-    if (peer) { peer.destroy(); peer = null; }
-    if (conn) { conn.close(); conn = null; }
+    gameRef = null;
     gameCode = null;
+}
+
+function showConnectionStatus(msg, type) {
+    const el = document.getElementById('connectionStatus');
+    el.textContent = msg;
+    el.className = 'connection-status show' + (type ? ' ' + type : '');
+}
+
+function hideConnectionStatus() {
+    document.getElementById('connectionStatus').classList.remove('show');
 }
 
 function copyLink() {
@@ -1034,7 +1100,7 @@ function checkUrlForGame() {
     const g = params.get('g');
     if (g) {
         document.getElementById('joinCode').value = g;
-        setTimeout(joinGame, 500);
+        setTimeout(joinOnlineGame, 500);
     }
 }
 
@@ -1055,6 +1121,7 @@ function initGame() {
     castle = { K: 1, Q: 1, k: 1, q: 1 };
     clearPremove();
     lowTimeWarned = {w: false, b: false};
+    gameHistory = [{ brd: copyBoard(brd), turn: 'w', notation: [] }];
     
     const ts = getTimeSettings();
     whiteTime = ts.time; blackTime = ts.time; increment = ts.inc;
@@ -1063,6 +1130,10 @@ function initGame() {
     document.getElementById('endModal').classList.remove('show');
     document.getElementById('promoModal').classList.remove('show');
     updateTimerDisplay();
+}
+
+function copyBoard(b) {
+    return b.map(row => row.slice());
 }
 
 function startVsAI() {
@@ -1091,6 +1162,7 @@ function startVsAI() {
 function showGame() {
     document.getElementById('menuScreen').classList.add('hidden');
     document.getElementById('gameScreen').classList.add('active');
+    document.getElementById('analysisScreen').classList.add('hidden');
     updUI(); draw();
 }
 
@@ -1101,10 +1173,13 @@ function backToMenu() {
     document.getElementById('endModal').classList.remove('show');
     document.getElementById('mainMenu').classList.remove('hidden');
     document.getElementById('waitingRoom').classList.add('hidden');
-    if (peer) { peer.destroy(); peer = null; }
-    if (conn) { conn.close(); conn = null; }
-    isOnline = false;
+    document.getElementById('analysisScreen').classList.add('hidden');
+    gameRef = null; isOnline = false;
     clearPremove();
+    if (stockfish) {
+        stockfish.terminate();
+        stockfish = null;
+    }
 }
 
 function rematch() {
@@ -1113,7 +1188,6 @@ function rematch() {
         initGame();
         updUI(); draw();
         startTimer();
-        sendToOpponent({ type: 'rematch' });
     } else {
         startVsAI();
     }
@@ -1152,11 +1226,7 @@ function executePremove() {
     const validMove = legalMoves.find(function(m) { return m.tr === pm.to.r && m.tc === pm.to.c; });
     
     if (validMove) {
-        if (validMove.pro) {
-            execMove(validMove, 'q'); // Автопревращение в ферзя для премува
-        } else {
-            execMove(validMove);
-        }
+        execMove(validMove, validMove.pro ? 'q' : undefined);
     } else {
         playSound('sndIllegal');
         draw();
@@ -1168,7 +1238,7 @@ function resign() {
     if (over) return;
     showConfirm('Сдаться?', 'Вы уверены?', function() {
         over = true; stopTimer();
-        if (isOnline) sendToOpponent({ type: 'resign' });
+        if (isOnline) sendOnlineMessage({ type: 'resign' });
         showEnd('lose', 'Вы сдались');
     });
 }
@@ -1176,7 +1246,7 @@ function resign() {
 function offerDraw() {
     if (over) return;
     if (isOnline) {
-        sendToOpponent({ type: 'draw-offer' });
+        sendOnlineMessage({ type: 'draw-offer' });
         document.getElementById('status').textContent = 'Ничья предложена...';
     } else {
         const ev = evaluate();
@@ -1194,13 +1264,13 @@ function offerDraw() {
 function acceptDraw() {
     document.getElementById('drawOffer').classList.remove('show');
     over = true; stopTimer();
-    if (isOnline) sendToOpponent({ type: 'draw-accept' });
+    if (isOnline) sendOnlineMessage({ type: 'draw-accept' });
     showEnd('draw', 'Ничья по соглашению');
 }
 
 function declineDraw() {
     document.getElementById('drawOffer').classList.remove('show');
-    if (isOnline) sendToOpponent({ type: 'draw-decline' });
+    if (isOnline) sendOnlineMessage({ type: 'draw-decline' });
     document.getElementById('status').textContent = 'Ничья отклонена';
     setTimeout(function() { if (!over) updUI(); }, 2000);
 }
@@ -1367,6 +1437,14 @@ function doMove(mv, promo) {
     }
     notation.push(n);
     
+    // Сохраняем для анализа
+    gameHistory.push({
+        brd: copyBoard(brd),
+        turn: turn === 'w' ? 'b' : 'w',
+        notation: notation.slice(),
+        lastMove: mv
+    });
+    
     lastMv = mv; turn = turn === 'w' ? 'b' : 'w';
     return { captured: !!captured, cst: mv.cst, pro: mv.pro };
 }
@@ -1375,7 +1453,7 @@ function undoMove() {
     if (isOnline || hist.length < 2 || over || aiGo) return;
     clearPremove();
     for (let i = 0; i < 2 && hist.length; i++) {
-        const h = hist.pop(); notation.pop();
+        const h = hist.pop(); notation.pop(); gameHistory.pop();
         brd[h.mv.fr][h.mv.fc] = h.pc; brd[h.mv.tr][h.mv.tc] = h.cap;
         if (h.epCap) brd[isW(h.pc) ? h.mv.tr+1 : h.mv.tr-1][h.mv.tc] = h.epCap;
         if (h.mv.cst) {
@@ -1408,7 +1486,6 @@ function draw() {
         if (lastMv && ((lastMv.fr === r && lastMv.fc === c) || (lastMv.tr === r && lastMv.tc === c))) sq.classList.add('lm');
         if (check && kPos && kPos.r === r && kPos.c === c) sq.classList.add('ch');
         
-        // Подсветка премува красным
         if (premove) {
             if (premove.from.r === r && premove.from.c === c) sq.classList.add('premove-from');
             if (premove.to.r === r && premove.to.c === c) sq.classList.add('premove-to');
@@ -1438,16 +1515,14 @@ function onClick(r, c) {
     const isMyTurn = (turn === 'w') === playerColor;
     const pc = brd[r][c];
     
-    // Если есть премув и кликнули - отменяем
     if (premove) {
         clearPremove();
+        draw();
         return;
     }
     
-    // Не мой ход - можно ставить премув
     if (!isMyTurn && !over) {
         if (sel) {
-            // Уже выбрана фигура - ставим премув
             if (sel.r === r && sel.c === c) {
                 sel = null; moves = []; draw();
                 return;
@@ -1456,10 +1531,9 @@ function onClick(r, c) {
             return;
         }
         
-        // Выбираем свою фигуру для премува
         if (pc && isW(pc) === playerColor) {
             sel = { r: r, c: c };
-            moves = []; // Не показываем ходы для премува
+            moves = getMoves(r, c, false);
             draw();
         }
         return;
@@ -1467,7 +1541,6 @@ function onClick(r, c) {
     
     if (over) return;
     
-    // Мой ход
     if (sel) {
         let mv = null;
         for (let i = 0; i < moves.length; i++) {
@@ -1496,13 +1569,7 @@ function execMove(mv, promo) {
     playMoveSound(mv, res);
     addIncrement(wasWhite);
     
-    if (isOnline) {
-        sendToOpponent({ 
-            type: 'move', 
-            mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl },
-            promo: promo 
-        });
-    }
+    if (isOnline) sendOnlineMessage({ type: 'move', mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl, promo:promo } });
     
     updUI(); draw();
     if (checkEnd()) return;
@@ -1590,6 +1657,289 @@ function updMoves() {
         h += '<span><span class="mp">' + (i/2+1) + '.</span>' + notation[i] + (notation[i+1] ? ' '+notation[i+1] : '') + ' </span>';
     }
     document.getElementById('movesList').innerHTML = h;
+}
+
+// ========== АНАЛИЗ ==========
+function startAnalysis() {
+    document.getElementById('endModal').classList.remove('show');
+    document.getElementById('gameScreen').classList.remove('active');
+    document.getElementById('menuScreen').classList.remove('hidden');
+    document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('analysisScreen').classList.remove('hidden');
+    
+    document.getElementById('analysisLoading').style.display = 'block';
+    document.getElementById('analysisContent').style.display = 'none';
+    
+    analysisData = [];
+    analysisIndex = 0;
+    isAnalyzing = true;
+    
+    // Инициализируем Stockfish
+    if (stockfish) stockfish.terminate();
+    stockfish = new Worker('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');
+    
+    let currentMoveIndex = 0;
+    let pendingEval = null;
+    
+    stockfish.onmessage = function(e) {
+        const line = e.data;
+        
+        if (line.includes('info depth 15') && line.includes(' cp ')) {
+            const cpMatch = line.match(/cp (-?\d+)/);
+            const bestMatch = line.match(/pv ([a-h][1-8][a-h][1-8])/);
+            if (cpMatch) {
+                pendingEval = {
+                    cp: parseInt(cpMatch[1]),
+                    bestMove: bestMatch ? bestMatch[1] : null
+                };
+            }
+        }
+        
+        if (line.includes('info depth 15') && line.includes(' mate ')) {
+            const mateMatch = line.match(/mate (-?\d+)/);
+            const bestMatch = line.match(/pv ([a-h][1-8][a-h][1-8])/);
+            if (mateMatch) {
+                const mateIn = parseInt(mateMatch[1]);
+                pendingEval = {
+                    cp: mateIn > 0 ? 10000 : -10000,
+                    mate: mateIn,
+                    bestMove: bestMatch ? bestMatch[1] : null
+                };
+            }
+        }
+        
+        if (line === 'readyok' && pendingEval) {
+            analysisData[currentMoveIndex] = pendingEval;
+            currentMoveIndex++;
+            pendingEval = null;
+            
+            document.getElementById('analysisProgress').textContent = 
+                'Ход ' + currentMoveIndex + ' из ' + gameHistory.length;
+            
+            if (currentMoveIndex < gameHistory.length) {
+                analyzePosition(currentMoveIndex);
+            } else {
+                finishAnalysis();
+            }
+        }
+    };
+    
+    stockfish.postMessage('uci');
+    stockfish.postMessage('setoption name Skill Level value 20');
+    stockfish.postMessage('isready');
+    
+    setTimeout(function() {
+        analyzePosition(0);
+    }, 100);
+    
+    function analyzePosition(idx) {
+        const pos = gameHistory[idx];
+        const fen = boardToFen(pos.brd, pos.turn);
+        stockfish.postMessage('position fen ' + fen);
+        stockfish.postMessage('go depth 15');
+        setTimeout(function() {
+            stockfish.postMessage('isready');
+        }, 300);
+    }
+}
+
+function boardToFen(board, turn) {
+    let fen = '';
+    for (let r = 0; r < 8; r++) {
+        let empty = 0;
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p) {
+                if (empty > 0) { fen += empty; empty = 0; }
+                fen += p;
+            } else {
+                empty++;
+            }
+        }
+        if (empty > 0) fen += empty;
+        if (r < 7) fen += '/';
+    }
+    fen += ' ' + (turn || 'w') + ' KQkq - 0 1';
+    return fen;
+}
+
+function finishAnalysis() {
+    isAnalyzing = false;
+    document.getElementById('analysisLoading').style.display = 'none';
+    document.getElementById('analysisContent').style.display = 'block';
+    
+    // Классифицируем ходы
+    classifyMoves();
+    
+    // Показываем первую позицию
+    goToAnalysisMove(0);
+}
+
+function classifyMoves() {
+    let whiteErrors = 0, whiteMoves = 0;
+    let blackErrors = 0, blackMoves = 0;
+    let classifications = { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 };
+    
+    for (let i = 1; i < gameHistory.length; i++) {
+        const prev = analysisData[i - 1];
+        const curr = analysisData[i];
+        if (!prev || !curr) continue;
+        
+        const isWhiteMove = gameHistory[i - 1].turn === 'w';
+        const diff = isWhiteMove ? (prev.cp - curr.cp) : (curr.cp - prev.cp);
+        
+        let classification = 'good';
+        
+        if (diff >= 300 || (prev.mate && !curr.mate && curr.cp < 500)) {
+            classification = 'blunder'; // ??
+        } else if (diff >= 150) {
+            classification = 'mistake'; // ?
+        } else if (diff >= 50) {
+            classification = 'inaccuracy'; // ?!
+        } else if (diff <= -150) {
+            classification = 'brilliant'; // !!
+        } else if (diff <= -80) {
+            classification = 'great'; // !
+        } else if (diff <= -30) {
+            classification = 'best';
+        }
+        
+        gameHistory[i].classification = classification;
+        classifications[classification]++;
+        
+        if (isWhiteMove) {
+            whiteMoves++;
+            if (diff > 0) whiteErrors += diff;
+        } else {
+            blackMoves++;
+            if (diff > 0) blackErrors += diff;
+        }
+    }
+    
+    // Точность (как на chess.com)
+    const whiteAccuracy = Math.max(0, Math.min(100, 100 - (whiteErrors / Math.max(1, whiteMoves) / 5)));
+    const blackAccuracy = Math.max(0, Math.min(100, 100 - (blackErrors / Math.max(1, blackMoves) / 5)));
+    
+    document.getElementById('whiteAccuracy').textContent = whiteAccuracy.toFixed(1) + '%';
+    document.getElementById('blackAccuracy').textContent = blackAccuracy.toFixed(1) + '%';
+    
+    // Классификация ходов
+    let classHtml = '';
+    if (classifications.brilliant > 0) classHtml += '<div class="class-item"><div class="class-dot brilliant"></div>!! ' + classifications.brilliant + '</div>';
+    if (classifications.great > 0) classHtml += '<div class="class-item"><div class="class-dot great"></div>! ' + classifications.great + '</div>';
+    if (classifications.best > 0) classHtml += '<div class="class-item"><div class="class-dot best"></div>Лучшие ' + classifications.best + '</div>';
+    if (classifications.inaccuracy > 0) classHtml += '<div class="class-item"><div class="class-dot inaccuracy"></div>?! ' + classifications.inaccuracy + '</div>';
+    if (classifications.mistake > 0) classHtml += '<div class="class-item"><div class="class-dot mistake"></div>? ' + classifications.mistake + '</div>';
+    if (classifications.blunder > 0) classHtml += '<div class="class-item"><div class="class-dot blunder"></div>?? ' + classifications.blunder + '</div>';
+    
+    document.getElementById('moveClassification').innerHTML = classHtml;
+    
+    // Список ходов с оценками
+    let movesHtml = '';
+    const notations = gameHistory.length > 1 ? gameHistory[gameHistory.length - 1].notation : [];
+    for (let i = 0; i < notations.length; i += 2) {
+        const cls1 = gameHistory[i + 1] ? gameHistory[i + 1].classification || '' : '';
+        const cls2 = gameHistory[i + 2] ? gameHistory[i + 2].classification || '' : '';
+        const sym1 = getClassSymbol(cls1);
+        const sym2 = getClassSymbol(cls2);
+        
+        movesHtml += '<span class="move-item ' + cls1 + '" onclick="goToAnalysisMove(' + (i + 1) + ')">';
+        movesHtml += '<span class="mp">' + (Math.floor(i/2) + 1) + '.</span>';
+        movesHtml += notations[i] + sym1;
+        if (notations[i + 1]) {
+            movesHtml += '</span> <span class="move-item ' + cls2 + '" onclick="goToAnalysisMove(' + (i + 2) + ')">';
+            movesHtml += notations[i + 1] + sym2;
+        }
+        movesHtml += '</span> ';
+    }
+    document.getElementById('analysisMoveslist').innerHTML = movesHtml;
+}
+
+function getClassSymbol(cls) {
+    const symbols = {
+        brilliant: '!!',
+        great: '!',
+        best: '',
+        good: '',
+        inaccuracy: '?!',
+        mistake: '?',
+        blunder: '??'
+    };
+    return symbols[cls] || '';
+}
+
+function goToAnalysisMove(idx) {
+    if (idx < 0 || idx >= gameHistory.length) return;
+    analysisIndex = idx;
+    
+    const pos = gameHistory[idx];
+    drawAnalysisBoard(pos.brd, pos.lastMove, pos.classification);
+    
+    // Оценка
+    const evalData = analysisData[idx];
+    if (evalData) {
+        let evalText = '';
+        if (evalData.mate) {
+            evalText = 'M' + Math.abs(evalData.mate);
+            if (evalData.mate < 0) evalText = '-' + evalText;
+        } else {
+            const cp = evalData.cp / 100;
+            evalText = (cp >= 0 ? '+' : '') + cp.toFixed(1);
+        }
+        document.getElementById('analysisEval').textContent = evalText;
+        
+        // Бар оценки
+        const barPercent = Math.max(5, Math.min(95, 50 + evalData.cp / 20));
+        document.getElementById('analysisBar').style.width = barPercent + '%';
+        
+        // Лучший ход
+        if (evalData.bestMove) {
+            document.getElementById('analysisBest').textContent = 'Лучший ход: ' + evalData.bestMove;
+        }
+    }
+    
+    // Подсветка текущего хода
+    document.querySelectorAll('#analysisMoveslist .move-item').forEach((el, i) => {
+        el.classList.toggle('current', i === idx - 1);
+    });
+}
+
+function drawAnalysisBoard(board, lastMove, classification) {
+    const container = document.getElementById('analysisBoardContainer');
+    container.innerHTML = '<div id="analysisBoard"></div>';
+    const boardEl = document.getElementById('analysisBoard');
+    boardEl.style.cssText = 'display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border-radius:4px;overflow:hidden;max-width:300px;margin:0 auto;';
+    
+    for (let i = 0; i < 64; i++) {
+        let r = Math.floor(i / 8), c = i % 8;
+        
+        const sq = document.createElement('div');
+        sq.className = 'sq ' + ((r + c) % 2 ? 'b' : 'w');
+        sq.style.cssText = 'aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;';
+        
+        if (lastMove) {
+            if ((lastMove.fr === r && lastMove.fc === c) || (lastMove.tr === r && lastMove.tc === c)) {
+                sq.style.background = '#f5f682';
+            }
+        }
+        
+        if (board[r][c]) {
+            const img = document.createElement('img');
+            img.src = IMG[board[r][c]];
+            img.style.cssText = 'width:88%;height:88%;pointer-events:none;';
+            sq.appendChild(img);
+        }
+        
+        // Показываем оценку хода на целевой клетке
+        if (lastMove && lastMove.tr === r && lastMove.tc === c && classification) {
+            const evalBadge = document.createElement('div');
+            evalBadge.className = 'move-eval ' + classification;
+            evalBadge.textContent = getClassSymbol(classification) || '✓';
+            sq.appendChild(evalBadge);
+        }
+        
+        boardEl.appendChild(sq);
+    }
 }
 
 // ========== ИИ ==========
@@ -1698,7 +2048,8 @@ function save() {
         capW: capW.slice(),
         capB: capB.slice(),
         notation: notation.slice(),
-        histLen: hist.length
+        histLen: hist.length,
+        gameHistLen: gameHistory.length
     };
 }
 
@@ -1711,6 +2062,7 @@ function restore(s) {
     capB = s.capB.slice();
     notation = s.notation.slice();
     while (hist.length > s.histLen) hist.pop();
+    while (gameHistory.length > s.gameHistLen) gameHistory.pop();
 }
 </script>
 </body>
