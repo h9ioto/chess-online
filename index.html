@@ -75,7 +75,6 @@
         }
         
         .custom-time.hidden { display: none; }
-        
         .custom-time label { color: #bababa; font-size: 12px; }
         
         .custom-time input {
@@ -113,7 +112,6 @@
         .btn.gray { background: #3d3a37; color: #bababa; }
         .btn.red { background: #c0392b; color: #fff; }
         .btn.yellow { background: #f39c12; color: #fff; }
-        .btn.purple { background: #9b59b6; color: #fff; }
         .btn.small { padding: 10px 12px; font-size: 12px; }
         
         .online-section { background: #1f1d1b; border-radius: 8px; padding: 15px; margin-top: 15px; }
@@ -130,12 +128,27 @@
             font-size: 14px;
         }
         
-        .join-status {
-            color: #f39c12;
+        .nick-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .nick-input input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #3d3a37;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .nick-saved {
+            color: #81b64c;
             font-size: 12px;
-            margin-top: 8px;
             text-align: center;
-            min-height: 18px;
+            margin-top: 5px;
         }
         
         .waiting { text-align: center; padding: 30px; color: #bababa; }
@@ -336,125 +349,140 @@
         .draw-offer.show { display: block; }
         .draw-offer-btns { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         
-        /* Анализ */
-        .analysis-container { text-align: left; }
-        .analysis-progress { 
-            background: #3d3a37; 
-            border-radius: 8px; 
-            padding: 15px; 
-            margin-bottom: 15px;
-        }
-        .progress-bar {
-            height: 8px;
-            background: #262421;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #81b64c;
-            transition: width 0.3s;
+        .conn-status {
+            font-size: 11px;
+            color: #f39c12;
+            text-align: center;
+            margin-top: 5px;
         }
         
-        .eval-bar {
-            height: 20px;
-            background: #333;
+        /* Analysis styles */
+        .analysis-container {
+            margin-top: 15px;
+        }
+        
+        .analysis-bar {
+            height: 24px;
+            background: linear-gradient(to right, #fff var(--white-percent, 50%), #333 var(--white-percent, 50%));
             border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
             position: relative;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
-        .eval-fill {
-            height: 100%;
-            background: #fff;
-            transition: width 0.3s;
-        }
-        .eval-text {
+        
+        .analysis-bar-label {
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateY(-50%);
             font-size: 11px;
             font-weight: bold;
-            color: #000;
-            text-shadow: 0 0 2px #fff;
         }
+        
+        .analysis-bar-label.white { left: 8px; color: #333; }
+        .analysis-bar-label.black { right: 8px; color: #fff; }
         
         .accuracy-box {
             display: flex;
-            gap: 15px;
-            margin: 15px 0;
+            justify-content: space-around;
+            margin-bottom: 15px;
         }
+        
         .accuracy-item {
-            flex: 1;
-            background: #262421;
-            padding: 12px;
-            border-radius: 8px;
             text-align: center;
         }
-        .accuracy-label { color: #888; font-size: 12px; }
-        .accuracy-value { color: #fff; font-size: 24px; font-weight: bold; margin-top: 5px; }
-        .accuracy-item.white .accuracy-value { color: #f0f0f0; }
-        .accuracy-item.black .accuracy-value { color: #81b64c; }
         
-        .move-class-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 15px 0;
+        .accuracy-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #81b64c;
         }
+        
+        .accuracy-label {
+            font-size: 12px;
+            color: #bababa;
+        }
+        
+        .classification-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
         .class-stat {
             background: #262421;
-            padding: 8px;
-            border-radius: 6px;
-            text-align: center;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
         }
-        .class-icon { font-size: 16px; }
-        .class-count { color: #fff; font-weight: bold; }
-        .class-label { color: #888; font-size: 10px; }
         
-        .analysis-moves {
+        .class-brilliant { color: #1baca6; }
+        .class-great { color: #5c8bb0; }
+        .class-best { color: #81b64c; }
+        .class-good { color: #81b64c; }
+        .class-inaccuracy { color: #f7c631; }
+        .class-mistake { color: #e58f2a; }
+        .class-blunder { color: #ca3431; }
+        
+        .moves-analysis {
             max-height: 200px;
             overflow-y: auto;
-            margin-top: 15px;
+            text-align: left;
         }
-        .analysis-move {
+        
+        .move-analysis-item {
             display: flex;
             align-items: center;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px 8px;
+            border-radius: 4px;
             margin-bottom: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
+            background: #262421;
+            font-size: 13px;
         }
-        .analysis-move:hover { background: #3d3a37; }
-        .analysis-move.active { background: #4a90d9; }
-        .move-num { color: #888; width: 30px; font-size: 12px; }
-        .move-san { color: #fff; flex: 1; font-family: monospace; }
-        .move-class { 
-            width: 28px; 
-            height: 28px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 8px;
-        }
-        .move-class.brilliant { background: #1baca6; color: #fff; }
-        .move-class.great { background: #5c8bb0; color: #fff; }
-        .move-class.best { background: #81b64c; color: #fff; }
-        .move-class.good { background: #81b64c; color: #fff; }
-        .move-class.book { background: #a88763; color: #fff; }
-        .move-class.inaccuracy { background: #f7c631; color: #000; }
-        .move-class.mistake { background: #e68a00; color: #fff; }
-        .move-class.blunder { background: #ca3431; color: #fff; }
-        .move-class.forced { background: #888; color: #fff; }
         
-        .move-eval { color: #888; font-size: 11px; margin-left: 8px; min-width: 45px; text-align: right; }
-        .best-move-hint { color: #81b64c; font-size: 11px; margin-top: 4px; }
+        .move-number {
+            color: #7c7a78;
+            width: 30px;
+        }
+        
+        .move-notation {
+            flex: 1;
+            color: #fff;
+        }
+        
+        .move-eval {
+            color: #bababa;
+            margin-right: 8px;
+            font-size: 11px;
+        }
+        
+        .move-class {
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .analysis-progress {
+            text-align: center;
+            padding: 20px;
+            color: #bababa;
+        }
+        
+        .analysis-progress-bar {
+            height: 6px;
+            background: #3d3a37;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .analysis-progress-fill {
+            height: 100%;
+            background: #81b64c;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -467,7 +495,14 @@
     
     <div class="menu-screen" id="menuScreen">
         <div class="menu" id="mainMenu">
-            <div class="menu-title">⚙️ Настройки</div>
+            <div class="menu-title">👤 Ваш профиль</div>
+            <div class="nick-input">
+                <input type="text" id="nickInput" placeholder="Введите никнейм..." maxlength="15">
+                <button class="btn green small" id="btnSaveNick">💾</button>
+            </div>
+            <div class="nick-saved" id="nickSaved"></div>
+            
+            <div class="menu-title" style="margin-top:20px;">⚙️ Настройки</div>
             
             <div class="setting">
                 <div class="setting-label">
@@ -521,10 +556,10 @@
                     <button class="btn blue" id="btnCreateGame">➕ Создать игру</button>
                 </div>
                 <div class="game-link" style="margin-top:12px;">
-                    <input type="text" id="joinCode" placeholder="Введите код игры...">
+                    <input type="text" id="joinCode" placeholder="Код игры (5 символов)..." maxlength="5">
                     <button class="btn orange" id="btnJoinGame">→</button>
                 </div>
-                <div class="join-status" id="joinStatus"></div>
+                <div class="conn-status" id="connStatus"></div>
             </div>
         </div>
         
@@ -532,10 +567,11 @@
             <div class="waiting">
                 <div class="waiting-spinner">♟</div>
                 <p style="margin-top:15px;font-size:16px;">Ожидание соперника...</p>
-                <p style="margin-top:10px;color:#81b64c;font-size:22px;font-weight:bold;letter-spacing:3px;" id="gameCodeDisplay"></p>
+                <p style="margin-top:10px;color:#81b64c;font-size:24px;font-weight:bold;letter-spacing:3px;" id="gameCodeDisplay"></p>
+                <p style="margin-top:5px;color:#7c7a78;font-size:12px;">Отправьте этот код другу</p>
             </div>
             <div class="game-link" style="margin-top:20px;">
-                <input type="text" id="shareLink" readonly style="font-size:12px;">
+                <input type="text" id="shareLink" readonly style="font-size:11px;">
                 <button class="btn gray" id="btnCopyLink">📋</button>
             </div>
             <button class="btn gray" style="margin-top:12px;width:100%;" id="btnCancelWait">✕ Отмена</button>
@@ -545,7 +581,7 @@
     <div class="game-screen" id="gameScreen">
         <div id="onlineBadge" class="online-badge">
             <span class="dot"></span>
-            <span>Онлайн</span>
+            <span id="opponentNickBadge">Онлайн</span>
         </div>
         
         <div class="player-box" id="topPlayer">
@@ -585,7 +621,7 @@
             <button class="btn gray small" id="btnUndo">↩️</button>
             <button class="btn yellow small" id="btnDraw">🤝</button>
             <button class="btn red small" id="btnResign">🏳️</button>
-            <button class="btn purple small" id="btnAnalyze" style="display:none;">📊</button>
+            <button class="btn blue small" id="btnAnalyze">📊</button>
         </div>
         
         <div class="history">
@@ -608,7 +644,7 @@
         <div class="modal-title" id="endTitle">Победа!</div>
         <div class="modal-msg" id="endMsg"></div>
         <div class="modal-btns">
-            <button class="btn purple" id="btnAnalyzeEnd">📊 Анализ</button>
+            <button class="btn blue" id="btnAnalyzeEnd">📊 Анализ</button>
             <button class="btn green" id="btnRematch">🔄 Реванш</button>
             <button class="btn gray" id="btnEndMenu">🏠 Меню</button>
         </div>
@@ -627,17 +663,16 @@
 </div>
 
 <div class="modal" id="analysisModal">
-    <div class="modal-box" style="max-width: 450px;">
+    <div class="modal-box" style="max-width:450px;">
         <div class="modal-title">📊 Анализ партии</div>
-        <div class="analysis-container" id="analysisContainer">
-            <div class="analysis-progress" id="analysisProgress">
-                <div style="color:#bababa;">Анализируем ходы...</div>
-                <div style="color:#fff;font-size:18px;margin-top:5px;" id="analysisProgressText">0 / 0</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="analysisProgressBar" style="width:0%"></div>
+        <div id="analysisContent">
+            <div class="analysis-progress">
+                <div>Анализ...</div>
+                <div id="analysisProgressText">0 / 0</div>
+                <div class="analysis-progress-bar">
+                    <div class="analysis-progress-fill" id="analysisProgressBar" style="width:0%"></div>
                 </div>
             </div>
-            <div id="analysisResults" style="display:none;"></div>
         </div>
         <div class="modal-btns" style="margin-top:15px;">
             <button class="btn gray" id="btnCloseAnalysis">Закрыть</button>
@@ -657,7 +692,7 @@
 <audio id="sndIllegal" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/illegal.mp3"></audio>
 <audio id="sndLowTime" preload="auto" src="https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/tenseconds.mp3"></audio>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
 <script>
 // ========== КОНСТАНТЫ ==========
@@ -684,18 +719,32 @@ let brd, turn, sel, moves, lastMv, over, aiGo, hist, notation, capW, capB, ep, c
 let playerColor = true, flipped = false, premove = null;
 let whiteTime = 600, blackTime = 600, increment = 0, timerInterval = null;
 let lowTimeWarned = {w:false, b:false};
-let isOnline = false, gameCode = null, ws = null, myColor = 'white', opponentConnected = false;
-let isHost = false;
-let gameHistory = []; // Для анализа - хранит FEN после каждого хода
+let isOnline = false, gameCode = null, myColor = 'white', opponentNick = 'Соперник';
+let myNick = localStorage.getItem('chessNick') || '';
+let peer = null, conn = null, isHost = false;
+let gameHistory = []; // Для анализа - сохраняем FEN каждой позиции
 let stockfish = null;
-let analysisResults = [];
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM загружен');
+    
+    // Загрузка никнейма
+    if (myNick) {
+        document.getElementById('nickInput').value = myNick;
+        document.getElementById('nickSaved').textContent = '✓ Привет, ' + myNick + '!';
+    }
+    
     // Слайдер ELO
     document.getElementById('eloSlider').addEventListener('input', function() {
         settings.elo = parseInt(this.value);
         document.getElementById('eloValue').textContent = settings.elo + ' ELO';
+    });
+    
+    // Сохранение никнейма
+    document.getElementById('btnSaveNick').addEventListener('click', saveNick);
+    document.getElementById('nickInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') saveNick();
     });
     
     // Выбор времени
@@ -724,22 +773,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Кнопки меню
     document.getElementById('btnPlayAI').addEventListener('click', startVsAI);
-    document.getElementById('btnCreateGame').addEventListener('click', createOnlineGame);
-    document.getElementById('btnJoinGame').addEventListener('click', joinOnlineGame);
-    document.getElementById('joinCode').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') joinOnlineGame();
-    });
+    document.getElementById('btnCreateGame').addEventListener('click', createGame);
+    document.getElementById('btnJoinGame').addEventListener('click', joinGame);
     document.getElementById('btnCopyLink').addEventListener('click', copyLink);
     document.getElementById('btnCancelWait').addEventListener('click', cancelWaiting);
+    
+    document.getElementById('joinCode').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') joinGame();
+    });
+    document.getElementById('joinCode').addEventListener('input', function() {
+        this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    });
     
     // Кнопки игры
     document.getElementById('btnBackMenu').addEventListener('click', backToMenu);
     document.getElementById('btnUndo').addEventListener('click', undoMove);
     document.getElementById('btnDraw').addEventListener('click', offerDraw);
     document.getElementById('btnResign').addEventListener('click', resign);
+    document.getElementById('btnAnalyze').addEventListener('click', startAnalysis);
     document.getElementById('btnAcceptDraw').addEventListener('click', acceptDraw);
     document.getElementById('btnDeclineDraw').addEventListener('click', declineDraw);
-    document.getElementById('btnAnalyze').addEventListener('click', startAnalysis);
     
     // Кнопки модалок
     document.getElementById('btnRematch').addEventListener('click', rematch);
@@ -751,25 +804,40 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('confirmNo').addEventListener('click', closeConfirm);
     document.getElementById('btnCloseAnalysis').addEventListener('click', function() {
         document.getElementById('analysisModal').classList.remove('show');
-        if (stockfish) {
-            stockfish.terminate();
-            stockfish = null;
-        }
     });
     
-    // Звук и премув
+    // Звук
     document.getElementById('sndBtn').addEventListener('click', toggleSound);
+    
+    // Премув индикатор
     document.getElementById('premoveIndicator').addEventListener('click', clearPremove);
     
     // Проверка URL
     checkUrlForGame();
+    
+    // Инициализация Stockfish
+    initStockfish();
+    
+    console.log('Все обработчики установлены');
 });
+
+// ========== НИКНЕЙМ ==========
+function saveNick() {
+    const nick = document.getElementById('nickInput').value.trim();
+    if (!nick) {
+        alert('Введите никнейм!');
+        return;
+    }
+    myNick = nick;
+    localStorage.setItem('chessNick', nick);
+    document.getElementById('nickSaved').textContent = '✓ Сохранено! Привет, ' + nick + '!';
+}
 
 // ========== ЗВУКИ ==========
 function playSound(id) {
     if (!soundOn) return;
     const audio = document.getElementById(id);
-    if (audio) { audio.currentTime = 0; audio.play().catch(()=>{}); }
+    if (audio) { audio.currentTime = 0; audio.play().catch(() => {}); }
 }
 
 function toggleSound() {
@@ -861,173 +929,190 @@ function timeOut(color) {
     showEnd(playerLost ? 'lose' : 'win', 'Время истекло');
 }
 
-// ========== ОНЛАЙН ==========
-function genCode() { 
+// ========== МУЛЬТИПЛЕЕР (PeerJS) ==========
+function genCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let code = '';
     for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
     return code;
 }
 
-function createOnlineGame() {
+function createGame() {
+    if (!myNick) {
+        alert('Сначала введите никнейм!');
+        document.getElementById('nickInput').focus();
+        return;
+    }
+    
     gameCode = genCode();
     isHost = true;
     myColor = settings.color === 'random' ? (Math.random() < 0.5 ? 'white' : 'black') : settings.color;
     
     document.getElementById('gameCodeDisplay').textContent = gameCode;
-    document.getElementById('shareLink').value = window.location.href.split('?')[0] + '?g=' + gameCode;
+    document.getElementById('shareLink').value = location.href.split('?')[0] + '?g=' + gameCode;
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('waitingRoom').classList.remove('hidden');
     
-    connectWS();
+    initPeer(gameCode, true);
 }
 
-function joinOnlineGame() {
+function joinGame() {
     const code = document.getElementById('joinCode').value.trim().toUpperCase();
-    if (!code) { 
-        document.getElementById('joinStatus').textContent = 'Введите код игры';
-        return; 
+    if (!code || code.length < 5) {
+        alert('Введите код из 5 символов!');
+        return;
+    }
+    
+    if (!myNick) {
+        alert('Сначала введите никнейм!');
+        document.getElementById('nickInput').focus();
+        return;
     }
     
     gameCode = code;
     isHost = false;
-    
+    document.getElementById('connStatus').textContent = 'Подключение...';
     document.getElementById('btnJoinGame').disabled = true;
-    document.getElementById('btnJoinGame').textContent = '...';
-    document.getElementById('joinStatus').textContent = 'Подключение...';
     
-    connectWS();
+    initPeer(null, false);
 }
 
-function connectWS() {
-    if (ws) {
-        ws.close();
-        ws = null;
+function initPeer(hostId, hosting) {
+    console.log('initPeer', hostId, hosting);
+    
+    // Очищаем старый peer
+    if (peer) {
+        peer.destroy();
+        peer = null;
     }
     
-    // Используем бесплатный WebSocket сервер
-    const wsUrl = 'wss://free.blr2.piesocket.com/v3/chess_' + gameCode + '?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJy&notify_self=1';
+    const peerId = hosting ? 'chess-' + hostId : 'chess-' + genCode() + '-guest';
     
-    try {
-        ws = new WebSocket(wsUrl);
-    } catch (err) {
-        onWsError('Ошибка создания подключения');
-        return;
-    }
-    
-    ws.onopen = function() {
-        console.log('WS открыт');
-        if (isHost) {
-            // Хост отправляет свои настройки
-            sendMsg({ type: 'host_ready', color: myColor, time: settings.time });
-        } else {
-            // Гость запрашивает присоединение
-            sendMsg({ type: 'join_request' });
+    peer = new Peer(peerId, {
+        debug: 2,
+        config: {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:global.stun.twilio.com:3478' },
+                { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+                { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' }
+            ]
         }
-    };
+    });
     
-    ws.onmessage = function(e) {
-        try {
-            const data = JSON.parse(e.data);
-            handleMsg(data);
-        } catch (err) {
-            console.error('Ошибка парсинга:', err);
+    peer.on('open', function(id) {
+        console.log('Peer открыт:', id);
+        
+        if (!hosting) {
+            // Присоединяемся к хосту
+            console.log('Подключаюсь к:', 'chess-' + gameCode);
+            conn = peer.connect('chess-' + gameCode, { reliable: true });
+            
+            conn.on('open', function() {
+                console.log('Соединение установлено!');
+                document.getElementById('connStatus').textContent = '';
+                document.getElementById('btnJoinGame').disabled = false;
+                // Отправляем свои данные
+                conn.send({ type: 'join', nick: myNick });
+            });
+            
+            conn.on('data', handleData);
+            
+            conn.on('error', function(err) {
+                console.error('Ошибка соединения:', err);
+                document.getElementById('connStatus').textContent = 'Ошибка подключения';
+                document.getElementById('btnJoinGame').disabled = false;
+            });
+            
+            // Таймаут
+            setTimeout(function() {
+                if (!conn || !conn.open) {
+                    document.getElementById('connStatus').textContent = 'Игра не найдена';
+                    document.getElementById('btnJoinGame').disabled = false;
+                    if (peer) peer.destroy();
+                    peer = null;
+                }
+            }, 10000);
         }
-    };
+    });
     
-    ws.onclose = function() {
-        console.log('WS закрыт');
-        if (isOnline && !over) {
-            document.getElementById('status').textContent = 'Соперник отключился';
-        }
-    };
+    peer.on('connection', function(connection) {
+        console.log('Входящее соединение!');
+        conn = connection;
+        
+        conn.on('open', function() {
+            console.log('Гость подключился');
+        });
+        
+        conn.on('data', handleData);
+    });
     
-    ws.onerror = function() {
-        onWsError('Ошибка подключения');
-    };
-    
-    // Таймаут для гостя
-    if (!isHost) {
-        setTimeout(function() {
-            if (!opponentConnected) {
-                onWsError('Игра не найдена или хост отключён');
+    peer.on('error', function(err) {
+        console.error('Ошибка Peer:', err);
+        if (err.type === 'unavailable-id') {
+            // ID занят, генерируем новый
+            if (isHost) {
+                gameCode = genCode();
+                document.getElementById('gameCodeDisplay').textContent = gameCode;
+                document.getElementById('shareLink').value = location.href.split('?')[0] + '?g=' + gameCode;
+                setTimeout(function() { initPeer(gameCode, true); }, 500);
             }
-        }, 10000);
-    }
+        } else if (err.type === 'peer-unavailable') {
+            document.getElementById('connStatus').textContent = 'Игра не найдена';
+            document.getElementById('btnJoinGame').disabled = false;
+        }
+    });
 }
 
-function onWsError(msg) {
-    document.getElementById('btnJoinGame').disabled = false;
-    document.getElementById('btnJoinGame').textContent = '→';
-    document.getElementById('joinStatus').textContent = msg;
-    if (ws) {
-        ws.close();
-        ws = null;
-    }
-}
-
-function sendMsg(data) {
-    if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify(data));
-    }
-}
-
-function handleMsg(d) {
-    console.log('Получено:', d);
+function handleData(data) {
+    console.log('Получены данные:', data);
     
-    // Хост получил запрос на присоединение
-    if (d.type === 'join_request' && isHost && !opponentConnected) {
-        opponentConnected = true;
-        sendMsg({ type: 'host_ready', color: myColor, time: settings.time });
+    if (data.type === 'join') {
+        opponentNick = data.nick || 'Соперник';
+        // Отправляем настройки игры
+        conn.send({
+            type: 'start',
+            nick: myNick,
+            hostColor: myColor,
+            time: settings.time
+        });
         startOnlineGame();
     }
     
-    // Гость получил ответ хоста
-    if (d.type === 'host_ready' && !isHost && !opponentConnected) {
-        opponentConnected = true;
-        myColor = d.color === 'white' ? 'black' : 'white';
-        settings.time = d.time || '10|0';
-        
-        document.getElementById('btnJoinGame').disabled = false;
-        document.getElementById('btnJoinGame').textContent = '→';
-        document.getElementById('joinStatus').textContent = '';
-        
-        sendMsg({ type: 'guest_ready' });
+    if (data.type === 'start') {
+        opponentNick = data.nick || 'Соперник';
+        myColor = data.hostColor === 'white' ? 'black' : 'white';
+        settings.time = data.time;
         startOnlineGame();
     }
     
-    // Хост получил подтверждение гостя
-    if (d.type === 'guest_ready' && isHost) {
-        // Игра уже началась
-    }
-    
-    // Ход
-    if (d.type === 'move' && d.mv) {
-        doMove(d.mv, d.promo || 'q');
-        playMoveSound(d.mv);
+    if (data.type === 'move') {
+        const mv = data.mv;
+        doMove(mv, mv.promo || 'q');
+        playMoveSound(mv);
         addIncrement(turn === 'b');
         aiGo = false;
         updUI(); draw(); checkEnd();
         if (premove && !over) setTimeout(executePremove, 100);
     }
     
-    // Сдался
-    if (d.type === 'resign') {
+    if (data.type === 'resign') {
         over = true; stopTimer();
-        showEnd('win', 'Соперник сдался');
+        showEnd('win', opponentNick + ' сдался');
     }
     
-    // Ничья
-    if (d.type === 'draw-offer') {
+    if (data.type === 'draw-offer') {
         document.getElementById('drawOffer').classList.add('show');
         playSound('sndMove');
     }
-    if (d.type === 'draw-accept') {
+    
+    if (data.type === 'draw-accept') {
         over = true; stopTimer();
         showEnd('draw', 'Ничья по соглашению');
         document.getElementById('drawOffer').classList.remove('show');
     }
-    if (d.type === 'draw-decline') {
+    
+    if (data.type === 'draw-decline') {
         document.getElementById('status').textContent = 'Ничья отклонена';
         document.getElementById('drawOffer').classList.remove('show');
         setTimeout(function() { if (!over) updUI(); }, 2000);
@@ -1035,6 +1120,7 @@ function handleMsg(d) {
 }
 
 function startOnlineGame() {
+    console.log('Старт онлайн игры, мой цвет:', myColor);
     isOnline = true;
     playerColor = myColor === 'white';
     flipped = !playerColor;
@@ -1044,11 +1130,13 @@ function startOnlineGame() {
     
     initGame();
     
-    document.getElementById('topName').textContent = 'Соперник';
+    document.getElementById('topName').textContent = opponentNick;
     document.getElementById('topAvatar').textContent = '👤';
     document.getElementById('topRating').textContent = myColor === 'white' ? 'Чёрные' : 'Белые';
+    document.getElementById('bottomName').textContent = myNick || 'Вы';
     document.getElementById('bottomRating').textContent = myColor === 'white' ? 'Белые' : 'Чёрные';
     document.getElementById('onlineBadge').classList.add('show');
+    document.getElementById('opponentNickBadge').textContent = opponentNick;
     
     showGame();
     startTimer();
@@ -1057,9 +1145,9 @@ function startOnlineGame() {
 function cancelWaiting() {
     document.getElementById('waitingRoom').classList.add('hidden');
     document.getElementById('mainMenu').classList.remove('hidden');
-    if (ws) { ws.close(); ws = null; }
+    if (peer) { peer.destroy(); peer = null; }
+    conn = null;
     gameCode = null;
-    opponentConnected = false;
 }
 
 function copyLink() {
@@ -1076,9 +1164,13 @@ function checkUrlForGame() {
     const params = new URLSearchParams(window.location.search);
     const g = params.get('g');
     if (g) {
-        document.getElementById('joinCode').value = g;
-        // Убираем параметр из URL
-        window.history.replaceState({}, document.title, window.location.pathname);
+        document.getElementById('joinCode').value = g.toUpperCase();
+    }
+}
+
+function sendData(data) {
+    if (conn && conn.open) {
+        conn.send(data);
     }
 }
 
@@ -1099,21 +1191,22 @@ function initGame() {
     castle = { K: 1, Q: 1, k: 1, q: 1 };
     clearPremove();
     lowTimeWarned = {w: false, b: false};
-    gameHistory = [boardToFEN()]; // Сохраняем начальную позицию
     
     const ts = getTimeSettings();
     whiteTime = ts.time; blackTime = ts.time; increment = ts.inc;
     
+    // Сохраняем начальную позицию для анализа
+    gameHistory = [getFEN()];
+    
     document.getElementById('drawOffer').classList.remove('show');
     document.getElementById('endModal').classList.remove('show');
     document.getElementById('promoModal').classList.remove('show');
-    document.getElementById('btnAnalyze').style.display = 'none';
     updateTimerDisplay();
 }
 
 function startVsAI() {
+    console.log('Запуск игры с ИИ');
     isOnline = false;
-    opponentConnected = false;
     playerColor = settings.color === 'random' ? Math.random() < 0.5 : settings.color === 'white';
     flipped = !playerColor;
     
@@ -1122,6 +1215,7 @@ function startVsAI() {
     document.getElementById('topName').textContent = 'Бот';
     document.getElementById('topAvatar').textContent = '🤖';
     document.getElementById('topRating').textContent = settings.elo + ' ELO';
+    document.getElementById('bottomName').textContent = myNick || 'Вы';
     document.getElementById('bottomRating').textContent = playerColor ? 'Белые' : 'Чёрные';
     document.getElementById('onlineBadge').classList.remove('show');
     
@@ -1149,10 +1243,10 @@ function backToMenu() {
     document.getElementById('analysisModal').classList.remove('show');
     document.getElementById('mainMenu').classList.remove('hidden');
     document.getElementById('waitingRoom').classList.add('hidden');
-    if (ws) ws.close();
-    ws = null; isOnline = false; opponentConnected = false;
+    if (peer) { peer.destroy(); peer = null; }
+    conn = null;
+    isOnline = false;
     clearPremove();
-    if (stockfish) { stockfish.terminate(); stockfish = null; }
 }
 
 function rematch() {
@@ -1196,7 +1290,7 @@ function executePremove() {
     }
     
     const legalMoves = getMoves(pm.from.r, pm.from.c);
-    const validMove = legalMoves.find(function(m) { return m.tr === pm.to.r && m.tc === pm.to.c; });
+    const validMove = legalMoves.find(m => m.tr === pm.to.r && m.tc === pm.to.c);
     
     if (validMove) {
         execMove(validMove, validMove.pro ? 'q' : undefined);
@@ -1211,15 +1305,15 @@ function resign() {
     if (over) return;
     showConfirm('Сдаться?', 'Вы уверены?', function() {
         over = true; stopTimer();
-        if (isOnline && ws) sendMsg({ type: 'resign' });
+        if (isOnline) sendData({ type: 'resign' });
         showEnd('lose', 'Вы сдались');
     });
 }
 
 function offerDraw() {
     if (over) return;
-    if (isOnline && ws) {
-        sendMsg({ type: 'draw-offer' });
+    if (isOnline) {
+        sendData({ type: 'draw-offer' });
         document.getElementById('status').textContent = 'Ничья предложена...';
     } else {
         const ev = evaluate();
@@ -1237,13 +1331,13 @@ function offerDraw() {
 function acceptDraw() {
     document.getElementById('drawOffer').classList.remove('show');
     over = true; stopTimer();
-    if (isOnline && ws) sendMsg({ type: 'draw-accept' });
+    sendData({ type: 'draw-accept' });
     showEnd('draw', 'Ничья по соглашению');
 }
 
 function declineDraw() {
     document.getElementById('drawOffer').classList.remove('show');
-    if (isOnline && ws) sendMsg({ type: 'draw-decline' });
+    sendData({ type: 'draw-decline' });
     document.getElementById('status').textContent = 'Ничья отклонена';
     setTimeout(function() { if (!over) updUI(); }, 2000);
 }
@@ -1328,7 +1422,7 @@ function getMoves(r, c, legal) {
         }
     }
     
-    if (legal) m = m.filter(function(mv) { return isLegal(mv, w); });
+    if (legal) m = m.filter(mv => isLegal(mv, w));
     return m;
 }
 
@@ -1345,7 +1439,7 @@ function isLegal(mv, w) {
 
 function findKing(w) {
     const k = w ? 'K' : 'k';
-    for (let r=0; r<8; r++) for (let c=0; c<8; c++) if (brd[r][c]===k) return {r:r,c:c};
+    for (let r=0; r<8; r++) for (let c=0; c<8; c++) if (brd[r][c]===k) return {r,c};
     return null;
 }
 
@@ -1369,10 +1463,37 @@ function allMoves(w) {
     return a;
 }
 
+function getFEN() {
+    let fen = '';
+    for (let r = 0; r < 8; r++) {
+        let empty = 0;
+        for (let c = 0; c < 8; c++) {
+            if (brd[r][c]) {
+                if (empty > 0) { fen += empty; empty = 0; }
+                fen += brd[r][c];
+            } else {
+                empty++;
+            }
+        }
+        if (empty > 0) fen += empty;
+        if (r < 7) fen += '/';
+    }
+    fen += ' ' + turn;
+    let castleStr = '';
+    if (castle.K) castleStr += 'K';
+    if (castle.Q) castleStr += 'Q';
+    if (castle.k) castleStr += 'k';
+    if (castle.q) castleStr += 'q';
+    fen += ' ' + (castleStr || '-');
+    fen += ' ' + (ep ? 'abcdefgh'[ep.c] + (8 - ep.r) : '-');
+    fen += ' 0 1';
+    return fen;
+}
+
 function doMove(mv, promo) {
     if (!promo) promo = 'q';
     const pc = brd[mv.fr][mv.fc], w = isW(pc), cap = brd[mv.tr][mv.tc];
-    hist.push({ mv:{fr:mv.fr,fc:mv.fc,tr:mv.tr,tc:mv.tc,cst:mv.cst,pro:mv.pro,isEp:mv.isEp,dbl:mv.dbl}, pc:pc, cap:cap, ep:ep?{r:ep.r,c:ep.c}:null, castle:{K:castle.K,Q:castle.Q,k:castle.k,q:castle.q}, epCap:null, capW:capW.slice(), capB:capB.slice() });
+    hist.push({ mv:{fr:mv.fr,fc:mv.fc,tr:mv.tr,tc:mv.tc,cst:mv.cst,pro:mv.pro,isEp:mv.isEp,dbl:mv.dbl}, pc, cap, ep:ep?{r:ep.r,c:ep.c}:null, castle:{...castle}, epCap:null, capW:capW.slice(), capB:capB.slice() });
     
     let captured = cap;
     if (mv.isEp) { const er = w ? mv.tr+1 : mv.tr-1; captured = brd[er][mv.tc]; hist[hist.length-1].epCap = captured; brd[er][mv.tc] = ''; }
@@ -1410,10 +1531,11 @@ function doMove(mv, promo) {
     }
     notation.push(n);
     
-    // Сохраняем FEN для анализа
-    gameHistory.push(boardToFEN());
-    
     lastMv = mv; turn = turn === 'w' ? 'b' : 'w';
+    
+    // Сохраняем FEN для анализа
+    gameHistory.push(getFEN());
+    
     return { captured: !!captured, cst: mv.cst, pro: mv.pro };
 }
 
@@ -1433,42 +1555,6 @@ function undoMove() {
     }
     lastMv = hist.length ? hist[hist.length-1].mv : null;
     sel = null; moves = []; updUI(); draw();
-}
-
-// ========== FEN ==========
-function boardToFEN() {
-    let fen = '';
-    for (let r = 0; r < 8; r++) {
-        let empty = 0;
-        for (let c = 0; c < 8; c++) {
-            if (brd[r][c]) {
-                if (empty > 0) { fen += empty; empty = 0; }
-                fen += brd[r][c];
-            } else {
-                empty++;
-            }
-        }
-        if (empty > 0) fen += empty;
-        if (r < 7) fen += '/';
-    }
-    fen += ' ' + turn;
-    
-    let castleStr = '';
-    if (castle.K) castleStr += 'K';
-    if (castle.Q) castleStr += 'Q';
-    if (castle.k) castleStr += 'k';
-    if (castle.q) castleStr += 'q';
-    fen += ' ' + (castleStr || '-');
-    
-    if (ep) {
-        const files = 'abcdefgh', ranks = '87654321';
-        fen += ' ' + files[ep.c] + ranks[ep.r];
-    } else {
-        fen += ' -';
-    }
-    
-    fen += ' 0 1';
-    return fen;
 }
 
 // ========== UI ==========
@@ -1521,6 +1607,7 @@ function onClick(r, c) {
     
     if (premove) {
         clearPremove();
+        draw();
         return;
     }
     
@@ -1535,7 +1622,7 @@ function onClick(r, c) {
         }
         
         if (pc && isW(pc) === playerColor) {
-            sel = { r: r, c: c };
+            sel = { r, c };
             moves = getMoves(r, c, false);
             draw();
         }
@@ -1557,7 +1644,7 @@ function onClick(r, c) {
     }
     
     if (pc && isW(pc) === (turn === 'w')) {
-        sel = { r: r, c: c }; moves = getMoves(r, c);
+        sel = { r, c }; moves = getMoves(r, c);
     } else {
         sel = null; moves = [];
     }
@@ -1572,7 +1659,7 @@ function execMove(mv, promo) {
     playMoveSound(mv, res);
     addIncrement(wasWhite);
     
-    if (isOnline && ws) sendMsg({ type: 'move', mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl }, promo: promo });
+    if (isOnline) sendData({ type: 'move', mv: { fr:mv.fr, fc:mv.fc, tr:mv.tr, tc:mv.tc, cst:mv.cst, pro:mv.pro, isEp:mv.isEp, dbl:mv.dbl, promo } });
     
     updUI(); draw();
     if (checkEnd()) return;
@@ -1631,7 +1718,6 @@ function showEnd(res, msg) {
     document.getElementById('endTitle').textContent = titles[res];
     document.getElementById('endMsg').textContent = msg;
     document.getElementById('endModal').classList.add('show');
-    document.getElementById('btnAnalyze').style.display = 'flex';
 }
 
 function updUI() {
@@ -1641,16 +1727,14 @@ function updUI() {
     
     let status = 'Ваш ход';
     if (over) status = 'Игра окончена';
-    else if (isOnline) status = isMyTurn ? 'Ваш ход' : 'Ход соперника...';
+    else if (isOnline) status = isMyTurn ? 'Ваш ход' : 'Ход ' + opponentNick + '...';
     else if (aiGo) status = 'ИИ думает...';
     document.getElementById('status').textContent = status;
 }
 
 function updCaptured() {
-    const ord = function(p) { return ({q:0,r:1,b:2,n:3,p:4})[p.toLowerCase()] || 5; };
-    const render = function(a) {
-        return a.slice().sort(function(x,y) { return ord(x)-ord(y); }).map(function(p) { return '<img src="'+IMG[p]+'">'; }).join('');
-    };
+    const ord = p => ({q:0,r:1,b:2,n:3,p:4})[p.toLowerCase()] || 5;
+    const render = a => a.slice().sort((x,y) => ord(x)-ord(y)).map(p => '<img src="'+IMG[p]+'">').join('');
     document.getElementById(flipped ? 'topCaptured' : 'bottomCaptured').innerHTML = render(capB);
     document.getElementById(flipped ? 'bottomCaptured' : 'topCaptured').innerHTML = render(capW);
 }
@@ -1661,249 +1745,6 @@ function updMoves() {
         h += '<span><span class="mp">' + (i/2+1) + '.</span>' + notation[i] + (notation[i+1] ? ' '+notation[i+1] : '') + ' </span>';
     }
     document.getElementById('movesList').innerHTML = h;
-}
-
-// ========== АНАЛИЗ ==========
-function startAnalysis() {
-    if (notation.length === 0) {
-        alert('Нет ходов для анализа');
-        return;
-    }
-    
-    document.getElementById('analysisModal').classList.add('show');
-    document.getElementById('analysisProgress').style.display = 'block';
-    document.getElementById('analysisResults').style.display = 'none';
-    document.getElementById('analysisProgressText').textContent = '0 / ' + notation.length;
-    document.getElementById('analysisProgressBar').style.width = '0%';
-    
-    analysisResults = [];
-    
-    // Загружаем Stockfish
-    if (stockfish) {
-        stockfish.terminate();
-    }
-    
-    stockfish = new Worker('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');
-    
-    let currentMove = 0;
-    let chess = new Chess();
-    let positionsToAnalyze = [];
-    
-    // Собираем все позиции
-    positionsToAnalyze.push({ fen: chess.fen(), moveIndex: -1 });
-    
-    for (let i = 0; i < notation.length; i++) {
-        const san = notation[i].replace(/[+#?!]/g, '');
-        const move = chess.move(san, { sloppy: true });
-        if (move) {
-            positionsToAnalyze.push({ 
-                fen: chess.fen(), 
-                moveIndex: i,
-                san: notation[i],
-                movePlayed: move.san
-            });
-        }
-    }
-    
-    let analyzedCount = 0;
-    let evaluations = [];
-    
-    stockfish.onmessage = function(e) {
-        const line = e.data;
-        
-        if (line.includes('bestmove')) {
-            analyzedCount++;
-            document.getElementById('analysisProgressText').textContent = analyzedCount + ' / ' + positionsToAnalyze.length;
-            document.getElementById('analysisProgressBar').style.width = (analyzedCount / positionsToAnalyze.length * 100) + '%';
-            
-            if (analyzedCount < positionsToAnalyze.length) {
-                analyzePosition(positionsToAnalyze[analyzedCount].fen);
-            } else {
-                // Анализ завершён
-                processAnalysisResults(positionsToAnalyze, evaluations);
-            }
-        }
-        
-        if (line.includes('info depth 15') && line.includes(' score ')) {
-            const scoreMatch = line.match(/score (cp|mate) (-?\d+)/);
-            const bestMoveMatch = line.match(/pv ([a-h][1-8][a-h][1-8][qrbn]?)/);
-            
-            if (scoreMatch) {
-                let score;
-                if (scoreMatch[1] === 'mate') {
-                    score = parseInt(scoreMatch[2]) > 0 ? 10000 : -10000;
-                } else {
-                    score = parseInt(scoreMatch[2]);
-                }
-                
-                // Учитываем чей ход
-                const pos = positionsToAnalyze[analyzedCount];
-                const isWhiteToMove = pos.fen.includes(' w ');
-                if (!isWhiteToMove) score = -score;
-                
-                evaluations[analyzedCount] = {
-                    score: score,
-                    bestMove: bestMoveMatch ? bestMoveMatch[1] : null
-                };
-            }
-        }
-    };
-    
-    function analyzePosition(fen) {
-        stockfish.postMessage('position fen ' + fen);
-        stockfish.postMessage('go depth 15');
-    }
-    
-    stockfish.postMessage('uci');
-    stockfish.postMessage('isready');
-    
-    setTimeout(function() {
-        analyzePosition(positionsToAnalyze[0].fen);
-    }, 100);
-}
-
-function processAnalysisResults(positions, evaluations) {
-    document.getElementById('analysisProgress').style.display = 'none';
-    document.getElementById('analysisResults').style.display = 'block';
-    
-    let results = [];
-    let whiteAccuracy = [];
-    let blackAccuracy = [];
-    let classifications = {
-        brilliant: 0, great: 0, best: 0, good: 0,
-        inaccuracy: 0, mistake: 0, blunder: 0
-    };
-    
-    for (let i = 1; i < positions.length; i++) {
-        const prevEval = evaluations[i - 1] ? evaluations[i - 1].score : 0;
-        const currEval = evaluations[i] ? evaluations[i].score : 0;
-        const isWhiteMove = (i % 2) === 1;
-        
-        // Разница в оценке (с точки зрения игрока который ходил)
-        let evalDiff = isWhiteMove ? (prevEval - currEval) : (currEval - prevEval);
-        
-        // Классификация хода
-        let classification;
-        let accuracy = 100;
-        
-        if (evalDiff <= -150) {
-            classification = 'brilliant';
-            accuracy = 100;
-        } else if (evalDiff <= -50) {
-            classification = 'great';
-            accuracy = 100;
-        } else if (evalDiff <= 10) {
-            classification = 'best';
-            accuracy = 100;
-        } else if (evalDiff <= 25) {
-            classification = 'good';
-            accuracy = 95;
-        } else if (evalDiff <= 50) {
-            classification = 'inaccuracy';
-            accuracy = 80;
-        } else if (evalDiff <= 150) {
-            classification = 'mistake';
-            accuracy = 50;
-        } else {
-            classification = 'blunder';
-            accuracy = 20;
-        }
-        
-        if (classification !== 'best' && classification !== 'good') {
-            classifications[classification]++;
-        }
-        
-        if (isWhiteMove) {
-            whiteAccuracy.push(accuracy);
-        } else {
-            blackAccuracy.push(accuracy);
-        }
-        
-        results.push({
-            moveNum: Math.ceil(i / 2),
-            san: positions[i].san,
-            isWhite: isWhiteMove,
-            eval: currEval,
-            classification: classification,
-            bestMove: evaluations[i - 1] ? evaluations[i - 1].bestMove : null
-        });
-    }
-    
-    // Средняя точность
-    const avgWhite = whiteAccuracy.length ? Math.round(whiteAccuracy.reduce((a, b) => a + b, 0) / whiteAccuracy.length) : 0;
-    const avgBlack = blackAccuracy.length ? Math.round(blackAccuracy.reduce((a, b) => a + b, 0) / blackAccuracy.length) : 0;
-    
-    // Рендерим результаты
-    let html = `
-        <div class="accuracy-box">
-            <div class="accuracy-item white">
-                <div class="accuracy-label">Белые</div>
-                <div class="accuracy-value">${avgWhite}%</div>
-            </div>
-            <div class="accuracy-item black">
-                <div class="accuracy-label">Чёрные</div>
-                <div class="accuracy-value">${avgBlack}%</div>
-            </div>
-        </div>
-        
-        <div class="move-class-stats">
-            <div class="class-stat">
-                <div class="class-icon" style="color:#1baca6;">!!</div>
-                <div class="class-count">${classifications.brilliant}</div>
-                <div class="class-label">Бриллиант</div>
-            </div>
-            <div class="class-stat">
-                <div class="class-icon" style="color:#5c8bb0;">!</div>
-                <div class="class-count">${classifications.great}</div>
-                <div class="class-label">Отличный</div>
-            </div>
-            <div class="class-stat">
-                <div class="class-icon" style="color:#f7c631;">?!</div>
-                <div class="class-count">${classifications.inaccuracy}</div>
-                <div class="class-label">Неточность</div>
-            </div>
-            <div class="class-stat">
-                <div class="class-icon" style="color:#e68a00;">?</div>
-                <div class="class-count">${classifications.mistake}</div>
-                <div class="class-label">Ошибка</div>
-            </div>
-            <div class="class-stat">
-                <div class="class-icon" style="color:#ca3431;">??</div>
-                <div class="class-count">${classifications.blunder}</div>
-                <div class="class-label">Зевок</div>
-            </div>
-        </div>
-        
-        <div class="analysis-moves">
-    `;
-    
-    const classSymbols = {
-        brilliant: '!!',
-        great: '!',
-        best: '✓',
-        good: '✓',
-        inaccuracy: '?!',
-        mistake: '?',
-        blunder: '??'
-    };
-    
-    for (let i = 0; i < results.length; i++) {
-        const r = results[i];
-        const evalStr = r.eval >= 10000 ? 'M' : r.eval <= -10000 ? '-M' : (r.eval / 100).toFixed(1);
-        
-        html += `
-            <div class="analysis-move">
-                <span class="move-num">${r.moveNum}${r.isWhite ? '.' : '...'}</span>
-                <span class="move-san">${r.san}</span>
-                <div class="move-class ${r.classification}">${classSymbols[r.classification]}</div>
-                <span class="move-eval">${evalStr}</span>
-            </div>
-        `;
-    }
-    
-    html += '</div>';
-    
-    document.getElementById('analysisResults').innerHTML = html;
 }
 
 // ========== ИИ ==========
@@ -1927,7 +1768,7 @@ function findBest() {
     const depth = settings.elo < 800 ? 1 : settings.elo < 1500 ? 2 : settings.elo < 2200 ? 3 : 4;
     const rand = Math.max(5, 70 - settings.elo / 40);
     
-    mvs = mvs.map(function(mv) {
+    mvs = mvs.map(mv => {
         let sc = 0;
         const tg = brd[mv.tr][mv.tc];
         if (tg) sc += VAL[tg.toLowerCase()] * 10;
@@ -1935,8 +1776,8 @@ function findBest() {
         if (mv.cst) sc += 60;
         sc += (3.5 - Math.abs(mv.tc - 3.5)) * 8 + (3.5 - Math.abs(mv.tr - 3.5)) * 5;
         if (notation.length < 6) sc += Math.random() * 50;
-        return { mv: mv, sc: sc };
-    }).sort(function(a, b) { return b.sc - a.sc; }).map(function(x) { return x.mv; });
+        return { mv, sc };
+    }).sort((a, b) => b.sc - a.sc).map(x => x.mv);
     
     let best = mvs[0], bestSc = -Infinity;
     for (let i = 0; i < mvs.length; i++) {
@@ -2005,28 +1846,248 @@ function evaluate() {
 
 function save() {
     return {
-        brd: brd.map(function(r) { return r.slice(); }),
-        turn: turn,
-        ep: ep ? {r:ep.r, c:ep.c} : null,
-        castle: {K:castle.K, Q:castle.Q, k:castle.k, q:castle.q},
-        capW: capW.slice(),
-        capB: capB.slice(),
+        brd: brd.map(r => r.slice()),
+        turn, ep: ep ? {...ep} : null,
+        castle: {...castle},
+        capW: capW.slice(), capB: capB.slice(),
         notation: notation.slice(),
-        gameHistory: gameHistory.slice(),
-        histLen: hist.length
+        histLen: hist.length,
+        gameHistory: gameHistory.slice()
     };
 }
 
 function restore(s) {
-    brd = s.brd.map(function(r) { return r.slice(); });
+    brd = s.brd.map(r => r.slice());
     turn = s.turn;
-    ep = s.ep ? {r:s.ep.r, c:s.ep.c} : null;
-    castle = {K:s.castle.K, Q:s.castle.Q, k:s.castle.k, q:s.castle.q};
+    ep = s.ep ? {...s.ep} : null;
+    castle = {...s.castle};
     capW = s.capW.slice();
     capB = s.capB.slice();
     notation = s.notation.slice();
     gameHistory = s.gameHistory.slice();
     while (hist.length > s.histLen) hist.pop();
+}
+
+// ========== STOCKFISH АНАЛИЗ ==========
+function initStockfish() {
+    try {
+        stockfish = new Worker('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');
+        stockfish.postMessage('uci');
+        console.log('Stockfish инициализирован');
+    } catch (e) {
+        console.error('Ошибка инициализации Stockfish:', e);
+    }
+}
+
+function startAnalysis() {
+    if (notation.length === 0) {
+        alert('Нет ходов для анализа!');
+        return;
+    }
+    
+    document.getElementById('analysisModal').classList.add('show');
+    document.getElementById('analysisContent').innerHTML = `
+        <div class="analysis-progress">
+            <div>Анализ партии...</div>
+            <div id="analysisProgressText">0 / ${notation.length}</div>
+            <div class="analysis-progress-bar">
+                <div class="analysis-progress-fill" id="analysisProgressBar" style="width:0%"></div>
+            </div>
+        </div>
+    `;
+    
+    analyzeGame();
+}
+
+async function analyzeGame() {
+    const totalMoves = notation.length;
+    const evaluations = [];
+    const classifications = [];
+    
+    // Анализируем каждую позицию
+    for (let i = 0; i < gameHistory.length - 1; i++) {
+        const fen = gameHistory[i];
+        const nextFen = gameHistory[i + 1];
+        
+        // Обновляем прогресс
+        document.getElementById('analysisProgressText').textContent = `${i + 1} / ${totalMoves}`;
+        document.getElementById('analysisProgressBar').style.width = ((i + 1) / totalMoves * 100) + '%';
+        
+        // Получаем оценку позиции до хода
+        const evalBefore = await getStockfishEval(fen, 12);
+        // Получаем оценку после хода
+        const evalAfter = await getStockfishEval(nextFen, 12);
+        
+        evaluations.push({ before: evalBefore, after: evalAfter });
+        
+        // Классифицируем ход
+        const isWhiteMove = i % 2 === 0;
+        const classification = classifyMove(evalBefore, evalAfter, isWhiteMove);
+        classifications.push(classification);
+        
+        // Небольшая задержка между анализами
+        await new Promise(r => setTimeout(r, 50));
+    }
+    
+    // Показываем результаты
+    showAnalysisResults(evaluations, classifications);
+}
+
+function getStockfishEval(fen, depth) {
+    return new Promise((resolve) => {
+        if (!stockfish) {
+            resolve(0);
+            return;
+        }
+        
+        let resolved = false;
+        
+        const handler = function(e) {
+            const line = e.data;
+            
+            if (line.includes('score cp') && !resolved) {
+                const match = line.match(/score cp (-?\d+)/);
+                if (match) {
+                    const cp = parseInt(match[1]);
+                    // Нормализуем для черных
+                    const normalizedCp = fen.includes(' b ') ? -cp : cp;
+                    resolved = true;
+                    stockfish.removeEventListener('message', handler);
+                    resolve(normalizedCp);
+                }
+            }
+            
+            if (line.includes('score mate') && !resolved) {
+                const match = line.match(/score mate (-?\d+)/);
+                if (match) {
+                    const mateIn = parseInt(match[1]);
+                    const cp = mateIn > 0 ? 10000 - mateIn * 10 : -10000 - mateIn * 10;
+                    const normalizedCp = fen.includes(' b ') ? -cp : cp;
+                    resolved = true;
+                    stockfish.removeEventListener('message', handler);
+                    resolve(normalizedCp);
+                }
+            }
+            
+            if (line.includes('bestmove') && !resolved) {
+                resolved = true;
+                stockfish.removeEventListener('message', handler);
+                resolve(0);
+            }
+        };
+        
+        stockfish.addEventListener('message', handler);
+        stockfish.postMessage('position fen ' + fen);
+        stockfish.postMessage('go depth ' + depth);
+        
+        // Таймаут
+        setTimeout(() => {
+            if (!resolved) {
+                resolved = true;
+                stockfish.removeEventListener('message', handler);
+                resolve(0);
+            }
+        }, 3000);
+    });
+}
+
+function classifyMove(evalBefore, evalAfter, isWhiteMove) {
+    // Разница в оценке (с точки зрения игрока который ходил)
+    const diff = isWhiteMove ? (evalAfter - evalBefore) : (evalBefore - evalAfter);
+    
+    // Классификация как на chess.com
+    if (diff >= 50) {
+        return { class: 'brilliant', symbol: '!!', color: '#1baca6' };
+    } else if (diff >= 20) {
+        return { class: 'great', symbol: '!', color: '#5c8bb0' };
+    } else if (diff >= -10) {
+        return { class: 'best', symbol: '✓', color: '#81b64c' };
+    } else if (diff >= -25) {
+        return { class: 'good', symbol: '', color: '#81b64c' };
+    } else if (diff >= -50) {
+        return { class: 'inaccuracy', symbol: '?!', color: '#f7c631' };
+    } else if (diff >= -150) {
+        return { class: 'mistake', symbol: '?', color: '#e58f2a' };
+    } else {
+        return { class: 'blunder', symbol: '??', color: '#ca3431' };
+    }
+}
+
+function showAnalysisResults(evaluations, classifications) {
+    // Подсчет статистики
+    const stats = {
+        white: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 },
+        black: { brilliant: 0, great: 0, best: 0, good: 0, inaccuracy: 0, mistake: 0, blunder: 0 }
+    };
+    
+    classifications.forEach((c, i) => {
+        const side = i % 2 === 0 ? 'white' : 'black';
+        stats[side][c.class]++;
+    });
+    
+    // Расчет точности (упрощенная формула)
+    const calcAccuracy = (s) => {
+        const total = s.brilliant + s.great + s.best + s.good + s.inaccuracy + s.mistake + s.blunder;
+        if (total === 0) return 0;
+        const score = s.brilliant * 100 + s.great * 95 + s.best * 90 + s.good * 80 + s.inaccuracy * 60 + s.mistake * 30 + s.blunder * 0;
+        return Math.round(score / total);
+    };
+    
+    const whiteAccuracy = calcAccuracy(stats.white);
+    const blackAccuracy = calcAccuracy(stats.black);
+    
+    // Финальная оценка
+    const finalEval = evaluations.length > 0 ? evaluations[evaluations.length - 1].after : 0;
+    const whitePercent = Math.max(5, Math.min(95, 50 + finalEval / 20));
+    
+    let html = `
+        <div class="analysis-bar" style="--white-percent: ${whitePercent}%">
+            <span class="analysis-bar-label white">${finalEval > 0 ? '+' : ''}${(finalEval/100).toFixed(1)}</span>
+            <span class="analysis-bar-label black"></span>
+        </div>
+        
+        <div class="accuracy-box">
+            <div class="accuracy-item">
+                <div class="accuracy-value">${whiteAccuracy}%</div>
+                <div class="accuracy-label">⬜ Белые</div>
+            </div>
+            <div class="accuracy-item">
+                <div class="accuracy-value">${blackAccuracy}%</div>
+                <div class="accuracy-label">⬛ Чёрные</div>
+            </div>
+        </div>
+        
+        <div class="classification-stats">
+            ${stats.white.brilliant + stats.black.brilliant > 0 ? `<span class="class-stat class-brilliant">!! ${stats.white.brilliant + stats.black.brilliant}</span>` : ''}
+            ${stats.white.great + stats.black.great > 0 ? `<span class="class-stat class-great">! ${stats.white.great + stats.black.great}</span>` : ''}
+            ${stats.white.best + stats.black.best > 0 ? `<span class="class-stat class-best">✓ ${stats.white.best + stats.black.best}</span>` : ''}
+            ${stats.white.inaccuracy + stats.black.inaccuracy > 0 ? `<span class="class-stat class-inaccuracy">?! ${stats.white.inaccuracy + stats.black.inaccuracy}</span>` : ''}
+            ${stats.white.mistake + stats.black.mistake > 0 ? `<span class="class-stat class-mistake">? ${stats.white.mistake + stats.black.mistake}</span>` : ''}
+            ${stats.white.blunder + stats.black.blunder > 0 ? `<span class="class-stat class-blunder">?? ${stats.white.blunder + stats.black.blunder}</span>` : ''}
+        </div>
+        
+        <div class="moves-analysis">
+    `;
+    
+    for (let i = 0; i < notation.length; i++) {
+        const c = classifications[i];
+        const moveNum = Math.floor(i / 2) + 1;
+        const isWhite = i % 2 === 0;
+        const evalVal = evaluations[i] ? evaluations[i].after : 0;
+        
+        html += `
+            <div class="move-analysis-item">
+                <span class="move-number">${isWhite ? moveNum + '.' : ''}</span>
+                <span class="move-notation">${isWhite ? '⬜' : '⬛'} ${notation[i]}</span>
+                <span class="move-eval">${evalVal > 0 ? '+' : ''}${(evalVal/100).toFixed(1)}</span>
+                <span class="move-class" style="color:${c.color}">${c.symbol}</span>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    
+    document.getElementById('analysisContent').innerHTML = html;
 }
 </script>
 </body>
